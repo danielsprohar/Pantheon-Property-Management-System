@@ -934,9 +934,9 @@ namespace Nubles.Infrastructure.Migrations
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ParkingSpaceId = 0,
+                            ParkingSpaceId = 1,
                             RecurringDueDate = 1,
-                            RentalAgreementTypeId = 0
+                            RentalAgreementTypeId = 2
                         });
                 });
 

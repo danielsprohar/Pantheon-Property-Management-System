@@ -254,28 +254,10 @@ IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'Agre
 
 GO
 
-IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'CreatedBy', N'ModifiedBy', N'ParkingSpaceId', N'RecurringDueDate', N'RentalAgreementTypeId', N'TerminatedOn') AND [object_id] = OBJECT_ID(N'[RentalAgreements]'))
-    SET IDENTITY_INSERT [RentalAgreements] ON;
-INSERT INTO [RentalAgreements] ([Id], [CreatedBy], [ModifiedBy], [ParkingSpaceId], [RecurringDueDate], [RentalAgreementTypeId], [TerminatedOn])
-VALUES (1, 1, 1, 0, 1, 0, NULL);
-IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'CreatedBy', N'ModifiedBy', N'ParkingSpaceId', N'RecurringDueDate', N'RentalAgreementTypeId', N'TerminatedOn') AND [object_id] = OBJECT_ID(N'[RentalAgreements]'))
-    SET IDENTITY_INSERT [RentalAgreements] OFF;
-
-GO
-
-IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'CustomerId', N'RentalAgreementId') AND [object_id] = OBJECT_ID(N'[CustomerRentalAgreements]'))
-    SET IDENTITY_INSERT [CustomerRentalAgreements] ON;
-INSERT INTO [CustomerRentalAgreements] ([CustomerId], [RentalAgreementId])
-VALUES (1, 1);
-IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'CustomerId', N'RentalAgreementId') AND [object_id] = OBJECT_ID(N'[CustomerRentalAgreements]'))
-    SET IDENTITY_INSERT [CustomerRentalAgreements] OFF;
-
-GO
-
 IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'Amps', N'Comments', N'CreatedBy', N'Description', N'ModifiedBy', N'Name', N'ParkingSpaceTypeId', N'RecurringRate') AND [object_id] = OBJECT_ID(N'[ParkingSpaces]'))
     SET IDENTITY_INSERT [ParkingSpaces] ON;
 INSERT INTO [ParkingSpaces] ([Id], [Amps], [Comments], [CreatedBy], [Description], [ModifiedBy], [Name], [ParkingSpaceTypeId], [RecurringRate])
-VALUES (31, 30, NULL, 1, NULL, 1, N'31', 1, 400.0),
+VALUES (1, 30, NULL, 1, NULL, 1, N'1', 1, 400.0),
 (30, 30, NULL, 1, NULL, 1, N'30', 1, 400.0),
 (29, 30, NULL, 1, NULL, 1, N'29', 1, 400.0),
 (28, 30, NULL, 1, NULL, 1, N'28', 1, 400.0),
@@ -289,8 +271,8 @@ VALUES (31, 30, NULL, 1, NULL, 1, N'31', 1, 400.0),
 (20, 30, NULL, 1, NULL, 1, N'20', 1, 400.0),
 (19, 30, NULL, 1, NULL, 1, N'19', 1, 400.0),
 (18, 30, NULL, 1, NULL, 1, N'18', 1, 400.0),
-(32, 30, NULL, 1, NULL, 1, N'32', 1, 400.0),
 (17, 30, NULL, 1, NULL, 1, N'17', 1, 400.0),
+(16, 30, NULL, 1, NULL, 1, N'16', 1, 400.0),
 (15, 30, NULL, 1, NULL, 1, N'15', 1, 400.0),
 (14, 30, NULL, 1, NULL, 1, N'14', 1, 400.0),
 (13, 30, NULL, 1, NULL, 1, N'13', 1, 400.0),
@@ -305,10 +287,28 @@ VALUES (31, 30, NULL, 1, NULL, 1, N'31', 1, 400.0),
 (4, 30, NULL, 1, NULL, 1, N'4', 1, 400.0),
 (3, 30, NULL, 1, NULL, 1, N'3', 1, 400.0),
 (2, 30, NULL, 1, NULL, 1, N'2', 1, 400.0),
-(16, 30, NULL, 1, NULL, 1, N'16', 1, 400.0),
-(1, 30, NULL, 1, NULL, 1, N'1', 1, 400.0);
+(31, 30, NULL, 1, NULL, 1, N'31', 1, 400.0),
+(32, 30, NULL, 1, NULL, 1, N'32', 1, 400.0);
 IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'Amps', N'Comments', N'CreatedBy', N'Description', N'ModifiedBy', N'Name', N'ParkingSpaceTypeId', N'RecurringRate') AND [object_id] = OBJECT_ID(N'[ParkingSpaces]'))
     SET IDENTITY_INSERT [ParkingSpaces] OFF;
+
+GO
+
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'CreatedBy', N'ModifiedBy', N'ParkingSpaceId', N'RecurringDueDate', N'RentalAgreementTypeId', N'TerminatedOn') AND [object_id] = OBJECT_ID(N'[RentalAgreements]'))
+    SET IDENTITY_INSERT [RentalAgreements] ON;
+INSERT INTO [RentalAgreements] ([Id], [CreatedBy], [ModifiedBy], [ParkingSpaceId], [RecurringDueDate], [RentalAgreementTypeId], [TerminatedOn])
+VALUES (1, 1, 1, 1, 1, 2, NULL);
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'CreatedBy', N'ModifiedBy', N'ParkingSpaceId', N'RecurringDueDate', N'RentalAgreementTypeId', N'TerminatedOn') AND [object_id] = OBJECT_ID(N'[RentalAgreements]'))
+    SET IDENTITY_INSERT [RentalAgreements] OFF;
+
+GO
+
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'CustomerId', N'RentalAgreementId') AND [object_id] = OBJECT_ID(N'[CustomerRentalAgreements]'))
+    SET IDENTITY_INSERT [CustomerRentalAgreements] ON;
+INSERT INTO [CustomerRentalAgreements] ([CustomerId], [RentalAgreementId])
+VALUES (1, 1);
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'CustomerId', N'RentalAgreementId') AND [object_id] = OBJECT_ID(N'[CustomerRentalAgreements]'))
+    SET IDENTITY_INSERT [CustomerRentalAgreements] OFF;
 
 GO
 
@@ -365,7 +365,7 @@ CREATE INDEX [IX_RentalAgreements_RentalAgreementTypeId] ON [RentalAgreements] (
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20200809184131_InitialCreate', N'3.1.6');
+VALUES (N'20200809191022_InitialCreate', N'3.1.6');
 
 GO
 

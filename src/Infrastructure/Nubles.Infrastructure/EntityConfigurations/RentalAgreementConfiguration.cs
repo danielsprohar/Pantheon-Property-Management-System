@@ -42,7 +42,9 @@ namespace Nubles.Infrastructure.EntityConfigurations
                 new RentalAgreement
                 {
                     Id = 1,
-                    RecurringDueDate = 1,
+                    ParkingSpaceId = 1, // rv space
+                    RentalAgreementTypeId = 2, // billed monthly
+                    RecurringDueDate = 1, // billed on the 1st day of every month
                     CreatedBy = 1,
                     ModifiedBy = 1
                 }

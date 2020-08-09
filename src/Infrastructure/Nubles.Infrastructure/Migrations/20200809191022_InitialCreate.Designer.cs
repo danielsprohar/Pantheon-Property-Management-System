@@ -10,7 +10,7 @@ using Nubles.Infrastructure.Data;
 namespace Nubles.Infrastructure.Migrations
 {
     [DbContext(typeof(PantheonDbContext))]
-    [Migration("20200809184131_InitialCreate")]
+    [Migration("20200809191022_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -936,9 +936,9 @@ namespace Nubles.Infrastructure.Migrations
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ParkingSpaceId = 0,
+                            ParkingSpaceId = 1,
                             RecurringDueDate = 1,
-                            RentalAgreementTypeId = 0
+                            RentalAgreementTypeId = 2
                         });
                 });
 

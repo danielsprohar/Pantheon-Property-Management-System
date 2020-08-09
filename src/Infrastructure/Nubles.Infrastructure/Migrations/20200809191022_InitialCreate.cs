@@ -377,21 +377,11 @@ namespace Nubles.Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "RentalAgreements",
-                columns: new[] { "Id", "CreatedBy", "ModifiedBy", "ParkingSpaceId", "RecurringDueDate", "RentalAgreementTypeId", "TerminatedOn" },
-                values: new object[] { 1, 1, 1, 0, 1, 0, null });
-
-            migrationBuilder.InsertData(
-                table: "CustomerRentalAgreements",
-                columns: new[] { "CustomerId", "RentalAgreementId" },
-                values: new object[] { 1, 1 });
-
-            migrationBuilder.InsertData(
                 table: "ParkingSpaces",
                 columns: new[] { "Id", "Amps", "Comments", "CreatedBy", "Description", "ModifiedBy", "Name", "ParkingSpaceTypeId", "RecurringRate" },
                 values: new object[,]
                 {
-                    { 31, 30, null, 1, null, 1, "31", 1, 400m },
+                    { 1, 30, null, 1, null, 1, "1", 1, 400m },
                     { 30, 30, null, 1, null, 1, "30", 1, 400m },
                     { 29, 30, null, 1, null, 1, "29", 1, 400m },
                     { 28, 30, null, 1, null, 1, "28", 1, 400m },
@@ -405,8 +395,8 @@ namespace Nubles.Infrastructure.Migrations
                     { 20, 30, null, 1, null, 1, "20", 1, 400m },
                     { 19, 30, null, 1, null, 1, "19", 1, 400m },
                     { 18, 30, null, 1, null, 1, "18", 1, 400m },
-                    { 32, 30, null, 1, null, 1, "32", 1, 400m },
                     { 17, 30, null, 1, null, 1, "17", 1, 400m },
+                    { 16, 30, null, 1, null, 1, "16", 1, 400m },
                     { 15, 30, null, 1, null, 1, "15", 1, 400m },
                     { 14, 30, null, 1, null, 1, "14", 1, 400m },
                     { 13, 30, null, 1, null, 1, "13", 1, 400m },
@@ -421,9 +411,19 @@ namespace Nubles.Infrastructure.Migrations
                     { 4, 30, null, 1, null, 1, "4", 1, 400m },
                     { 3, 30, null, 1, null, 1, "3", 1, 400m },
                     { 2, 30, null, 1, null, 1, "2", 1, 400m },
-                    { 16, 30, null, 1, null, 1, "16", 1, 400m },
-                    { 1, 30, null, 1, null, 1, "1", 1, 400m }
+                    { 31, 30, null, 1, null, 1, "31", 1, 400m },
+                    { 32, 30, null, 1, null, 1, "32", 1, 400m }
                 });
+
+            migrationBuilder.InsertData(
+                table: "RentalAgreements",
+                columns: new[] { "Id", "CreatedBy", "ModifiedBy", "ParkingSpaceId", "RecurringDueDate", "RentalAgreementTypeId", "TerminatedOn" },
+                values: new object[] { 1, 1, 1, 1, 1, 2, null });
+
+            migrationBuilder.InsertData(
+                table: "CustomerRentalAgreements",
+                columns: new[] { "CustomerId", "RentalAgreementId" },
+                values: new object[] { 1, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_CustomerRentalAgreements_RentalAgreementId",

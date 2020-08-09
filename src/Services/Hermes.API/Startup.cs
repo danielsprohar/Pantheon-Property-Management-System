@@ -1,5 +1,7 @@
+using Hermes.API.Transformers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,7 +26,12 @@ namespace Hermes.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(config =>
+            {
+                var pageRouteTransformer = new RouteTokenTransformerConvention(new SlugifyParameterTransformer());
+
+                config.Conventions.Add(pageRouteTransformer);
+            });
 
             services.AddApiVersioning();
 
@@ -59,6 +66,7 @@ namespace Hermes.API
 
             app.UseAuthorization();
 
+            // https://docs.microsoft.com/en-us/aspnet/core/razor-pages/razor-pages-conventions?view=aspnetcore-3.1#use-a-parameter-transformer-to-customize-page-routes
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();

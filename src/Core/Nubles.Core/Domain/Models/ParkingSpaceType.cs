@@ -6,7 +6,7 @@ namespace Nubles.Core.Domain.Models
     {
         public enum DBColumnLength
         {
-            Description = 32
+            SpaceType = 32
         }
 
         public static class Type

@@ -30,14 +30,9 @@ namespace Nubles.Core.Application.Dto.Writes
 
         #region Owned entity attributes
 
-        [StringLength((int)CustomerDriverLicense.DBColumnLength.Number)]
-        public string DLNumber { get; set; }
+        public AddCustomerDriverLicenseDto DriverLicense { get; set; }
 
-        [StringLength((int)CustomerDriverLicense.DBColumnLength.State)]
-        public string DLState { get; set; }
-
-        [StringLength(4096)]
-        public string DLPhotoUrl { get; set; }
+        public AddCustomerVehicleDto Vehicle { get; set; }
 
         #endregion Owned entity attributes
     }

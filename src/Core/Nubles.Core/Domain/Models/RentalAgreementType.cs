@@ -6,7 +6,7 @@ namespace Nubles.Core.Domain.Models
     {
         public enum DBColumnLength
         {
-            Description = 16
+            AgreementType = 16
         }
 
         public static class Type

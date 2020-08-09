@@ -6,7 +6,7 @@ namespace Nubles.Core.Application.Dto.Writes
     public class AddParkingSpaceTypeDto
     {
         [Required]
-        [StringLength((int)ParkingSpaceType.DBColumnLength.SpaceType)]
+        [StringLength((int)ParkingSpaceType.DbColumnLength.SpaceType)]
         public string SpaceType { get; set; }
     }
 }

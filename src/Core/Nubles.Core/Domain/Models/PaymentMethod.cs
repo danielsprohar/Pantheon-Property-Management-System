@@ -4,9 +4,9 @@ namespace Nubles.Core.Domain.Models
 {
     public class PaymentMethod : Entity
     {
-        public enum DBColumnLength
+        public enum DbColumnLength
         {
-            Description = 32
+            PaymentMethod = 32
         }
 
         public static class Type
@@ -18,6 +18,6 @@ namespace Nubles.Core.Domain.Models
             public const string MoneyOrder = "money_order";
         }
 
-        public string MethodType { get; set; }
+        public string Method { get; set; }
     }
 }

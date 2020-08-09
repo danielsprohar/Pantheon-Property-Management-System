@@ -4,7 +4,7 @@ namespace Nubles.Core.Domain.Models
 {
     public class RentalAgreementType : Entity
     {
-        public enum DBColumnLength
+        public enum DbColumnLength
         {
             AgreementType = 16
         }

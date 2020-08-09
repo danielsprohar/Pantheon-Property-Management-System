@@ -4,7 +4,7 @@ namespace Nubles.Core.Domain.Models
 {
     public class ParkingSpaceType : Entity
     {
-        public enum DBColumnLength
+        public enum DbColumnLength
         {
             SpaceType = 32
         }

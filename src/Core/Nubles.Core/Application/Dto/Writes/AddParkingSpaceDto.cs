@@ -6,10 +6,10 @@ namespace Nubles.Core.Application.Dto.Writes
     public class AddParkingSpaceDto
     {
         [Required]
-        [StringLength((int)ParkingSpace.DBColumnLength.Name)]
+        [StringLength((int)ParkingSpace.DbColumnLength.Name)]
         public string Name { get; set; }
 
-        [StringLength((int)ParkingSpace.DBColumnLength.Description)]
+        [StringLength((int)ParkingSpace.DbColumnLength.Description)]
         public string Description { get; set; }
 
         [Required]
@@ -19,7 +19,7 @@ namespace Nubles.Core.Application.Dto.Writes
 
         public int? Amps { get; set; }
 
-        [StringLength((int)ParkingSpace.DBColumnLength.Commments)]
+        [StringLength((int)ParkingSpace.DbColumnLength.Commments)]
         public string Comments { get; set; }
 
         [Required]

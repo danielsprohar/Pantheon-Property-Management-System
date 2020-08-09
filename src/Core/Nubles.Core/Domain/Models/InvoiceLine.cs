@@ -4,7 +4,7 @@ namespace Nubles.Core.Domain.Models
 {
     public class InvoiceLine : Entity
     {
-        public enum DBColumnLength
+        public enum DbColumnLength
         {
             Description = 256
         }

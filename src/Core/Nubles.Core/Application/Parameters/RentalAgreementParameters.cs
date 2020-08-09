@@ -9,14 +9,5 @@
         public bool? IsActive { get; set; }
 
         public int? ParkingSpaceId { get; set; }
-
-        public RentalAgreementParameters() : base()
-        {
-        }
-
-        public RentalAgreementParameters(int pageNumber, int pageSize)
-            : base(pageNumber, pageSize)
-        {
-        }
     }
 }

@@ -5,24 +5,40 @@
         private readonly int MinPageNumber = 0;
         private readonly int MaxPageSize = 50;
 
-        public int PageNumber { get; private set; }
-        public int PageSize { get; private set; }
+        private int _pageNumber;
+        private int _pageSize;
 
         public QueryParameters()
         {
-            PageNumber = MinPageNumber;
-            PageSize = MaxPageSize;
+
         }
 
         public QueryParameters(int pageNumber, int pageSize)
         {
-            PageNumber = pageNumber < MinPageNumber ?
-                MinPageNumber :
-                pageNumber;
+            PageNumber = pageNumber;
+            PageSize = pageSize;
+        }
 
-            PageSize = pageSize > MaxPageSize ?
-                MaxPageSize :
-                pageSize;
+        public int PageNumber
+        {
+            get { return _pageNumber; }
+            set
+            {
+                _pageNumber = value < MinPageNumber ?
+                MinPageNumber :
+                value;
+            }
+        }
+
+        public int PageSize
+        {
+            get { return _pageSize; }
+            set
+            {
+                _pageSize = value > MaxPageSize ?
+                    MaxPageSize :
+                    value;
+            }
         }
     }
 }

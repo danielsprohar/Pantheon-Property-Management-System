@@ -1,23 +1,9 @@
-﻿namespace Nubles.Core.Application.Wrappers.Generics
+﻿using System;
+
+namespace Nubles.Core.Application.Wrappers.Generics
 {
     public class PagedApiResponse<T> : ApiResponse<T> where T : class
     {
-        public int PageNumber { get; private set; }
-
-        public int PageSize { get; private set; }
-
-        public long Count { get; private set; }
-
-        /// <summary>
-        /// The url of the previous page.
-        /// </summary>
-        public string Previous { get; set; }
-
-        /// <summary>
-        /// The url of the next page.
-        /// </summary>
-        public string Next { get; set; }
-
         public PagedApiResponse(int pageNumber, int pageSize, long count, T data)
         {
             PageNumber = pageNumber;
@@ -27,8 +13,40 @@
             Message = null;
             Succeeded = true;
             Errors = null;
+            TotalPages = (int)Math.Ceiling(count / (decimal)pageSize);
         }
 
-        // TODO: add HasNext() and HasPrev()
+        public int PageNumber { get; private set; }
+
+        public int PageSize { get; private set; }
+
+        public long Count { get; private set; }
+
+        public int TotalPages { get; private set; }
+
+        public string FirstPage { get; set; }
+
+        public string LastPage { get; set; }
+
+        /// <summary>
+        /// The url of the previous page.
+        /// </summary>
+        public string PreviousPage { get; set; }
+
+        /// <summary>
+        /// The url of the next page.
+        /// </summary>
+        public string NextPage { get; set; }
+
+        public bool HasPrevious()
+        {
+            return Count != 0 && PageNumber > 0;
+        }
+
+        public bool HasNext()
+        {
+            // add 1 because pagenumber starts at 0
+            return Count != 0 && PageNumber + 1 < TotalPages;
+        }
     }
 }

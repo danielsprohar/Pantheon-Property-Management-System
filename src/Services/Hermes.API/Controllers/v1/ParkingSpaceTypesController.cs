@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Hermes.API.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -33,7 +34,7 @@ namespace Hermes.API.Controllers.v1
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet(Name = nameof(GetParkingSpaceTypes))]
         public async Task<ActionResult<PagedApiResponse<IEnumerable<ParkingSpaceTypeDto>>>> GetParkingSpaceTypes(
             [FromQuery] QueryParameters parameters)
         {
@@ -58,6 +59,10 @@ namespace Hermes.API.Controllers.v1
                     count,
                     data
                 );
+
+            var pagingHelper = new PagingLinksHelper<IEnumerable<ParkingSpaceTypeDto>>(pagedResponse, Url);
+
+            pagedResponse = pagingHelper.GenerateLinks(nameof(GetParkingSpaceTypes), parameters);
 
             return Ok(pagedResponse);
         }

@@ -12,6 +12,10 @@ namespace Nubles.Infrastructure.EntityConfigurations
 
             builder.HasKey(e => e.Id);
 
+            builder.Property(e => e.IsRefund)
+                .HasDefaultValue(false)
+                .IsRequired();
+
             builder.Property(e => e.Amount)
                 .HasColumnType(Payment.DbColumnType.Decimal)
                 .IsRequired();

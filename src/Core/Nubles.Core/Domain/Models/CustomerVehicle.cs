@@ -25,7 +25,7 @@ namespace Nubles.Core.Domain.Models
 
         public string LicensePlateNumber { get; set; }
 
-        public int OwnerId { get; set; }
-        public Customer Owner { get; set; }
+        public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
     }
 }

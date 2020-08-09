@@ -52,8 +52,8 @@ namespace Nubles.Infrastructure.EntityConfigurations
 
             builder.OwnsMany<CustomerVehicle>(e => e.Vehicles, vehicleBuilder =>
             {
-                vehicleBuilder.WithOwner(e => e.Owner)
-                    .HasForeignKey(v => v.OwnerId);
+                vehicleBuilder.WithOwner(e => e.Customer)
+                    .HasForeignKey(v => v.CustomerId);
 
                 vehicleBuilder.HasKey(e => e.Id);
 

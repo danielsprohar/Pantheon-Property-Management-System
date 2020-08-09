@@ -4,7 +4,7 @@ using Nubles.Infrastructure.EntityConfigurations;
 
 namespace Nubles.Infrastructure.Data
 {
-    public class NublesDbContext : DbContext
+    public class PantheonDbContext : DbContext
     {
         public DbSet<Customer> Customers { get; set; }
         public DbSet<CustomerRentalAgreement> CustomerRentalAgreements { get; set; }
@@ -17,7 +17,7 @@ namespace Nubles.Infrastructure.Data
         public DbSet<RentalAgreement> RentalAgreements { get; set; }
         public DbSet<RentalAgreementType> RentalAgreementTypes { get; set; }
 
-        public NublesDbContext(DbContextOptions options) : base(options)
+        public PantheonDbContext(DbContextOptions<PantheonDbContext> options) : base(options)
         {
         }
 
@@ -28,6 +28,7 @@ namespace Nubles.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
             modelBuilder.ApplyConfiguration(new CustomerRentalAgreementConfiguration());
             modelBuilder.ApplyConfiguration(new InvoiceConfiguration());
+            modelBuilder.ApplyConfiguration(new InvoiceLineConfiguration());
             modelBuilder.ApplyConfiguration(new InvoicePaymentConfiguration());
             modelBuilder.ApplyConfiguration(new InvoiceStatusConfiguration());
             modelBuilder.ApplyConfiguration(new ParkingSpaceConfiguration());

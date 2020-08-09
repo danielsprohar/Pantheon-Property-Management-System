@@ -11,11 +11,13 @@ namespace Nubles.Infrastructure.EntityConfigurations
         {
             base.Configure(builder);
 
-            builder.HasKey(e => new { e.Id, e.ParkingSpaceId });
-
             builder.Property(e => e.RecurringDueDate).IsRequired();
 
             #region Relationships
+
+            builder.HasOne(e => e.ParkingSpace)
+                .WithMany()
+                .HasForeignKey(e => e.ParkingSpaceId);
 
             builder.HasOne(e => e.RentalAgreementType)
                 .WithMany()

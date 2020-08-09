@@ -23,27 +23,6 @@ namespace Nubles.Infrastructure.EntityConfigurations
                 .OnDelete(DeleteBehavior.Restrict);
 
             #endregion Relationships
-
-            #region Owned Types
-
-            builder.OwnsMany(invoice => invoice.InvoiceLines, invoiceLineBuilder =>
-            {
-                invoiceLineBuilder.Property(e => e.Quantity).IsRequired();
-
-                invoiceLineBuilder.Property(e => e.Description)
-                    .HasMaxLength((int)InvoiceLine.DbColumnLength.Description)
-                    .IsRequired();
-
-                invoiceLineBuilder.Property(e => e.Price)
-                    .HasColumnType(InvoiceLine.DecimalPrecision.Precision)
-                    .IsRequired();
-
-                invoiceLineBuilder.Property(e => e.Total)
-                    .HasColumnType(InvoiceLine.DecimalPrecision.Precision)
-                    .IsRequired();
-            });
-
-            #endregion Owned Types
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Nubles.Core.Application.Dto.Reads;
 using Nubles.Core.Application.Dto.Writes;
+using Nubles.Core.Application.Mappings.Resolvers;
 using Nubles.Core.Domain.Models;
 
 namespace Nubles.Core.Application.Mappings
@@ -16,29 +17,71 @@ namespace Nubles.Core.Application.Mappings
 
         private void CreateCustomerMappings()
         {
-            CreateMap<AddCustomerDto, Customer>();
             CreateMap<Customer, CustomerDto>();
+            CreateMap<AddCustomerDto, Customer>()
+                .ForMember(e => e.IsActive, opts => opts.Ignore())
+                .ForMember(e => e.Vehicles, opts => opts.Ignore())
+                .ForMember(e => e.CustomerRentalAgreements, opts => opts.Ignore())
+                .ForMember(e => e.Payments, opts => opts.Ignore())
+                .ForMember(e => e.CreatedBy, opts => opts.Ignore())
+                .ForMember(e => e.CreatedOn, opts => opts.Ignore())
+                .ForMember(e => e.ModifiedBy, opts => opts.Ignore())
+                .ForMember(e => e.ModifiedOn, opts => opts.Ignore())
+                .ForMember(e => e.Id, opts => opts.Ignore())
+                .ForMember(e => e.RowVersion, opts => opts.Ignore())
+                .ForMember(e => e.NormalizedEmail, opts => opts.MapFrom<NormalizeEmailResolver>());
 
-            CreateMap<AddCustomerVehicleDto, CustomerVehicle>();
             CreateMap<CustomerVehicle, CustomerVehicleDto>();
+            CreateMap<AddCustomerVehicleDto, CustomerVehicle>()
+                .ForMember(e => e.Id, opts => opts.Ignore())
+                .ForMember(e => e.RowVersion, opts => opts.Ignore())
+                .ForMember(e => e.Customer, opts => opts.Ignore())
+                .ForMember(e => e.CustomerId, opts => opts.Ignore());
 
+            CreateMap<CustomerDriverLicense, CustomerDriverLicenseDto>();
             CreateMap<AddCustomerDriverLicenseDto, CustomerDriverLicense>();
-            CreateMap<CustomerDriverLicense, CustomerDriverLicense>();
         }
 
         private void CreateParkingSpaceMappings()
         {
-            CreateMap<AddParkingSpaceDto, ParkingSpace>();
-            CreateMap<ParkingSpace, ParkingSpaceDto>();            
+            CreateMap<ParkingSpace, ParkingSpaceDto>();
+            CreateMap<AddParkingSpaceDto, ParkingSpace>()
+                .ForMember(e => e.ParkingSpaceType, opts => opts.Ignore())
+                .ForMember(e => e.ParkingSpaceTypeId, opts => opts.Ignore())
+                .ForMember(e => e.CreatedBy, opts => opts.Ignore())
+                .ForMember(e => e.CreatedOn, opts => opts.Ignore())
+                .ForMember(e => e.ModifiedBy, opts => opts.Ignore())
+                .ForMember(e => e.ModifiedOn, opts => opts.Ignore())
+                .ForMember(e => e.Id, opts => opts.Ignore())
+                .ForMember(e => e.RowVersion, opts => opts.Ignore());
 
-            CreateMap<AddParkingSpaceTypeDto, ParkingSpaceType>();
             CreateMap<ParkingSpaceType, ParkingSpaceTypeDto>();
+            CreateMap<AddParkingSpaceTypeDto, ParkingSpaceType>()
+                .ForMember(e => e.Id, opts => opts.Ignore())
+                .ForMember(e => e.RowVersion, opts => opts.Ignore());
         }
 
         private void CreateRentalAgreementMappings()
         {
-            CreateMap<AddRentalAgreementDto, RentalAgreement>();
             CreateMap<RentalAgreement, RentalAgreementDto>();
+            CreateMap<AddRentalAgreementDto, RentalAgreement>()
+                .ForMember(e => e.TerminatedOn, opts => opts.Ignore())
+                .ForMember(e => e.RentalAgreementType, opts => opts.Ignore())
+                .ForMember(e => e.ParkingSpace, opts => opts.Ignore())
+                .ForMember(e => e.ParkingSpaceId, opts => opts.Ignore())
+                .ForMember(e => e.CustomerRentalAgreements, opts => opts.Ignore())
+                .ForMember(e => e.Invoices, opts => opts.Ignore())
+                .ForMember(e => e.CreatedBy, opts => opts.Ignore())
+                .ForMember(e => e.CreatedOn, opts => opts.Ignore())
+                .ForMember(e => e.ModifiedBy, opts => opts.Ignore())
+                .ForMember(e => e.ModifiedOn, opts => opts.Ignore())
+                .ForMember(e => e.Id, opts => opts.Ignore())
+                .ForMember(e => e.RowVersion, opts => opts.Ignore());
+
+            CreateMap<RentalAgreementType, RentalAgreementTypeDto>();
+            CreateMap<AddRentalAgreementTypeDto, RentalAgreementType>()
+                .ForMember(e => e.Id, opts => opts.Ignore())
+                .ForMember(e => e.RowVersion, opts => opts.Ignore());
         }
     }
 }

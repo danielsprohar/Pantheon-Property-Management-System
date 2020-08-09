@@ -27,5 +27,17 @@ namespace Nubles.Core.Domain.Models
         public ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
 
         #endregion Navigation properties
+
+        public List<Customer> GetCustomers()
+        {
+            var accounts = new List<Customer>();
+
+            foreach (var item in CustomerRentalAgreements)
+            {
+                accounts.Add(item.Customer);
+            }
+
+            return accounts;
+        }
     }
 }

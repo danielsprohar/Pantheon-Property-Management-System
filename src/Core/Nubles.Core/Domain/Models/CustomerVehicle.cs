@@ -24,12 +24,5 @@ namespace Nubles.Core.Domain.Models
         public string LicensePlateState { get; set; }
 
         public string LicensePlateNumber { get; set; }
-
-        #region Navigation Properties
-
-        public int OwnerId { get; set; }
-        public Customer Owner { get; set; }
-
-        #endregion Navigation Properties
     }
 }

@@ -21,7 +21,7 @@ namespace Nubles.Core.Domain.Models
 
         public string Description { get; set; }
 
-        public decimal Rate { get; set; }
+        public decimal RecurringRate { get; set; }
 
         public bool? IsAvailable { get; set; }
 

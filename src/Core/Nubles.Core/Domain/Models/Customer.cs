@@ -1,4 +1,5 @@
 ﻿using Nubles.Core.Domain.Base;
+using System.Collections.Generic;
 
 namespace Nubles.Core.Domain.Models
 {
@@ -27,9 +28,26 @@ namespace Nubles.Core.Domain.Models
 
         public bool? IsActive { get; set; }
 
-        #region Navigation Properties
+        #region Navigation properties
 
+        public ICollection<CustomerRentalAgreement> CustomerRentalAgreements { get; set; } = new List<CustomerRentalAgreement>();
+        public ICollection<Payment> Payments { get; set; } = new List<Payment>();
+        public ICollection<CustomerVehicle> Vehicles { get; set; } = new List<CustomerVehicle>();
 
-        #endregion
+        #endregion Navigation properties
+
+        public string FullName => FirstName + " " + LastName;
+
+        public List<RentalAgreement> GetRentalAgreements()
+        {
+            var accounts = new List<RentalAgreement>();
+
+            foreach (var item in CustomerRentalAgreements)
+            {
+                accounts.Add(item.RentalAgreement);
+            }
+
+            return accounts;
+        }
     }
 }

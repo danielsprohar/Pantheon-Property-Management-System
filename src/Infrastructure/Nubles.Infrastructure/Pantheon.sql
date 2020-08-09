@@ -113,7 +113,7 @@ CREATE TABLE [Payments] (
     [ModifiedOn] datetimeoffset NOT NULL DEFAULT (GETUTCDATE()),
     [Amount] DECIMAL(10, 2) NOT NULL,
     [Date] datetimeoffset NOT NULL,
-    [IsRefund] bit NULL,
+    [IsRefund] bit NOT NULL DEFAULT CAST(0 AS bit),
     [PaymentMethodId] int NOT NULL,
     [CustomerId] int NOT NULL,
     CONSTRAINT [PK_Payments] PRIMARY KEY ([Id]),
@@ -172,17 +172,15 @@ CREATE TABLE [Invoices] (
 GO
 
 CREATE TABLE [InvoiceLine] (
-    [Id] int NOT NULL IDENTITY,
     [InvoiceId] int NOT NULL,
-    [RowVersion] varbinary(max) NULL,
+    [ParkingSpaceId] int NOT NULL,
     [Quantity] int NOT NULL,
     [Description] nvarchar(256) NOT NULL,
     [Price] DECIMAL(10, 2) NOT NULL,
     [Total] DECIMAL(10, 2) NOT NULL,
-    [ParkingSpaceId] int NOT NULL,
-    CONSTRAINT [PK_InvoiceLine] PRIMARY KEY ([InvoiceId], [Id]),
-    CONSTRAINT [FK_InvoiceLine_Invoices_InvoiceId] FOREIGN KEY ([InvoiceId]) REFERENCES [Invoices] ([Id]) ON DELETE CASCADE,
-    CONSTRAINT [FK_InvoiceLine_ParkingSpaces_ParkingSpaceId] FOREIGN KEY ([ParkingSpaceId]) REFERENCES [ParkingSpaces] ([Id]) ON DELETE CASCADE
+    CONSTRAINT [PK_InvoiceLine] PRIMARY KEY ([InvoiceId], [ParkingSpaceId]),
+    CONSTRAINT [FK_InvoiceLine_Invoices_InvoiceId] FOREIGN KEY ([InvoiceId]) REFERENCES [Invoices] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_InvoiceLine_ParkingSpaces_ParkingSpaceId] FOREIGN KEY ([ParkingSpaceId]) REFERENCES [ParkingSpaces] ([Id]) ON DELETE NO ACTION
 );
 
 GO
@@ -367,7 +365,7 @@ CREATE INDEX [IX_RentalAgreements_RentalAgreementTypeId] ON [RentalAgreements] (
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20200809182253_InitialCreate', N'3.1.6');
+VALUES (N'20200809184131_InitialCreate', N'3.1.6');
 
 GO
 

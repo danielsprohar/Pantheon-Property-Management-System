@@ -1,17 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Nubles.Core;
 using Nubles.Infrastructure;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace Hermes.API
 {
@@ -29,8 +26,12 @@ namespace Hermes.API
         {
             services.AddControllers();
 
+            services.AddApiVersioning();
+
             services.AddNublesCore()
                     .AddNublesInfrastructure(Configuration);
+
+            services.AddSwaggerGenWithOptions();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +42,17 @@ namespace Hermes.API
                 app.UseDeveloperExceptionPage();
             }
 
+            #region Swagger
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Hermes' API ");
+            });
+
+            #endregion Swagger
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -49,8 +61,42 @@ namespace Hermes.API
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapDefaultControllerRoute();
             });
+        }
+    }
+
+    internal static class ServiceCollectionExtensions
+    {
+        public static IServiceCollection AddSwaggerGenWithOptions(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Hermes' API v1",
+                    Description = "A RESTful service for Pantheon Management System",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Daniel Sprohar",
+                        Email = string.Empty,
+                        Url = new Uri("https://github.com/danielsprohar"),
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Use under MIT",
+                        Url = new Uri("https://github.com/danielsprohar/Pantheon-Management-System/blob/main/LICENSE"),
+                    }
+                });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
+
+            return services;
         }
     }
 }

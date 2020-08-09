@@ -4,19 +4,20 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Nubles.Core.Application.Dto.Reads;
 using Nubles.Core.Application.Dto.Writes;
+using Nubles.Core.Application.Parameters;
 using Nubles.Core.Application.Wrappers.Generics;
 using Nubles.Core.Domain.Models;
 using Nubles.Infrastructure.Data;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
 namespace Hermes.API.Controllers.v1
 {
     [ApiVersion("1.0")]
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ParkingSpaceTypesController : ControllerBase
+    [Produces(MediaTypeNames.Application.Json)]
+    public class ParkingSpaceTypesController : VersionedApiController
     {
         private readonly PantheonDbContext _context;
         private readonly ILogger<ParkingSpaceTypesController> _logger;
@@ -32,16 +33,37 @@ namespace Hermes.API.Controllers.v1
             _mapper = mapper;
         }
 
-        // GET: api/ParkingSpaceTypes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ParkingSpaceType>>> GetParkingSpaceTypes()
+        public async Task<ActionResult<PagedApiResponse<IEnumerable<ParkingSpaceTypeDto>>>> GetParkingSpaceTypes(
+            [FromQuery] QueryParameters parameters)
         {
-            return await _context.ParkingSpaceTypes.ToListAsync();
+            var query = _context.ParkingSpaceTypes
+                                .AsQueryable()
+                                .AsNoTracking();
+
+            var count = await query.CountAsync();
+            var offset = parameters.PageNumber * parameters.PageSize;
+
+            query = query.OrderBy(u => u.Id)
+                         .Skip(offset)
+                         .Take(parameters.PageSize);
+
+            var unitTypes = await query.ToListAsync();
+            var data = _mapper.Map<IEnumerable<ParkingSpaceTypeDto>>(unitTypes);
+
+            var pagedResponse =
+                new PagedApiResponse<IEnumerable<ParkingSpaceTypeDto>>(
+                    parameters.PageNumber,
+                    parameters.PageSize,
+                    count,
+                    data
+                );
+
+            return Ok(pagedResponse);
         }
 
-        // GET: api/ParkingSpaceTypes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ParkingSpaceType>> GetParkingSpaceType(int id)
+        public async Task<ActionResult<ApiResponse<ParkingSpaceTypeDto>>> GetParkingSpaceType(int id)
         {
             var parkingSpaceType = await _context.ParkingSpaceTypes.FindAsync(id);
 
@@ -50,9 +72,10 @@ namespace Hermes.API.Controllers.v1
                 return NotFound();
             }
 
+            var dto = _mapper.Map<ParkingSpaceTypeDto>(parkingSpaceType);
+            var response = new ApiResponse<ParkingSpaceTypeDto>(dto);
 
-
-            return parkingSpaceType;
+            return Ok(response);
         }
 
         [HttpPost]

@@ -1,6 +1,7 @@
 using Hermes.API.Transformers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,8 @@ using Nubles.Infrastructure;
 using System;
 using System.IO;
 using System.Reflection;
+
+[assembly: ApiConventionType(typeof(DefaultApiConventions))]
 
 namespace Hermes.API
 {
@@ -31,9 +34,13 @@ namespace Hermes.API
                 var pageRouteTransformer = new RouteTokenTransformerConvention(new SlugifyParameterTransformer());
 
                 config.Conventions.Add(pageRouteTransformer);
-            });
+            }).AddNewtonsoftJson();
 
-            services.AddApiVersioning();
+            services.AddApiVersioning(options =>
+            {
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(majorVersion: 1, minorVersion: 0);
+            });
 
             services.AddNublesCore()
                     .AddNublesInfrastructure(Configuration);
@@ -66,10 +73,9 @@ namespace Hermes.API
 
             app.UseAuthorization();
 
-            // https://docs.microsoft.com/en-us/aspnet/core/razor-pages/razor-pages-conventions?view=aspnetcore-3.1#use-a-parameter-transformer-to-customize-page-routes
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute();
+                endpoints.MapControllers();
             });
         }
     }

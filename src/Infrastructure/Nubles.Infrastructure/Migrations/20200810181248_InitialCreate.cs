@@ -92,12 +92,12 @@ namespace Nubles.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CustomerVehicle",
+                name: "CustomerVehicles",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RowVersion = table.Column<byte[]>(nullable: true),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
                     Year = table.Column<int>(nullable: false),
                     Make = table.Column<string>(maxLength: 32, nullable: false),
                     Model = table.Column<string>(maxLength: 64, nullable: false),
@@ -108,9 +108,9 @@ namespace Nubles.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CustomerVehicle", x => x.Id);
+                    table.PrimaryKey("PK_CustomerVehicles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CustomerVehicle_Customers_CustomerId",
+                        name: "FK_CustomerVehicles_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id",
@@ -377,11 +377,15 @@ namespace Nubles.Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "CustomerVehicles",
+                columns: new[] { "Id", "Color", "CustomerId", "LicensePlateNumber", "LicensePlateState", "Make", "Model", "Year" },
+                values: new object[] { 1, "blue", 1, "1234-ASD", "Texas", "Ford", "Mustang GT", 2007 });
+
+            migrationBuilder.InsertData(
                 table: "ParkingSpaces",
                 columns: new[] { "Id", "Amps", "Comments", "CreatedBy", "Description", "ModifiedBy", "Name", "ParkingSpaceTypeId", "RecurringRate" },
                 values: new object[,]
                 {
-                    { 1, 30, null, 1, null, 1, "1", 1, 400m },
                     { 30, 30, null, 1, null, 1, "30", 1, 400m },
                     { 29, 30, null, 1, null, 1, "29", 1, 400m },
                     { 28, 30, null, 1, null, 1, "28", 1, 400m },
@@ -396,8 +400,8 @@ namespace Nubles.Infrastructure.Migrations
                     { 19, 30, null, 1, null, 1, "19", 1, 400m },
                     { 18, 30, null, 1, null, 1, "18", 1, 400m },
                     { 17, 30, null, 1, null, 1, "17", 1, 400m },
+                    { 31, 30, null, 1, null, 1, "31", 1, 400m },
                     { 16, 30, null, 1, null, 1, "16", 1, 400m },
-                    { 15, 30, null, 1, null, 1, "15", 1, 400m },
                     { 14, 30, null, 1, null, 1, "14", 1, 400m },
                     { 13, 30, null, 1, null, 1, "13", 1, 400m },
                     { 12, 30, null, 1, null, 1, "12", 1, 400m },
@@ -411,7 +415,8 @@ namespace Nubles.Infrastructure.Migrations
                     { 4, 30, null, 1, null, 1, "4", 1, 400m },
                     { 3, 30, null, 1, null, 1, "3", 1, 400m },
                     { 2, 30, null, 1, null, 1, "2", 1, 400m },
-                    { 31, 30, null, 1, null, 1, "31", 1, 400m },
+                    { 1, 30, null, 1, null, 1, "1", 1, 400m },
+                    { 15, 30, null, 1, null, 1, "15", 1, 400m },
                     { 32, 30, null, 1, null, 1, "32", 1, 400m }
                 });
 
@@ -436,8 +441,8 @@ namespace Nubles.Infrastructure.Migrations
                 columns: new[] { "FirstName", "LastName" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CustomerVehicle_CustomerId",
-                table: "CustomerVehicle",
+                name: "IX_CustomerVehicles_CustomerId",
+                table: "CustomerVehicles",
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
@@ -498,7 +503,7 @@ namespace Nubles.Infrastructure.Migrations
                 name: "CustomerRentalAgreements");
 
             migrationBuilder.DropTable(
-                name: "CustomerVehicle");
+                name: "CustomerVehicles");
 
             migrationBuilder.DropTable(
                 name: "InvoiceLine");

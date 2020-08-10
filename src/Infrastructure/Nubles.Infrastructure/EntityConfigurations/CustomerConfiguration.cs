@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nubles.Core.Domain.Models;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Nubles.Infrastructure.EntityConfigurations
@@ -46,29 +45,6 @@ namespace Nubles.Infrastructure.EntityConfigurations
 
                 dlBuilder.Property(e => e.State)
                     .HasMaxLength((int)CustomerDriverLicense.DBColumnLength.Number)
-                    .IsRequired();
-            });
-
-
-            builder.OwnsMany<CustomerVehicle>(e => e.Vehicles, vehicleBuilder =>
-            {
-                vehicleBuilder.WithOwner(e => e.Customer)
-                    .HasForeignKey(v => v.CustomerId);
-
-                vehicleBuilder.HasKey(e => e.Id);
-
-                vehicleBuilder.Property(e => e.Year).IsRequired();
-
-                vehicleBuilder.Property(e => e.Make)
-                    .HasMaxLength((int)CustomerVehicle.DbColumnLength.Make)
-                    .IsRequired();
-
-                vehicleBuilder.Property(e => e.Model)
-                    .HasMaxLength((int)CustomerVehicle.DbColumnLength.Model)
-                    .IsRequired();
-
-                vehicleBuilder.Property(e => e.Color)
-                    .HasMaxLength((int)CustomerVehicle.DbColumnLength.Color)
                     .IsRequired();
             });
 

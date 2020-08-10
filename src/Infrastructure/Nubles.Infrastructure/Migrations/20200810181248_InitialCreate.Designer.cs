@@ -10,7 +10,7 @@ using Nubles.Infrastructure.Data;
 namespace Nubles.Infrastructure.Migrations
 {
     [DbContext(typeof(PantheonDbContext))]
-    [Migration("20200809191022_InitialCreate")]
+    [Migration("20200810181248_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -123,6 +123,65 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             CustomerId = 1,
                             RentalAgreementId = 1
+                        });
+                });
+
+            modelBuilder.Entity("Nubles.Core.Domain.Models.CustomerVehicle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LicensePlateNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LicensePlateState")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Make")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
+
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("CustomerVehicles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Color = "blue",
+                            CustomerId = 1,
+                            LicensePlateNumber = "1234-ASD",
+                            LicensePlateState = "Texas",
+                            Make = "Ford",
+                            Model = "Mustang GT",
+                            Year = 2007
                         });
                 });
 
@@ -1010,53 +1069,6 @@ namespace Nubles.Infrastructure.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("CustomerId");
                         });
-
-                    b.OwnsMany("Nubles.Core.Domain.Models.CustomerVehicle", "Vehicles", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<string>("Color")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(32)")
-                                .HasMaxLength(32);
-
-                            b1.Property<int>("CustomerId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("LicensePlateNumber")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("LicensePlateState")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Make")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(32)")
-                                .HasMaxLength(32);
-
-                            b1.Property<string>("Model")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(64)")
-                                .HasMaxLength(64);
-
-                            b1.Property<byte[]>("RowVersion")
-                                .HasColumnType("varbinary(max)");
-
-                            b1.Property<int>("Year")
-                                .HasColumnType("int");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("CustomerId");
-
-                            b1.ToTable("CustomerVehicle");
-
-                            b1.WithOwner("Customer")
-                                .HasForeignKey("CustomerId");
-                        });
                 });
 
             modelBuilder.Entity("Nubles.Core.Domain.Models.CustomerRentalAgreement", b =>
@@ -1070,6 +1082,15 @@ namespace Nubles.Infrastructure.Migrations
                     b.HasOne("Nubles.Core.Domain.Models.RentalAgreement", "RentalAgreement")
                         .WithMany("CustomerRentalAgreements")
                         .HasForeignKey("RentalAgreementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Nubles.Core.Domain.Models.CustomerVehicle", b =>
+                {
+                    b.HasOne("Nubles.Core.Domain.Models.Customer", "Customer")
+                        .WithMany("Vehicles")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

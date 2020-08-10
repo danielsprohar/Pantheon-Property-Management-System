@@ -7,7 +7,6 @@ namespace Nubles.Infrastructure.Data
     public class PantheonDbContext : DbContext
     {
         public DbSet<Customer> Customers { get; set; }
-        // TODO: create config file for customer vehicles
         public DbSet<CustomerVehicle> CustomerVehicles { get; set; }
         public DbSet<CustomerRentalAgreement> CustomerRentalAgreements { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
@@ -28,6 +27,7 @@ namespace Nubles.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
+            modelBuilder.ApplyConfiguration(new CustomerVehicleConfiguration());
             modelBuilder.ApplyConfiguration(new CustomerRentalAgreementConfiguration());
             modelBuilder.ApplyConfiguration(new InvoiceConfiguration());
             modelBuilder.ApplyConfiguration(new InvoiceLineConfiguration());

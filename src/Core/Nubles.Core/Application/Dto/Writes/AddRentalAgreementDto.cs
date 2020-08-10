@@ -5,12 +5,9 @@ namespace Nubles.Core.Application.Dto.Writes
 {
     public class AddRentalAgreementDto
     {
-        // TODO: create validation attribute
-
         /// <summary>
         /// This should be an integer value in the range [1,31],
-        /// that represents the day of the month that the
-        /// account owner's recurring rate is due.
+        /// that represents the day of the month when rent is due.
         /// </summary>
         [Required]
         [Range(1, 31)]

@@ -1,16 +1,20 @@
 ﻿using AutoMapper;
 using Hermes.API.Helpers;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Nubles.Core.Application.Dto.Reads;
 using Nubles.Core.Application.Dto.Writes;
 using Nubles.Core.Application.Parameters;
+using Nubles.Core.Application.Wrappers;
 using Nubles.Core.Application.Wrappers.Generics;
 using Nubles.Core.Domain.Models;
 using Nubles.Infrastructure.Data;
+using Nubles.Infrastructure.Helpers;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 
 namespace Hermes.API.Controllers.v1
@@ -122,15 +126,73 @@ namespace Hermes.API.Controllers.v1
                 return NotFound();
             }
 
+            if (!parkingSpace.IsAvailable.Value)
+            {
+                var errorMessage = "This parking space is currently occupied.";
+                return UnprocessableEntity(new ApiResponse(errorMessage));
+            }
+
             _context.ParkingSpaces.Remove(parkingSpace);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool ParkingSpaceExists(int id)
+        [HttpPatch("{id}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        public async Task<IActionResult> UpdateUnit(
+            int id,
+            [FromQuery] int employeeId,
+            [FromBody] JsonPatchDocument<UpdateParkingSpaceDto> dtoDoc)
         {
-            return _context.ParkingSpaces.Any(e => e.Id == id);
+            // TODO: add UserId to request and check if User exists.
+            employeeId = 1;
+
+            var space = await _context.ParkingSpaces.FindAsync(id);
+
+            if (space == null)
+            {
+                return NotFound();
+            }
+
+            var patchDoc = _mapper.Map<JsonPatchDocument<ParkingSpace>>(dtoDoc);
+
+            patchDoc.ApplyTo(space, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            space.ModifiedBy = employeeId;
+            var saved = false;
+
+            while (!saved)
+            {
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    saved = true;
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    if (!await ParkingSpaceExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        DbExceptionHelper.HandleConcurrencyException(ex, space.GetType());
+                    }
+                }
+            }
+
+            return NoContent();
+        }
+
+        private async Task<bool> ParkingSpaceExists(int id)
+        {
+            return await _context.ParkingSpaces.AnyAsync(e => e.Id == id);
         }
     }
 }

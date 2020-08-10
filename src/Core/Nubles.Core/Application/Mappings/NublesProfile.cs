@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.JsonPatch.Operations;
 using Nubles.Core.Application.Dto.Reads;
 using Nubles.Core.Application.Dto.Writes;
 using Nubles.Core.Application.Mappings.Resolvers;
@@ -52,6 +54,18 @@ namespace Nubles.Core.Application.Mappings
                 .ForMember(e => e.ModifiedOn, opts => opts.Ignore())
                 .ForMember(e => e.Id, opts => opts.Ignore())
                 .ForMember(e => e.RowVersion, opts => opts.Ignore());
+
+            CreateMap<UpdateParkingSpaceDto, ParkingSpace>()
+                .ForMember(e => e.ParkingSpaceType, opts => opts.Ignore())
+                .ForMember(e => e.CreatedBy, opts => opts.Ignore())
+                .ForMember(e => e.CreatedOn, opts => opts.Ignore())
+                .ForMember(e => e.ModifiedBy, opts => opts.Ignore())
+                .ForMember(e => e.ModifiedOn, opts => opts.Ignore())
+                .ForMember(e => e.Id, opts => opts.Ignore())
+                .ForMember(e => e.RowVersion, opts => opts.Ignore());
+
+            CreateMap<JsonPatchDocument<UpdateParkingSpaceDto>, JsonPatchDocument<ParkingSpace>>();
+            CreateMap<Operation<UpdateParkingSpaceDto>, Operation<ParkingSpace>>();
 
             CreateMap<ParkingSpaceType, ParkingSpaceTypeDto>();
             CreateMap<AddParkingSpaceTypeDto, ParkingSpaceType>()

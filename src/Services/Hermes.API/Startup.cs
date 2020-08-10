@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Nubles.Core;
 using Nubles.Infrastructure;
@@ -19,6 +20,9 @@ namespace Hermes.API
 {
     public class Startup
     {
+        public static readonly ILoggerFactory HermesLoggerFactory
+            = LoggerFactory.Create(builder => { builder.AddConsole(); });
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -43,7 +47,7 @@ namespace Hermes.API
             });
 
             services.AddNublesCore()
-                    .AddNublesInfrastructure(Configuration);
+                    .AddNublesInfrastructure(Configuration, HermesLoggerFactory);
 
             services.AddSwaggerGenWithOptions();
         }

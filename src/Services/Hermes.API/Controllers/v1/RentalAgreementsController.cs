@@ -33,6 +33,11 @@ namespace Hermes.API.Controllers.v1
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get a paginated list of rental agreements
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         [HttpGet(Name = nameof(GetRentalAgreements))]
         public async Task<ActionResult<PagedApiResponse<IEnumerable<RentalAgreementDto>>>> GetRentalAgreements(
             [FromQuery] RentalAgreementParameters parameters)
@@ -71,15 +76,24 @@ namespace Hermes.API.Controllers.v1
             return Ok(pagedResponse);
         }
 
+        /// <summary>
+        /// Get a rental agreement by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}", Name = nameof(GetRentalAgreement))]
         public async Task<ActionResult<ApiResponse<RentalAgreementDto>>> GetRentalAgreement(int id)
         {
-            var entity = await _context.InvoiceStatuses.FindAsync(id);
+            var entity = await _context.RentalAgreements.FindAsync(id);
 
             if (entity == null)
             {
                 return NotFound();
             }
+
+            await _context.Entry(entity)
+                .Reference(e => e.ParkingSpace)
+                .LoadAsync();
 
             var dto = _mapper.Map<RentalAgreementDto>(entity);
             var response = new ApiResponse<RentalAgreementDto>(dto);

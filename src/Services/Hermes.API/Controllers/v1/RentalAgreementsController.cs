@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Hermes.API.Helpers;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -9,6 +10,7 @@ using Nubles.Core.Application.Parameters;
 using Nubles.Core.Application.Wrappers.Generics;
 using Nubles.Core.Domain.Models;
 using Nubles.Infrastructure.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
@@ -112,6 +114,19 @@ namespace Hermes.API.Controllers.v1
             var response = new ApiResponse<RentalAgreementDto>(dto);
 
             return Ok(response);
+        }
+
+        /// <summary>
+        /// Update a rental agreement
+        /// </summary>
+        /// <returns></returns>
+        [HttpPatch("{id}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        public Task<IActionResult> PatchRentalAgreement(
+            int id,
+            [FromBody] JsonPatchDocument<UpdateRentalAgreementDto> document)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

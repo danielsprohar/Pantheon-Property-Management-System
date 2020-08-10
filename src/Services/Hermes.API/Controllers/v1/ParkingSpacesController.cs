@@ -140,7 +140,7 @@ namespace Hermes.API.Controllers.v1
 
         [HttpPatch("{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
-        public async Task<IActionResult> UpdateUnit(
+        public async Task<IActionResult> PatchUnit(
             int id,
             [FromQuery] int employeeId,
             [FromBody] JsonPatchDocument<UpdateParkingSpaceDto> dtoDoc)

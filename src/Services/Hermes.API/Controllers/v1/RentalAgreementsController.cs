@@ -84,18 +84,31 @@ namespace Hermes.API.Controllers.v1
         [HttpGet("{id}", Name = nameof(GetRentalAgreement))]
         public async Task<ActionResult<ApiResponse<RentalAgreementDto>>> GetRentalAgreement(int id)
         {
-            var entity = await _context.RentalAgreements.FindAsync(id);
+            var rentalAgreement = await _context.RentalAgreements.FindAsync(id);
 
-            if (entity == null)
+            if (rentalAgreement == null)
             {
                 return NotFound();
             }
 
-            await _context.Entry(entity)
-                .Reference(e => e.ParkingSpace)
+            // TODO: check perfomance in SSMS; perhaps a Stored Procedure or View will be better ...
+
+            await _context.Entry(rentalAgreement)
+                .Reference(agreement => agreement.ParkingSpace)
+                .Query()
+                .Include(space => space.ParkingSpaceType)
                 .LoadAsync();
 
-            var dto = _mapper.Map<RentalAgreementDto>(entity);
+            await _context.Entry(rentalAgreement)
+                .Collection(agreement => agreement.CustomerRentalAgreements)
+                .Query()
+                .Include(cra => cra.Customer)
+                .LoadAsync();
+
+            var dto = _mapper.Map<RentalAgreementDto>(rentalAgreement);
+
+            dto.Customers = _mapper.Map<ICollection<CustomerDto>>(rentalAgreement.GetCustomers());
+
             var response = new ApiResponse<RentalAgreementDto>(dto);
 
             return Ok(response);

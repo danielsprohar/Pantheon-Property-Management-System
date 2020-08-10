@@ -48,8 +48,8 @@ namespace Hermes.API.Controllers.v1
                          .Skip(offset)
                          .Take(parameters.PageSize);
 
-            var unitTypes = await query.ToListAsync();
-            var data = _mapper.Map<IEnumerable<InvoiceStatusDto>>(unitTypes);
+            var entities = await query.ToListAsync();
+            var data = _mapper.Map<IEnumerable<InvoiceStatusDto>>(entities);
 
             var pagedResponse =
                 new PagedApiResponse<IEnumerable<InvoiceStatusDto>>(

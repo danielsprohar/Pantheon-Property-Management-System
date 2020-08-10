@@ -60,8 +60,8 @@ namespace Hermes.API.Controllers.v1
                          .Skip(offset)
                          .Take(parameters.PageSize);
 
-            var unitTypes = await query.ToListAsync();
-            var data = _mapper.Map<IEnumerable<ParkingSpaceDto>>(unitTypes);
+            var entities = await query.ToListAsync();
+            var data = _mapper.Map<IEnumerable<ParkingSpaceDto>>(entities);
 
             var pagedResponse =
                 new PagedApiResponse<IEnumerable<ParkingSpaceDto>>(

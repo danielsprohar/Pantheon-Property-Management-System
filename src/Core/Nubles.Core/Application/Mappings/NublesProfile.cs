@@ -13,6 +13,7 @@ namespace Nubles.Core.Application.Mappings
         public NublesProfile()
         {
             CreateCustomerMappings();
+            CreateInvoiceMappings();
             CreateParkingSpaceMappings();
             CreateRentalAgreementMappings();
         }
@@ -41,6 +42,16 @@ namespace Nubles.Core.Application.Mappings
 
             CreateMap<CustomerDriverLicense, CustomerDriverLicenseDto>();
             CreateMap<AddCustomerDriverLicenseDto, CustomerDriverLicense>();
+        }
+
+        private void CreateInvoiceMappings()
+        {
+            // TODO: create Invoice mappings
+
+            CreateMap<InvoiceStatus, InvoiceStatusDto>();
+            CreateMap<AddInvoiceStatusDto, InvoiceStatus>()
+                .ForMember(e => e.Id, opts => opts.Ignore())
+                .ForMember(e => e.RowVersion, opts => opts.Ignore());
         }
 
         private void CreateParkingSpaceMappings()

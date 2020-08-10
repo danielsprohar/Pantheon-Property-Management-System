@@ -4,7 +4,6 @@ namespace Nubles.Core.Application.Dto.Writes
 {
     public class AddCustomerVehicleDto
     {
-        [Required]
         public int? Customerid { get; set; }
 
         [Required]

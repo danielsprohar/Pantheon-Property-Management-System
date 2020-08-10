@@ -50,13 +50,13 @@ namespace Nubles.Infrastructure.EntityConfigurations
             });
 
 
-            builder.OwnsMany<CustomerVehicle>(e => e.Vehicles, vehicleBuilder =>
+            builder.OwnsMany(e => e.Vehicles, vehicleBuilder =>
             {
                 vehicleBuilder.WithOwner(e => e.Customer)
                     .HasForeignKey(v => v.CustomerId);
 
                 vehicleBuilder.HasKey(e => e.Id);
-
+                vehicleBuilder.Property(e => e.RowVersion).IsRowVersion();
                 vehicleBuilder.Property(e => e.Year).IsRequired();
 
                 vehicleBuilder.Property(e => e.Make)

@@ -7,6 +7,8 @@ namespace Nubles.Infrastructure.Data
     public class PantheonDbContext : DbContext
     {
         public DbSet<Customer> Customers { get; set; }
+        // TODO: create config file for customer vehicles
+        public DbSet<CustomerVehicle> CustomerVehicles { get; set; }
         public DbSet<CustomerRentalAgreement> CustomerRentalAgreements { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<InvoiceStatus> InvoiceStatuses { get; set; }

@@ -21,7 +21,9 @@ namespace Nubles.Core.Application.Mappings
 
         private void CreateCustomerMappings()
         {
-            CreateMap<Customer, CustomerDto>();
+            CreateMap<Customer, CustomerDto>()
+                .ForMember(e => e.RentalAgreements, opts => opts.Ignore());
+
             CreateMap<AddCustomerDto, Customer>()
                 .ForMember(e => e.IsActive, opts => opts.Ignore())
                 .ForMember(e => e.Vehicles, opts => opts.Ignore())
@@ -95,7 +97,9 @@ namespace Nubles.Core.Application.Mappings
 
         private void CreateRentalAgreementMappings()
         {
-            CreateMap<RentalAgreement, RentalAgreementDto>();
+            CreateMap<RentalAgreement, RentalAgreementDto>()
+                .ForMember(e => e.Customers, opts => opts.Ignore());
+
             CreateMap<AddRentalAgreementDto, RentalAgreement>()
                 .ForMember(e => e.TerminatedOn, opts => opts.Ignore())
                 .ForMember(e => e.RentalAgreementType, opts => opts.Ignore())

@@ -25,8 +25,8 @@ namespace Nubles.Core.Application.Dto.Reads
 
         public CustomerDriverLicenseDto DriverLicense { get; set; }
 
-        public ICollection<CustomerVehicleDto> Vehicles { get; set; }
+        public ICollection<CustomerVehicleDto> Vehicles { get; set; } = new HashSet<CustomerVehicleDto>();
 
-        public ICollection<RentalAgreementDto> RentalAgreements { get; set; }
+        public ICollection<RentalAgreementDto> RentalAgreements { get; set; } = new HashSet<RentalAgreementDto>();
     }
 }

@@ -36,9 +36,9 @@ namespace Hermes.API
             services.AddControllers(config =>
             {
                 var pageRouteTransformer = new RouteTokenTransformerConvention(new SlugifyParameterTransformer());
-
                 config.Conventions.Add(pageRouteTransformer);
-            }).AddNewtonsoftJson();
+            })
+                .AddNewtonsoftJson(); //https://docs.microsoft.com/en-us/aspnet/core/web-api/jsonpatch?view=aspnetcore-3.1#json-patch-addnewtonsoftjson-and-systemtextjson
 
             services.AddApiVersioning(options =>
             {

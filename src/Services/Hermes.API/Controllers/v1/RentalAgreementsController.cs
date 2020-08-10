@@ -10,7 +10,7 @@ using Nubles.Core.Application.Parameters;
 using Nubles.Core.Application.Wrappers.Generics;
 using Nubles.Core.Domain.Models;
 using Nubles.Infrastructure.Data;
-using System;
+using Nubles.Infrastructure.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
@@ -122,11 +122,54 @@ namespace Hermes.API.Controllers.v1
         /// <returns></returns>
         [HttpPatch("{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
-        public Task<IActionResult> PatchRentalAgreement(
+        public async Task<IActionResult> PatchRentalAgreement(
             int id,
-            [FromBody] JsonPatchDocument<UpdateRentalAgreementDto> document)
+            [FromQuery] int employeeId,
+            [FromBody] JsonPatchDocument<UpdateRentalAgreementDto> dtoDoc)
         {
-            throw new NotImplementedException();
+            // TODO: add UserId to request and check if User exists.
+            employeeId = 1;
+
+            var rentalAgreement = await _context.RentalAgreements.FindAsync(id);
+
+            if (rentalAgreement == null)
+            {
+                return NotFound();
+            }
+
+            var patchDoc = _mapper.Map<JsonPatchDocument<RentalAgreement>>(dtoDoc);
+
+            patchDoc.ApplyTo(rentalAgreement, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            rentalAgreement.ModifiedBy = employeeId;
+            var saved = false;
+
+            while (!saved)
+            {
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    saved = true;
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    if (!await RentalAgreementExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        DbExceptionHelper.HandleConcurrencyException(ex, rentalAgreement.GetType());
+                    }
+                }
+            }
+
+            return NoContent();
         }
 
         /// <summary>
@@ -201,9 +244,9 @@ namespace Hermes.API.Controllers.v1
                 value: response);
         }
 
-        private bool RentalAgreementExists(int id)
+        private async Task<bool> RentalAgreementExists(int id)
         {
-            return _context.RentalAgreements.Any(e => e.Id == id);
+            return await _context.RentalAgreements.AnyAsync(e => e.Id == id);
         }
     }
 }

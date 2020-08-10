@@ -17,7 +17,6 @@ using System.Threading.Tasks;
 namespace Hermes.API.Controllers.v1
 {
     [ApiVersion("1.0")]
-    [Produces(MediaTypeNames.Application.Json)]
     public class ParkingSpaceTypesController : VersionedApiController
     {
         private readonly PantheonDbContext _context;
@@ -67,7 +66,7 @@ namespace Hermes.API.Controllers.v1
             return Ok(pagedResponse);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = nameof(GetParkingSpaceType))]
         public async Task<ActionResult<ApiResponse<ParkingSpaceTypeDto>>> GetParkingSpaceType(int id)
         {
             var parkingSpaceType = await _context.ParkingSpaceTypes.FindAsync(id);

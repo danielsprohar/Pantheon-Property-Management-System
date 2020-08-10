@@ -4,13 +4,15 @@
     {
         private readonly int MinPageNumber = 0;
         private readonly int MaxPageSize = 50;
+        private readonly int DefaultPageSize = 30;
 
         private int _pageNumber;
         private int _pageSize;
 
         public QueryParameters()
         {
-
+            _pageNumber = 0;
+            _pageSize = DefaultPageSize;
         }
 
         public QueryParameters(int pageNumber, int pageSize)

@@ -13,16 +13,20 @@ namespace Nubles.Core.Application.Dto.Writes
         /// account owner's recurring rate is due.
         /// </summary>
         [Required]
-        public int RecurringDueDate { get; set; }
+        [Range(1, 31)]
+        public int? RecurringDueDate { get; set; }
 
         [StringLength((int)RentalAgreement.DBColumnLength.Comments)]
         public string Comments { get; set; }
 
         [Required]
-        public int RentalAgreementTypeId { get; set; }
+        public int? RentalAgreementTypeId { get; set; }
 
         [Required]
-        public int EmployeeId { get; set; }
+        public int? EmployeeId { get; set; }
+
+        [Required]
+        public int? ParkingSpaceId { get; set; }
 
         [Required]
         public AddCustomerDto Customer { get; set; }

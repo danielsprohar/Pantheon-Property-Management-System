@@ -2,6 +2,10 @@
 {
     public class RentalAgreementParameters : QueryParameters
     {
+        public RentalAgreementParameters() : base()
+        {
+        }
+
         public int? CustomerId { get; set; }
 
         public int? Employee { get; set; }

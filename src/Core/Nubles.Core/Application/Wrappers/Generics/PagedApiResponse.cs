@@ -26,17 +26,11 @@ namespace Nubles.Core.Application.Wrappers.Generics
 
         public string FirstPage { get; set; }
 
-        public string LastPage { get; set; }
-
-        /// <summary>
-        /// The url of the previous page.
-        /// </summary>
         public string PreviousPage { get; set; }
 
-        /// <summary>
-        /// The url of the next page.
-        /// </summary>
         public string NextPage { get; set; }
+
+        public string LastPage { get; set; }
 
         public bool HasPrevious()
         {

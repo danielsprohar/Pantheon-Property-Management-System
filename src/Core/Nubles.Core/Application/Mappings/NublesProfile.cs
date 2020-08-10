@@ -35,8 +35,7 @@ namespace Nubles.Core.Application.Mappings
             CreateMap<AddCustomerVehicleDto, CustomerVehicle>()
                 .ForMember(e => e.Id, opts => opts.Ignore())
                 .ForMember(e => e.RowVersion, opts => opts.Ignore())
-                .ForMember(e => e.Customer, opts => opts.Ignore())
-                .ForMember(e => e.CustomerId, opts => opts.Ignore());
+                .ForMember(e => e.Customer, opts => opts.Ignore());
 
             CreateMap<CustomerDriverLicense, CustomerDriverLicenseDto>();
             CreateMap<AddCustomerDriverLicenseDto, CustomerDriverLicense>();
@@ -47,7 +46,6 @@ namespace Nubles.Core.Application.Mappings
             CreateMap<ParkingSpace, ParkingSpaceDto>();
             CreateMap<AddParkingSpaceDto, ParkingSpace>()
                 .ForMember(e => e.ParkingSpaceType, opts => opts.Ignore())
-                .ForMember(e => e.ParkingSpaceTypeId, opts => opts.Ignore())
                 .ForMember(e => e.CreatedBy, opts => opts.Ignore())
                 .ForMember(e => e.CreatedOn, opts => opts.Ignore())
                 .ForMember(e => e.ModifiedBy, opts => opts.Ignore())
@@ -68,7 +66,6 @@ namespace Nubles.Core.Application.Mappings
                 .ForMember(e => e.TerminatedOn, opts => opts.Ignore())
                 .ForMember(e => e.RentalAgreementType, opts => opts.Ignore())
                 .ForMember(e => e.ParkingSpace, opts => opts.Ignore())
-                .ForMember(e => e.ParkingSpaceId, opts => opts.Ignore())
                 .ForMember(e => e.CustomerRentalAgreements, opts => opts.Ignore())
                 .ForMember(e => e.Invoices, opts => opts.Ignore())
                 .ForMember(e => e.CreatedBy, opts => opts.Ignore())

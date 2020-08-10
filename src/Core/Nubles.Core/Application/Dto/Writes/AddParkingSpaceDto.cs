@@ -23,6 +23,6 @@ namespace Nubles.Core.Application.Dto.Writes
         public string Comments { get; set; }
 
         [Required]
-        public int UnitTypeId { get; set; }
+        public int? ParkingSpaceTypeId { get; set; }
     }
 }

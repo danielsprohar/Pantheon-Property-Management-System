@@ -2,8 +2,12 @@
 {
     public class ParkingSpaceParameters : QueryParameters
     {
+        public ParkingSpaceParameters() : base()
+        {
+        }
+
         public bool? IsAvailable { get; set; }
 
-        public int? AmpCapacity { get; set; }
+        public int? Amps { get; set; }
     }
 }

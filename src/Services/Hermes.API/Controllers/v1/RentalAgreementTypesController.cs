@@ -9,6 +9,7 @@ using Nubles.Core.Application.Parameters;
 using Nubles.Core.Application.Wrappers.Generics;
 using Nubles.Core.Domain.Models;
 using Nubles.Infrastructure.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
@@ -17,15 +18,15 @@ using System.Threading.Tasks;
 namespace Hermes.API.Controllers.v1
 {
     [ApiVersion("1.0")]
-    public class InvoiceStatusesController : VersionedApiController
+    public class RentalAgreementTypesController : VersionedApiController
     {
         private readonly PantheonDbContext _context;
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
 
-        public InvoiceStatusesController(
+        public RentalAgreementTypesController(
             PantheonDbContext context,
-            ILogger<InvoiceStatusesController> logger,
+            ILogger<RentalAgreementTypesController> logger,
             IMapper mapper)
         {
             _context = context;
@@ -33,11 +34,11 @@ namespace Hermes.API.Controllers.v1
             _mapper = mapper;
         }
 
-        [HttpGet(Name = nameof(GetInvoiceStatuses))]
-        public async Task<ActionResult<PagedApiResponse<IEnumerable<InvoiceStatusDto>>>> GetInvoiceStatuses(
+        [HttpGet(Name = nameof(GetRentalAgreementTypes))]
+        public async Task<ActionResult<PagedApiResponse<IEnumerable<RentalAgreementTypeDto>>>> GetRentalAgreementTypes(
             [FromQuery] QueryParameters parameters)
         {
-            var query = _context.InvoiceStatuses
+            var query = _context.RentalAgreementTypes
                                 .AsQueryable()
                                 .AsNoTracking();
 
@@ -49,56 +50,56 @@ namespace Hermes.API.Controllers.v1
                          .Take(parameters.PageSize);
 
             var entities = await query.ToListAsync();
-            var data = _mapper.Map<IEnumerable<InvoiceStatusDto>>(entities);
+            var data = _mapper.Map<IEnumerable<RentalAgreementTypeDto>>(entities);
 
             var pagedResponse =
-                new PagedApiResponse<IEnumerable<InvoiceStatusDto>>(
+                new PagedApiResponse<IEnumerable<RentalAgreementTypeDto>>(
                     parameters.PageNumber,
                     parameters.PageSize,
                     count,
                     data
                 );
 
-            var pagingHelper = new PagingLinksHelper<IEnumerable<InvoiceStatusDto>>(pagedResponse, Url);
+            var pagingHelper = new PagingLinksHelper<IEnumerable<RentalAgreementTypeDto>>(pagedResponse, Url);
 
-            pagedResponse = pagingHelper.GenerateLinks(nameof(GetInvoiceStatuses), parameters);
+            pagedResponse = pagingHelper.GenerateLinks(nameof(GetRentalAgreementTypes), parameters);
 
             return Ok(pagedResponse);
         }
 
-        [HttpGet("{id}", Name = nameof(GetInvoiceStatus))]
-        public async Task<ActionResult<ApiResponse<InvoiceStatusDto>>> GetInvoiceStatus(int id)
+        [HttpGet("{id}", Name = nameof(GetRentalAgreementType))]
+        public async Task<ActionResult<ApiResponse<RentalAgreementTypeDto>>> GetRentalAgreementType(int id)
         {
-            var entity = await _context.InvoiceStatuses.FindAsync(id);
+            var entity = await _context.RentalAgreementTypes.FindAsync(id);
 
             if (entity == null)
             {
                 return NotFound();
             }
 
-            var dto = _mapper.Map<InvoiceStatusDto>(entity);
-            var response = new ApiResponse<InvoiceStatusDto>(dto);
+            var dto = _mapper.Map<RentalAgreementTypeDto>(entity);
+            var response = new ApiResponse<RentalAgreementTypeDto>(dto);
 
             return Ok(response);
         }
 
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult<ApiResponse<InvoiceStatusDto>>> PostInvoiceStatus(
+        public async Task<ActionResult<ApiResponse<RentalAgreementTypeDto>>> PostRentalAgreementType(
             ApiVersion apiVersion,
-            AddInvoiceStatusDto addDto)
+            AddRentalAgreementTypeDto addDto)
         {
-            var entity = _mapper.Map<InvoiceStatus>(addDto);
+            var entity = _mapper.Map<RentalAgreementType>(addDto);
 
-            _context.InvoiceStatuses.Add(entity);
+            _context.RentalAgreementTypes.Add(entity);
 
             await _context.SaveChangesAsync();
 
-            var dto = _mapper.Map<InvoiceStatusDto>(entity);
-            var response = new ApiResponse<InvoiceStatusDto>(dto);
+            var dto = _mapper.Map<RentalAgreementTypeDto>(entity);
+            var response = new ApiResponse<RentalAgreementTypeDto>(dto);
 
             return CreatedAtAction(
-                actionName: nameof(GetInvoiceStatus),
+                actionName: nameof(GetRentalAgreementType),
                 routeValues: new { id = entity.Id, version = apiVersion.ToString() },
                 value: response);
         }

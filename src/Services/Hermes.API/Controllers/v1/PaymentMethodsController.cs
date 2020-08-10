@@ -9,6 +9,7 @@ using Nubles.Core.Application.Parameters;
 using Nubles.Core.Application.Wrappers.Generics;
 using Nubles.Core.Domain.Models;
 using Nubles.Infrastructure.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
@@ -17,15 +18,15 @@ using System.Threading.Tasks;
 namespace Hermes.API.Controllers.v1
 {
     [ApiVersion("1.0")]
-    public class RentalAgreementTypesController : VersionedApiController
+    public class PaymentMethodsController : VersionedApiController
     {
         private readonly PantheonDbContext _context;
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
 
-        public RentalAgreementTypesController(
+        public PaymentMethodsController(
             PantheonDbContext context,
-            ILogger<RentalAgreementTypesController> logger,
+            ILogger<PaymentMethodsController> logger,
             IMapper mapper)
         {
             _context = context;
@@ -33,11 +34,11 @@ namespace Hermes.API.Controllers.v1
             _mapper = mapper;
         }
 
-        [HttpGet(Name = nameof(GetRentalAgreementTypes))]
-        public async Task<ActionResult<PagedApiResponse<IEnumerable<RentalAgreementTypeDto>>>> GetRentalAgreementTypes(
+        [HttpGet(Name = nameof(GetPaymentMethods))]
+        public async Task<ActionResult<PagedApiResponse<IEnumerable<PaymentMethodDto>>>> GetPaymentMethods(
             [FromQuery] QueryParameters parameters)
         {
-            var query = _context.RentalAgreementTypes
+            var query = _context.PaymentMethods
                                 .AsQueryable()
                                 .AsNoTracking();
 
@@ -49,56 +50,56 @@ namespace Hermes.API.Controllers.v1
                          .Take(parameters.PageSize);
 
             var entities = await query.ToListAsync();
-            var data = _mapper.Map<IEnumerable<RentalAgreementTypeDto>>(entities);
+            var data = _mapper.Map<IEnumerable<PaymentMethodDto>>(entities);
 
             var pagedResponse =
-                new PagedApiResponse<IEnumerable<RentalAgreementTypeDto>>(
+                new PagedApiResponse<IEnumerable<PaymentMethodDto>>(
                     parameters.PageNumber,
                     parameters.PageSize,
                     count,
                     data
                 );
 
-            var pagingHelper = new PagingLinksHelper<IEnumerable<RentalAgreementTypeDto>>(pagedResponse, Url);
+            var pagingHelper = new PagingLinksHelper<IEnumerable<PaymentMethodDto>>(pagedResponse, Url);
 
-            pagedResponse = pagingHelper.GenerateLinks(nameof(GetRentalAgreementTypes), parameters);
+            pagedResponse = pagingHelper.GenerateLinks(nameof(GetPaymentMethods), parameters);
 
             return Ok(pagedResponse);
         }
 
-        [HttpGet("{id}", Name = nameof(GetRentalAgreementType))]
-        public async Task<ActionResult<ApiResponse<RentalAgreementTypeDto>>> GetRentalAgreementType(int id)
+        [HttpGet("{id}", Name = nameof(GetPaymentMethod))]
+        public async Task<ActionResult<ApiResponse<PaymentMethodDto>>> GetPaymentMethod(int id)
         {
-            var entity = await _context.RentalAgreementTypes.FindAsync(id);
+            var entity = await _context.PaymentMethods.FindAsync(id);
 
             if (entity == null)
             {
                 return NotFound();
             }
 
-            var dto = _mapper.Map<RentalAgreementTypeDto>(entity);
-            var response = new ApiResponse<RentalAgreementTypeDto>(dto);
+            var dto = _mapper.Map<PaymentMethodDto>(entity);
+            var response = new ApiResponse<PaymentMethodDto>(dto);
 
             return Ok(response);
         }
 
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult<ApiResponse<RentalAgreementTypeDto>>> PostRentalAgreementType(
+        public async Task<ActionResult<ApiResponse<PaymentMethodDto>>> PostPaymentMethod(
             ApiVersion apiVersion,
-            AddRentalAgreementTypeDto addDto)
+            AddPaymentMethodDto addDto)
         {
-            var entity = _mapper.Map<RentalAgreementType>(addDto);
+            var entity = _mapper.Map<PaymentMethod>(addDto);
 
-            _context.RentalAgreementTypes.Add(entity);
+            _context.PaymentMethods.Add(entity);
 
             await _context.SaveChangesAsync();
 
-            var dto = _mapper.Map<RentalAgreementTypeDto>(entity);
-            var response = new ApiResponse<RentalAgreementTypeDto>(dto);
+            var dto = _mapper.Map<PaymentMethodDto>(entity);
+            var response = new ApiResponse<PaymentMethodDto>(dto);
 
             return CreatedAtAction(
-                actionName: nameof(GetRentalAgreementType),
+                actionName: nameof(GetPaymentMethod),
                 routeValues: new { id = entity.Id, version = apiVersion.ToString() },
                 value: response);
         }

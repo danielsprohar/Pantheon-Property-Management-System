@@ -15,6 +15,7 @@ namespace Nubles.Core.Application.Mappings
             CreateCustomerMappings();
             CreateInvoiceMappings();
             CreateParkingSpaceMappings();
+            CreatePaymentMappings();
             CreateRentalAgreementMappings();
         }
 
@@ -80,6 +81,14 @@ namespace Nubles.Core.Application.Mappings
 
             CreateMap<ParkingSpaceType, ParkingSpaceTypeDto>();
             CreateMap<AddParkingSpaceTypeDto, ParkingSpaceType>()
+                .ForMember(e => e.Id, opts => opts.Ignore())
+                .ForMember(e => e.RowVersion, opts => opts.Ignore());
+        }
+
+        private void CreatePaymentMappings()
+        {
+            CreateMap<PaymentMethod, PaymentMethodDto>();
+            CreateMap<AddPaymentMethodDto, PaymentMethod>()
                 .ForMember(e => e.Id, opts => opts.Ignore())
                 .ForMember(e => e.RowVersion, opts => opts.Ignore());
         }

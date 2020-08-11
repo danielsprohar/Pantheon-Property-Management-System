@@ -1,6 +1,8 @@
-﻿namespace Nubles.Core.Domain.Models
+﻿using Nubles.Core.Domain.Base;
+
+namespace Nubles.Core.Domain.Models
 {
-    public class InvoiceLine
+    public class InvoiceLine : Entity
     {
         public enum DbColumnLength
         {

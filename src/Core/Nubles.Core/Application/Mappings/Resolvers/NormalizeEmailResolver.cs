@@ -12,7 +12,7 @@ namespace Nubles.Core.Application.Mappings.Resolvers
             string destMember,
             ResolutionContext context)
         {
-            return source.Email.ToUpper();
+            return source.Email.ToUpperInvariant();
         }
     }
 }

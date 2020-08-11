@@ -15,6 +15,17 @@ namespace Nubles.Core.Application.Mappings.Profiles
 
         protected override void CreateAddMappings()
         {
+            CreateMap<AddPaymentDto, Payment>()
+                .ForMember(e => e.CreatedBy, opts => opts.Ignore())
+                .ForMember(e => e.CreatedOn, opts => opts.Ignore())
+                .ForMember(e => e.Customer, opts => opts.Ignore())
+                .ForMember(e => e.Id, opts => opts.Ignore())
+                .ForMember(e => e.InvoicePayments, opts => opts.Ignore())
+                .ForMember(e => e.ModifiedBy, opts => opts.Ignore())
+                .ForMember(e => e.ModifiedOn, opts => opts.Ignore())
+                .ForMember(e => e.PaymentMethod, opts => opts.Ignore())
+                .ForMember(e => e.RowVersion, opts => opts.Ignore());
+
             CreateMap<AddPaymentMethodDto, PaymentMethod>()
                 .ForMember(e => e.Id, opts => opts.Ignore())
                 .ForMember(e => e.RowVersion, opts => opts.Ignore());
@@ -22,12 +33,12 @@ namespace Nubles.Core.Application.Mappings.Profiles
 
         protected override void CreateGetMappings()
         {
+            CreateMap<Payment, PaymentDto>();
             CreateMap<PaymentMethod, PaymentMethodDto>();
         }
 
         protected override void CreateUpdateMappings()
         {
-            // TODO: create Payment mappings
         }
     }
 }

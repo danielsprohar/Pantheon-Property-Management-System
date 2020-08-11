@@ -5,7 +5,7 @@ namespace Nubles.Core.Domain.Models
 {
     public class Customer : AuditableEntity
     {
-        public enum DBColumnLength
+        public enum DbColumnLength
         {
             Name = 32,
             PhoneNumber = 16,
@@ -31,12 +31,12 @@ namespace Nubles.Core.Domain.Models
         #region Owned entities
 
         public CustomerDriverLicense DriverLicense { get; set; }
-        public ICollection<CustomerVehicle> Vehicles { get; set; } = new List<CustomerVehicle>();
 
         #endregion Owned entities
 
         #region Navigation properties
 
+        public ICollection<CustomerVehicle> Vehicles { get; set; } = new List<CustomerVehicle>();
         public ICollection<CustomerRentalAgreement> CustomerRentalAgreements { get; set; } = new List<CustomerRentalAgreement>();
         public ICollection<Payment> Payments { get; set; } = new List<Payment>();
 

@@ -9,7 +9,7 @@ namespace Nubles.Core.Application.Dto.Writes
         public int Quantity { get; set; }
 
         [Required]
-        [StringLength((int)InvoiceLine.DBColumnLength.Description)]
+        [StringLength((int)InvoiceLine.DbColumnLength.Description)]
         public string Description { get; set; }
 
         [Required]

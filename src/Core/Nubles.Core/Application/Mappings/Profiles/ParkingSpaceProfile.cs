@@ -13,7 +13,7 @@ namespace Nubles.Core.Application.Mappings.Profiles
             CreateUpdateMappings();
         }
 
-        public override void CreateAddMappings()
+        protected override void CreateAddMappings()
         {
             CreateMap<AddParkingSpaceDto, ParkingSpace>()
                 .ForMember(e => e.ParkingSpaceType, opts => opts.Ignore())
@@ -29,13 +29,13 @@ namespace Nubles.Core.Application.Mappings.Profiles
                 .ForMember(e => e.RowVersion, opts => opts.Ignore());
         }
 
-        public override void CreateGetMappings()
+        protected override void CreateGetMappings()
         {
             CreateMap<ParkingSpace, ParkingSpaceDto>();
             CreateMap<ParkingSpaceType, ParkingSpaceTypeDto>();
         }
 
-        public override void CreateUpdateMappings()
+        protected override void CreateUpdateMappings()
         {
             CreateMap<UpdateParkingSpaceDto, ParkingSpace>()
                 .ForMember(e => e.ParkingSpaceType, opts => opts.Ignore())

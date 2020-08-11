@@ -14,7 +14,7 @@ namespace Nubles.Core.Application.Mappings.Profiles
             CreateUpdateMappings();
         }
 
-        public override void CreateAddMappings()
+        protected override void CreateAddMappings()
         {
             CreateMap<AddCustomerDto, Customer>()
                 .ForMember(e => e.IsActive, opts => opts.Ignore())
@@ -37,7 +37,7 @@ namespace Nubles.Core.Application.Mappings.Profiles
             CreateMap<AddCustomerDriverLicenseDto, CustomerDriverLicense>();
         }
 
-        public override void CreateGetMappings()
+        protected override void CreateGetMappings()
         {
             CreateMap<Customer, CustomerDto>()
                 .ForMember(e => e.RentalAgreements, opts => opts.Ignore());
@@ -47,9 +47,21 @@ namespace Nubles.Core.Application.Mappings.Profiles
             CreateMap<CustomerDriverLicense, CustomerDriverLicenseDto>();
         }
 
-        public override void CreateUpdateMappings()
+        protected override void CreateUpdateMappings()
         {
-            // TODO: create mappings
+            CreateMap<UpdateCustomerDto, Customer>()
+                .ForMember(e => e.IsActive, opts => opts.Ignore())
+                .ForMember(e => e.Vehicles, opts => opts.Ignore())
+                .ForMember(e => e.CustomerRentalAgreements, opts => opts.Ignore())
+                .ForMember(e => e.Payments, opts => opts.Ignore())
+                .ForMember(e => e.CreatedBy, opts => opts.Ignore())
+                .ForMember(e => e.CreatedOn, opts => opts.Ignore())
+                .ForMember(e => e.ModifiedBy, opts => opts.Ignore())
+                .ForMember(e => e.ModifiedOn, opts => opts.Ignore())
+                .ForMember(e => e.Id, opts => opts.Ignore())
+                .ForMember(e => e.RowVersion, opts => opts.Ignore())
+                .ForMember(e => e.NormalizedEmail, 
+                    opts => opts.MapFrom(valueResolver => valueResolver.Email.ToUpperInvariant()));
         }
     }
 }

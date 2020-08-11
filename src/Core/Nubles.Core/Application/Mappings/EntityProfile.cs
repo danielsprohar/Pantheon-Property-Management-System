@@ -4,10 +4,10 @@ namespace Nubles.Core.Application.Mappings
 {
     public abstract class EntityProfile : Profile
     {
-        public abstract void CreateAddMappings();
+        protected abstract void CreateAddMappings();
 
-        public abstract void CreateGetMappings();
+        protected abstract void CreateGetMappings();
 
-        public abstract void CreateUpdateMappings();
+        protected abstract void CreateUpdateMappings();
     }
 }

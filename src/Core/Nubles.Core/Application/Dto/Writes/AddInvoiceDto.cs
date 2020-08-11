@@ -16,7 +16,7 @@ namespace Nubles.Core.Application.Dto.Writes
         [Required]
         public DateTimeOffset BillingPeriodEnd { get; set; }
 
-        [StringLength((int)Invoice.DBColumnLength.Comments)]
+        [StringLength((int)Invoice.DbColumnLength.Comments)]
         public string Comments { get; set; }
 
         [Required]

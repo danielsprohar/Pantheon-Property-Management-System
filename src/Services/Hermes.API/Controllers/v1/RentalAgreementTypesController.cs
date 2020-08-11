@@ -34,7 +34,7 @@ namespace Hermes.API.Controllers.v1
         }
 
         [HttpGet(Name = nameof(GetRentalAgreementTypes))]
-        public async Task<ActionResult<PagedApiResponse<IEnumerable<RentalAgreementTypeDto>>>> GetRentalAgreementTypes(
+        public async Task<ActionResult<PaginatedApiResponse<IEnumerable<RentalAgreementTypeDto>>>> GetRentalAgreementTypes(
             [FromQuery] QueryParameters parameters)
         {
             var query = _context.RentalAgreementTypes
@@ -42,7 +42,7 @@ namespace Hermes.API.Controllers.v1
                                 .AsNoTracking();
 
             var count = await query.CountAsync();
-            var offset = parameters.PageNumber * parameters.PageSize;
+            var offset = parameters.PageIndex * parameters.PageSize;
 
             query = query.OrderBy(u => u.Id)
                          .Skip(offset)
@@ -52,12 +52,12 @@ namespace Hermes.API.Controllers.v1
             var data = _mapper.Map<IEnumerable<RentalAgreementTypeDto>>(entities);
 
             var pagedResponse =
-                new PagedApiResponse<IEnumerable<RentalAgreementTypeDto>>(
-                    parameters.PageNumber,
-                    parameters.PageSize,
-                    count,
+                new PaginatedApiResponse<IEnumerable<RentalAgreementTypeDto>>(
                     data
-                );
+,
+                    parameters.PageIndex,
+                    parameters.PageSize,
+                    count);
 
             var pagingHelper = new PagingLinksHelper<IEnumerable<RentalAgreementTypeDto>>(pagedResponse, Url);
 

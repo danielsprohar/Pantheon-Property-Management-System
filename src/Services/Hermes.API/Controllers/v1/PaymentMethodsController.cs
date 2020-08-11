@@ -35,7 +35,7 @@ namespace Hermes.API.Controllers.v1
         }
 
         [HttpGet(Name = nameof(GetPaymentMethods))]
-        public async Task<ActionResult<PagedApiResponse<IEnumerable<PaymentMethodDto>>>> GetPaymentMethods(
+        public async Task<ActionResult<PaginatedApiResponse<IEnumerable<PaymentMethodDto>>>> GetPaymentMethods(
             [FromQuery] QueryParameters parameters)
         {
             var query = _context.PaymentMethods
@@ -43,7 +43,7 @@ namespace Hermes.API.Controllers.v1
                                 .AsNoTracking();
 
             var count = await query.CountAsync();
-            var offset = parameters.PageNumber * parameters.PageSize;
+            var offset = parameters.PageIndex * parameters.PageSize;
 
             query = query.OrderBy(u => u.Id)
                          .Skip(offset)
@@ -53,12 +53,12 @@ namespace Hermes.API.Controllers.v1
             var data = _mapper.Map<IEnumerable<PaymentMethodDto>>(entities);
 
             var pagedResponse =
-                new PagedApiResponse<IEnumerable<PaymentMethodDto>>(
-                    parameters.PageNumber,
-                    parameters.PageSize,
-                    count,
+                new PaginatedApiResponse<IEnumerable<PaymentMethodDto>>(
                     data
-                );
+,
+                    parameters.PageIndex,
+                    parameters.PageSize,
+                    count);
 
             var pagingHelper = new PagingLinksHelper<IEnumerable<PaymentMethodDto>>(pagedResponse, Url);
 

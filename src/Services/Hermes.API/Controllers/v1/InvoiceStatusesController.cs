@@ -34,7 +34,7 @@ namespace Hermes.API.Controllers.v1
         }
 
         [HttpGet(Name = nameof(GetInvoiceStatuses))]
-        public async Task<ActionResult<PagedApiResponse<IEnumerable<InvoiceStatusDto>>>> GetInvoiceStatuses(
+        public async Task<ActionResult<PaginatedApiResponse<IEnumerable<InvoiceStatusDto>>>> GetInvoiceStatuses(
             [FromQuery] QueryParameters parameters)
         {
             var query = _context.InvoiceStatuses
@@ -42,7 +42,7 @@ namespace Hermes.API.Controllers.v1
                                 .AsNoTracking();
 
             var count = await query.CountAsync();
-            var offset = parameters.PageNumber * parameters.PageSize;
+            var offset = parameters.PageIndex * parameters.PageSize;
 
             query = query.OrderBy(u => u.Id)
                          .Skip(offset)
@@ -52,12 +52,12 @@ namespace Hermes.API.Controllers.v1
             var data = _mapper.Map<IEnumerable<InvoiceStatusDto>>(entities);
 
             var pagedResponse =
-                new PagedApiResponse<IEnumerable<InvoiceStatusDto>>(
-                    parameters.PageNumber,
-                    parameters.PageSize,
-                    count,
+                new PaginatedApiResponse<IEnumerable<InvoiceStatusDto>>(
                     data
-                );
+,
+                    parameters.PageIndex,
+                    parameters.PageSize,
+                    count);
 
             var pagingHelper = new PagingLinksHelper<IEnumerable<InvoiceStatusDto>>(pagedResponse, Url);
 

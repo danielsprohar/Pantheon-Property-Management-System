@@ -2,32 +2,32 @@
 {
     public class QueryParameters
     {
-        private readonly int MinPageNumber = 0;
+        private readonly int MinPageIndex = 1;
         private readonly int MaxPageSize = 50;
         private readonly int DefaultPageSize = 30;
 
-        private int _pageNumber;
+        private int _pageIndex;
         private int _pageSize;
 
         public QueryParameters()
         {
-            _pageNumber = 0;
+            _pageIndex = 0;
             _pageSize = DefaultPageSize;
         }
 
-        public QueryParameters(int pageNumber, int pageSize)
+        public QueryParameters(int pageIndex, int pageSize)
         {
-            PageNumber = pageNumber;
+            PageIndex = pageIndex;
             PageSize = pageSize;
         }
 
-        public int PageNumber
+        public int PageIndex
         {
-            get { return _pageNumber; }
+            get { return _pageIndex; }
             set
             {
-                _pageNumber = value < MinPageNumber ?
-                MinPageNumber :
+                _pageIndex = value < MinPageIndex ?
+                MinPageIndex :
                 value;
             }
         }

@@ -41,7 +41,7 @@ namespace Hermes.API.Controllers.v1
         /// <param name="parameters"></param>
         /// <returns></returns>
         [HttpGet(Name = nameof(GetRentalAgreements))]
-        public async Task<ActionResult<PagedApiResponse<IEnumerable<RentalAgreementDto>>>> GetRentalAgreements(
+        public async Task<ActionResult<PaginatedApiResponse<IEnumerable<RentalAgreementDto>>>> GetRentalAgreements(
             [FromQuery] RentalAgreementParameters parameters)
         {
             // TODO: check performance; maybe create a view?
@@ -54,7 +54,7 @@ namespace Hermes.API.Controllers.v1
                                 .AsNoTracking();
 
             var count = await query.CountAsync();
-            var offset = parameters.PageNumber * parameters.PageSize;
+            var offset = parameters.PageIndex * parameters.PageSize;
 
             query = query.OrderBy(u => u.Id)
                          .Skip(offset)
@@ -64,12 +64,12 @@ namespace Hermes.API.Controllers.v1
             var data = _mapper.Map<IEnumerable<RentalAgreementDto>>(entities);
 
             var pagedResponse =
-                new PagedApiResponse<IEnumerable<RentalAgreementDto>>(
-                    parameters.PageNumber,
-                    parameters.PageSize,
-                    count,
+                new PaginatedApiResponse<IEnumerable<RentalAgreementDto>>(
                     data
-                );
+,
+                    parameters.PageIndex,
+                    parameters.PageSize,
+                    count);
 
             var pagingHelper = new PagingLinksHelper<IEnumerable<RentalAgreementDto>>(pagedResponse, Url);
 

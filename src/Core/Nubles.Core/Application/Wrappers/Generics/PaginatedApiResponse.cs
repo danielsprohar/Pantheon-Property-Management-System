@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Nubles.Core.Application.Wrappers.Generics
 {
-    public class PagedApiResponse<T> : ApiResponse<T> where T : class
+    public class PaginatedApiResponse<T> : ApiResponse<T>
     {
-        public PagedApiResponse(int pageNumber, int pageSize, long count, T data)
+        public PaginatedApiResponse(T data, int pageIndex, int pageSize, long count)
         {
-            PageNumber = pageNumber;
+            PageIndex = pageIndex;
             PageSize = pageSize;
             Count = count;
             Data = data;
@@ -16,7 +17,7 @@ namespace Nubles.Core.Application.Wrappers.Generics
             TotalPages = (int)Math.Ceiling(count / (decimal)pageSize);
         }
 
-        public int PageNumber { get; private set; }
+        public int PageIndex { get; private set; }
 
         public int PageSize { get; private set; }
 
@@ -34,13 +35,13 @@ namespace Nubles.Core.Application.Wrappers.Generics
 
         public bool HasPrevious()
         {
-            return Count != 0 && PageNumber > 0;
+            return Count != 0 && PageIndex > 0;
         }
 
         public bool HasNext()
         {
             // add 1 because pagenumber starts at 0
-            return Count != 0 && PageNumber + 1 < TotalPages;
+            return Count != 0 && PageIndex + 1 < TotalPages;
         }
     }
 }

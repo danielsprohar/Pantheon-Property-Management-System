@@ -37,7 +37,7 @@ namespace Hermes.API.Controllers.v1
         }
 
         [HttpGet(Name = nameof(GetParkingSpaces))]
-        public async Task<ActionResult<PagedApiResponse<IEnumerable<ParkingSpaceDto>>>> GetParkingSpaces(
+        public async Task<ActionResult<PaginatedApiResponse<IEnumerable<ParkingSpaceDto>>>> GetParkingSpaces(
             [FromQuery] ParkingSpaceParameters parameters)
         {
             var query = _context.ParkingSpaces
@@ -53,29 +53,27 @@ namespace Hermes.API.Controllers.v1
                 query = query.Where(e => e.Amps == parameters.Amps);
             }
 
-            var count = await query.CountAsync();
-            var offset = parameters.PageNumber * parameters.PageSize;
+            query = query.OrderBy(u => u.Id);
 
-            query = query.OrderBy(u => u.Id)
-                         .Skip(offset)
-                         .Take(parameters.PageSize);
+            var paginatedList = await PaginatedList<ParkingSpace>
+                .CreateAsync(query, parameters.PageIndex, parameters.PageSize);
 
             var entities = await query.ToListAsync();
-            var data = _mapper.Map<IEnumerable<ParkingSpaceDto>>(entities);
 
-            var pagedResponse =
-                new PagedApiResponse<IEnumerable<ParkingSpaceDto>>(
-                    parameters.PageNumber,
+            var data = _mapper.Map<IEnumerable<ParkingSpaceDto>>(paginatedList);
+
+            var paginatedResponse =
+                new PaginatedApiResponse<IEnumerable<ParkingSpaceDto>>(
+                    data,
+                    parameters.PageIndex,
                     parameters.PageSize,
-                    count,
-                    data
-                );
+                    paginatedList.Count);
 
-            var pagingHelper = new PagingLinksHelper<IEnumerable<ParkingSpaceDto>>(pagedResponse, Url);
+            var pagingHelper = new PagingLinksHelper<IEnumerable<ParkingSpaceDto>>(paginatedResponse, Url);
 
-            pagedResponse = pagingHelper.GenerateLinks(nameof(GetParkingSpaces), parameters);
+            paginatedResponse = pagingHelper.GenerateLinks(nameof(GetParkingSpaces), parameters);
 
-            return Ok(pagedResponse);
+            return Ok(paginatedResponse);
         }
 
         [HttpGet("{id}", Name = nameof(GetParkingSpace))]

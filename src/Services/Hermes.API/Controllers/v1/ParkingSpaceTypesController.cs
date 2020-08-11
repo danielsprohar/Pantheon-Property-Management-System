@@ -34,7 +34,7 @@ namespace Hermes.API.Controllers.v1
         }
 
         [HttpGet(Name = nameof(GetParkingSpaceTypes))]
-        public async Task<ActionResult<PagedApiResponse<IEnumerable<ParkingSpaceTypeDto>>>> GetParkingSpaceTypes(
+        public async Task<ActionResult<PaginatedApiResponse<IEnumerable<ParkingSpaceTypeDto>>>> GetParkingSpaceTypes(
             [FromQuery] QueryParameters parameters)
         {
             var query = _context.ParkingSpaceTypes
@@ -42,7 +42,7 @@ namespace Hermes.API.Controllers.v1
                                 .AsNoTracking();
 
             var count = await query.CountAsync();
-            var offset = parameters.PageNumber * parameters.PageSize;
+            var offset = parameters.PageIndex * parameters.PageSize;
 
             query = query.OrderBy(u => u.Id)
                          .Skip(offset)
@@ -52,12 +52,11 @@ namespace Hermes.API.Controllers.v1
             var data = _mapper.Map<IEnumerable<ParkingSpaceTypeDto>>(entities);
 
             var pagedResponse =
-                new PagedApiResponse<IEnumerable<ParkingSpaceTypeDto>>(
-                    parameters.PageNumber,
+                new PaginatedApiResponse<IEnumerable<ParkingSpaceTypeDto>>(
+                    data,
+                    parameters.PageIndex,
                     parameters.PageSize,
-                    count,
-                    data
-                );
+                    count);
 
             var pagingHelper = new PagingLinksHelper<IEnumerable<ParkingSpaceTypeDto>>(pagedResponse, Url);
 

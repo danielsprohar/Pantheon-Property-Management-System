@@ -1,6 +1,6 @@
 ﻿namespace Nubles.Core.Application.Wrappers.Generics
 {
-    public class ApiResponse<T> : ApiResponse where T : class
+    public class ApiResponse<T> : ApiResponse
     {
         public T Data { get; set; }
 

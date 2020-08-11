@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Nubles.Core.Application.Dto.Writes
 {
-    public class AddParkingSpaceTypeDto
+    public class AddPaymentMethodDto
     {
         [Required]
-        [StringLength((int)ParkingSpaceType.DbColumnLength.SpaceType)]
-        public string SpaceType { get; set; }
+        [StringLength((int)PaymentMethod.DbColumnLength.PaymentMethod)]
+        public string Method { get; set; }
     }
 }

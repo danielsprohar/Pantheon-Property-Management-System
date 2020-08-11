@@ -4,7 +4,7 @@ namespace Nubles.Core.Domain.Models
 {
     public class CustomerVehicle : Entity
     {
-        public enum DBColumnLength
+        public enum DbColumnLength
         {
             Make = 32,
             Model = 64,
@@ -24,5 +24,8 @@ namespace Nubles.Core.Domain.Models
         public string LicensePlateState { get; set; }
 
         public string LicensePlateNumber { get; set; }
+
+        public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
     }
 }

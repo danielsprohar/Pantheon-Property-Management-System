@@ -6,9 +6,9 @@ namespace Nubles.Core.Domain.Models
 {
     public class Payment : AuditableEntity
     {
-        public static class DecimalPrecision
+        public static class DbColumnType
         {
-            public const string Precision = "DECIMAL(10, 2)";
+            public const string Decimal = "DECIMAL(10, 2)";
         }
 
         public decimal Amount { get; set; }

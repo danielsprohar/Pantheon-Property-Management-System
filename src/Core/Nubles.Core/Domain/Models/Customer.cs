@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Nubles.Core.Domain.Models
 {
-    public class Customer : Entity
+    public class Customer : AuditableEntity
     {
         public enum DBColumnLength
         {
@@ -28,11 +28,17 @@ namespace Nubles.Core.Domain.Models
 
         public bool? IsActive { get; set; }
 
+        #region Owned entities
+
+        public CustomerDriverLicense DriverLicense { get; set; }
+        public ICollection<CustomerVehicle> Vehicles { get; set; } = new List<CustomerVehicle>();
+
+        #endregion Owned entities
+
         #region Navigation properties
 
         public ICollection<CustomerRentalAgreement> CustomerRentalAgreements { get; set; } = new List<CustomerRentalAgreement>();
         public ICollection<Payment> Payments { get; set; } = new List<Payment>();
-        public ICollection<CustomerVehicle> Vehicles { get; set; } = new List<CustomerVehicle>();
 
         #endregion Navigation properties
 

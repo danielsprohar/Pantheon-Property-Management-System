@@ -20,7 +20,7 @@ namespace Nubles.Core.Domain.Models
         public int RentalAgreementTypeId { get; set; }
         public RentalAgreementType RentalAgreementType { get; set; }
 
-        public int? ParkingSpaceId { get; set; }
+        public int ParkingSpaceId { get; set; }
         public ParkingSpace ParkingSpace { get; set; }
 
         public ICollection<CustomerRentalAgreement> CustomerRentalAgreements { get; set; } = new List<CustomerRentalAgreement>();

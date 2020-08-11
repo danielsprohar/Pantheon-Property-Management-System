@@ -1,7 +1,6 @@
 ﻿using Nubles.Core.Application.Dto.Reads;
 using Nubles.Core.Application.Dto.Writes;
 using Nubles.Core.Domain.Models;
-using System;
 
 namespace Nubles.Core.Application.Mappings.Profiles
 {

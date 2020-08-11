@@ -10,11 +10,16 @@ namespace Nubles.Core.Domain.Models
             Fifty = 50
         }
 
-        public enum DBColumnLength
+        public enum DbColumnLength
         {
             Name = 4,
             Description = 32,
             Commments = 2048
+        }
+
+        public static class DbColumnType
+        {
+            public const string Decimal = "DECIMAL(10, 2)";
         }
 
         public string Name { get; set; }

@@ -33,6 +33,11 @@ namespace Hermes.API.Controllers.v1
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get a paginated list of <c>RentalAgreementType</c>s
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         [HttpGet(Name = nameof(GetRentalAgreementTypes))]
         public async Task<ActionResult<PaginatedApiResponse<IEnumerable<RentalAgreementTypeDto>>>> GetRentalAgreementTypes(
             [FromQuery] QueryParameters parameters)
@@ -66,6 +71,11 @@ namespace Hermes.API.Controllers.v1
             return Ok(pagedResponse);
         }
 
+        /// <summary>
+        /// Get a <c>RentalAgreementType</c> by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}", Name = nameof(GetRentalAgreementType))]
         public async Task<ActionResult<ApiResponse<RentalAgreementTypeDto>>> GetRentalAgreementType(int id)
         {
@@ -82,6 +92,12 @@ namespace Hermes.API.Controllers.v1
             return Ok(response);
         }
 
+        /// <summary>
+        /// Create a new <c>RentalAgreementType</c>
+        /// </summary>
+        /// <param name="apiVersion"></param>
+        /// <param name="addDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<ApiResponse<RentalAgreementTypeDto>>> PostRentalAgreementType(

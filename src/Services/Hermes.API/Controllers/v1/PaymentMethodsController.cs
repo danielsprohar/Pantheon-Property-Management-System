@@ -35,6 +35,11 @@ namespace Hermes.API.Controllers.v1
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get a paginated list of <c>PaymentMethod</c>s
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         [HttpGet(Name = nameof(GetPaymentMethods))]
         public async Task<ActionResult<PaginatedApiResponse<IEnumerable<PaymentMethodDto>>>> GetPaymentMethods(
             [FromQuery] QueryParameters parameters)
@@ -64,6 +69,11 @@ namespace Hermes.API.Controllers.v1
             return Ok(pagedResponse);
         }
 
+        /// <summary>
+        /// Get a <c>PaymentMethod</c> by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}", Name = nameof(GetPaymentMethod))]
         public async Task<ActionResult<ApiResponse<PaymentMethodDto>>> GetPaymentMethod(int id)
         {
@@ -80,6 +90,12 @@ namespace Hermes.API.Controllers.v1
             return Ok(response);
         }
 
+        /// <summary>
+        /// Create a new <c>PaymentMethod</c>
+        /// </summary>
+        /// <param name="apiVersion"></param>
+        /// <param name="addDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<ApiResponse<PaymentMethodDto>>> PostPaymentMethod(

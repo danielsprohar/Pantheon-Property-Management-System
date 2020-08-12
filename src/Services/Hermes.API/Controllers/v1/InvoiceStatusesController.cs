@@ -34,6 +34,11 @@ namespace Hermes.API.Controllers.v1
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get a paginated list of <c>InvoiceStatus</c>s
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         [HttpGet(Name = nameof(GetInvoiceStatuses))]
         public async Task<ActionResult<PaginatedApiResponse<IEnumerable<InvoiceStatusDto>>>> GetInvoiceStatuses(
             [FromQuery] QueryParameters parameters)
@@ -63,6 +68,11 @@ namespace Hermes.API.Controllers.v1
             return Ok(pagedResponse);
         }
 
+        /// <summary>
+        /// Get an <c>InvoiceStatus</c> by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}", Name = nameof(GetInvoiceStatus))]
         public async Task<ActionResult<ApiResponse<InvoiceStatusDto>>> GetInvoiceStatus(int id)
         {
@@ -79,6 +89,12 @@ namespace Hermes.API.Controllers.v1
             return Ok(response);
         }
 
+        /// <summary>
+        /// Create a new <c>InvoiceStatus</c>
+        /// </summary>
+        /// <param name="apiVersion"></param>
+        /// <param name="addDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<ApiResponse<InvoiceStatusDto>>> PostInvoiceStatus(

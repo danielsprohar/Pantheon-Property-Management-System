@@ -38,7 +38,7 @@ namespace Hermes.API.Controllers.v1
         }
 
         /// <summary>
-        /// Get a paginated list of rental agreements
+        /// Get a paginated list of <c>RentalAgreement</c>s
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
@@ -79,7 +79,7 @@ namespace Hermes.API.Controllers.v1
         }
 
         /// <summary>
-        /// Get a rental agreement by Id
+        /// Get a <c>RentalAgreement</c> by Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -117,7 +117,7 @@ namespace Hermes.API.Controllers.v1
         }
 
         /// <summary>
-        /// Update a rental agreement
+        /// Update a <c>RentalAgreement</c> by Id
         /// </summary>
         /// <returns></returns>
         [HttpPatch("{id}")]
@@ -173,7 +173,7 @@ namespace Hermes.API.Controllers.v1
         }
 
         /// <summary>
-        /// Create a new rental agreement
+        /// Create a new <c>RentalAgreement</c>
         /// </summary>
         /// <param name="apiVersion"></param>
         /// <param name="addDto"></param>

@@ -34,6 +34,11 @@ namespace Hermes.API.Controllers.v1
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get a paginated list of <c>ParkingSpaceType</c>s
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         [HttpGet(Name = nameof(GetParkingSpaceTypes))]
         public async Task<ActionResult<PaginatedApiResponse<IEnumerable<ParkingSpaceTypeDto>>>> GetParkingSpaceTypes(
             [FromQuery] QueryParameters parameters)
@@ -63,6 +68,11 @@ namespace Hermes.API.Controllers.v1
             return Ok(pagedResponse);
         }
 
+        /// <summary>
+        /// Get a <c>ParkingSpaceType</c> by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}", Name = nameof(GetParkingSpaceType))]
         public async Task<ActionResult<ApiResponse<ParkingSpaceTypeDto>>> GetParkingSpaceType(int id)
         {
@@ -79,6 +89,12 @@ namespace Hermes.API.Controllers.v1
             return Ok(response);
         }
 
+        /// <summary>
+        /// Create a new <c>ParkingSpaceType</c>
+        /// </summary>
+        /// <param name="apiVersion"></param>
+        /// <param name="addDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<ApiResponse<ParkingSpaceTypeDto>>> PostParkingSpaceType(

@@ -38,6 +38,11 @@ namespace Hermes.API.Controllers.v1
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get a paginated list of <c>ParkingSpace</c>s
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         [HttpGet(Name = nameof(GetParkingSpaces))]
         public async Task<ActionResult<PaginatedApiResponse<IEnumerable<ParkingSpaceDto>>>> GetParkingSpaces(
             [FromQuery] ParkingSpaceQueryParameters parameters)
@@ -70,6 +75,11 @@ namespace Hermes.API.Controllers.v1
             return Ok(paginatedResponse);
         }
 
+        /// <summary>
+        /// Get a <c>ParkingSpace</c> by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}", Name = nameof(GetParkingSpace))]
         public async Task<ActionResult<ApiResponse<ParkingSpaceDto>>> GetParkingSpace(int id)
         {
@@ -90,7 +100,14 @@ namespace Hermes.API.Controllers.v1
             return Ok(response);
         }
 
+        /// <summary>
+        /// Create a new <c>ParkingSpace</c>
+        /// </summary>
+        /// <param name="apiVersion"></param>
+        /// <param name="addDto"></param>
+        /// <returns></returns>
         [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<ApiResponse<ParkingSpaceDto>>> PostParkingSpace(
             ApiVersion apiVersion,
             AddParkingSpaceDto addDto)
@@ -127,6 +144,11 @@ namespace Hermes.API.Controllers.v1
                                    response);
         }
 
+        /// <summary>
+        /// Delete <c>ParkingSpace</c> by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteParkingSpace(int id)
         {
@@ -149,6 +171,13 @@ namespace Hermes.API.Controllers.v1
             return NoContent();
         }
 
+        /// <summary>
+        /// Update a <c>ParkingSpace</c> by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="employeeId"></param>
+        /// <param name="dtoDoc"></param>
+        /// <returns></returns>
         [HttpPatch("{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> PatchParkingSpace(

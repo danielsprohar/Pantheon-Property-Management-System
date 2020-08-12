@@ -6,7 +6,7 @@ namespace Nubles.Core.Domain.Models
 {
     public class RentalAgreement : AuditableEntity
     {
-        public enum DBColumnLength
+        public enum DbColumnLength
         {
             Comments = 2048
         }

@@ -13,7 +13,7 @@ namespace Nubles.Core.Application.Dto.Writes
         [Range(1, 31)]
         public int? RecurringDueDate { get; set; }
 
-        [StringLength((int)RentalAgreement.DBColumnLength.Comments)]
+        [StringLength((int)RentalAgreement.DbColumnLength.Comments)]
         public string Comments { get; set; }
 
         [Required]

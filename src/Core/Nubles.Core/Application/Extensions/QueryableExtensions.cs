@@ -1,4 +1,5 @@
 ﻿using Nubles.Core.Application.Parameters;
+using Nubles.Core.Domain.Base;
 using Nubles.Core.Domain.Models;
 using System.Linq;
 
@@ -10,6 +11,17 @@ namespace Nubles.Core.Application.Extensions
             this IQueryable<Invoice> query,
             InvoiceQueryParameters parameters)
         {
+            query = query.BuildDateQueryParameters(parameters);
+
+            if (parameters.EmployeeId.HasValue)
+            {
+                query = query.Where(e => e.EmployeeId == parameters.EmployeeId.Value);
+            }
+            if (parameters.InvoiceStatusId.HasValue)
+            {
+                query = query.Where(e => e.InvoiceStatusId == parameters.InvoiceStatusId.Value);
+            }
+
             return query;
         }
 
@@ -31,7 +43,7 @@ namespace Nubles.Core.Application.Extensions
 
         /// <summary>
         /// Enumerates the <c>RentalAgreementParameters</c> object and
-        ///     constructs an object of <c>IQueryable</c> from said object.
+        ///     constructs a LINQ query from said object.
         /// </summary>
         /// <param name="query"></param>
         /// <param name="parameters"></param>
@@ -40,6 +52,8 @@ namespace Nubles.Core.Application.Extensions
             this IQueryable<RentalAgreement> query,
             RentalAgreementQueryParameters parameters)
         {
+            query = query.BuildDateQueryParameters(parameters);
+
             if (parameters.EmployeeId.HasValue)
             {
                 query = query.Where(e => e.EmployeeId == parameters.EmployeeId.Value);
@@ -60,9 +74,13 @@ namespace Nubles.Core.Application.Extensions
                 query = query.Where(e => e.ParkingSpaceId == parameters.ParkingSpaceId.Value);
             }
 
-            // ==================================================================================
-            // Date filters
-            // ==================================================================================
+            return query;
+        }
+
+        private static IQueryable<T> BuildDateQueryParameters<T>(
+            this IQueryable<T> query,
+            DateQueryParameters parameters) where T : AuditableEntity
+        {
             if (parameters.HasSpecificDateFilter())
             {
                 if (parameters.HasUpperAndLowerBound())

@@ -100,12 +100,31 @@ namespace Hermes.API.Controllers.v1
             ApiVersion apiVersion,
             AddParkingSpaceDto addDto)
         {
+            #region Validation
+
+            _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+
+            // TODO: check if user exists
+
+            if (!await ParkingSpaceTypeExistsAsync(addDto.ParkingSpaceTypeId.Value))
+            {
+                return BadRequest(new ApiResponse($"{nameof(ParkingSpaceType)} {addDto.ParkingSpaceTypeId.Value} does not exist."));
+            }
+
+            _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.TrackAll;
+
+            #endregion Validation
+
             var entity = _mapper.Map<ParkingSpace>(addDto);
 
+            entity.ModifiedBy = entity.EmployeeId = addDto.EmployeeId.Value;
+
             _context.ParkingSpaces.Add(entity);
+
             await _context.SaveChangesAsync();
 
             var dto = _mapper.Map<ParkingSpaceDto>(entity);
+
             var response = new ApiResponse<ParkingSpaceDto>(dto);
 
             return CreatedAtAction(nameof(GetParkingSpace),
@@ -173,7 +192,7 @@ namespace Hermes.API.Controllers.v1
                 }
                 catch (DbUpdateConcurrencyException ex)
                 {
-                    if (!await ParkingSpaceExists(id))
+                    if (!await ParkingSpaceExistsAsync(id))
                     {
                         return NotFound();
                     }
@@ -187,9 +206,14 @@ namespace Hermes.API.Controllers.v1
             return NoContent();
         }
 
-        private async Task<bool> ParkingSpaceExists(int id)
+        private async Task<bool> ParkingSpaceExistsAsync(int id)
         {
             return await _context.ParkingSpaces.AnyAsync(e => e.Id == id);
+        }
+
+        private async Task<bool> ParkingSpaceTypeExistsAsync(int id)
+        {
+            return await _context.ParkingSpaceTypes.AnyAsync(e => e.Id == id);
         }
     }
 }

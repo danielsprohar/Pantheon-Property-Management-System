@@ -24,5 +24,7 @@ namespace Nubles.Core.Application.Dto.Writes
 
         [Required]
         public int? ParkingSpaceTypeId { get; set; }
+
+        public int? EmployeeId { get; set; }
     }
 }

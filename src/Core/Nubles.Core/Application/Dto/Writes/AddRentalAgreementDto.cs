@@ -19,7 +19,6 @@ namespace Nubles.Core.Application.Dto.Writes
         [Required]
         public int? RentalAgreementTypeId { get; set; }
 
-        [Required]
         public int? EmployeeId { get; set; }
 
         [Required]

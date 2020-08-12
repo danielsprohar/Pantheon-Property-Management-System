@@ -16,7 +16,7 @@ namespace Nubles.Core.Application.Mappings.Profiles
         protected override void CreateAddMappings()
         {
             CreateMap<AddInvoiceDto, Invoice>()
-                .ForMember(e => e.CreatedBy, opts => opts.Ignore())
+                .ForMember(e => e.EmployeeId, opts => opts.Ignore())
                 .ForMember(e => e.CreatedOn, opts => opts.Ignore())
                 .ForMember(e => e.Id, opts => opts.Ignore())
                 .ForMember(e => e.InvoicePayments, opts => opts.Ignore())
@@ -47,7 +47,7 @@ namespace Nubles.Core.Application.Mappings.Profiles
             CreateMap<UpdateInvoiceDto, Invoice>()
                 .ForMember(e => e.BillingPeriodEnd, opts => opts.Ignore())
                 .ForMember(e => e.BillingPeriodStart, opts => opts.Ignore())
-                .ForMember(e => e.CreatedBy, opts => opts.Ignore())
+                .ForMember(e => e.EmployeeId, opts => opts.Ignore())
                 .ForMember(e => e.CreatedOn, opts => opts.Ignore())
                 .ForMember(e => e.DueDate, opts => opts.Ignore())
                 .ForMember(e => e.Id, opts => opts.Ignore())

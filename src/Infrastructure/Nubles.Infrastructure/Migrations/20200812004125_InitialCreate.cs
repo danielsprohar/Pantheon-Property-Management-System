@@ -194,6 +194,7 @@ namespace Nubles.Infrastructure.Migrations
                     ModifiedOn = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETUTCDATE()"),
                     RecurringDueDate = table.Column<int>(nullable: false),
                     TerminatedOn = table.Column<DateTimeOffset>(nullable: true),
+                    EmployeeId = table.Column<int>(nullable: false),
                     RentalAgreementTypeId = table.Column<int>(nullable: false),
                     ParkingSpaceId = table.Column<int>(nullable: false)
                 },
@@ -422,8 +423,8 @@ namespace Nubles.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "RentalAgreements",
-                columns: new[] { "Id", "CreatedBy", "ModifiedBy", "ParkingSpaceId", "RecurringDueDate", "RentalAgreementTypeId", "TerminatedOn" },
-                values: new object[] { 1, 1, 1, 1, 1, 2, null });
+                columns: new[] { "Id", "CreatedBy", "EmployeeId", "ModifiedBy", "ParkingSpaceId", "RecurringDueDate", "RentalAgreementTypeId", "TerminatedOn" },
+                values: new object[] { 1, 1, 1, 1, 1, 1, 2, null });
 
             migrationBuilder.InsertData(
                 table: "CustomerRentalAgreements",

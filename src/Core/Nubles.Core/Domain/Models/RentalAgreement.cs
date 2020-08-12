@@ -15,8 +15,6 @@ namespace Nubles.Core.Domain.Models
 
         public DateTimeOffset? TerminatedOn { get; set; }
 
-        public int EmployeeId { get; set; }
-
         #region Navigation properties
 
         public int RentalAgreementTypeId { get; set; }

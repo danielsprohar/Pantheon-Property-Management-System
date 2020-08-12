@@ -952,6 +952,9 @@ namespace Nubles.Infrastructure.Migrations
                         .HasColumnType("datetimeoffset")
                         .HasDefaultValueSql("GETUTCDATE()");
 
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ModifiedBy")
                         .HasColumnType("int");
 
@@ -991,6 +994,7 @@ namespace Nubles.Infrastructure.Migrations
                             Id = 1,
                             CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             ParkingSpaceId = 1,

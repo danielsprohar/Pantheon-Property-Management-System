@@ -15,6 +15,8 @@ namespace Nubles.Core.Application.Dto.Reads
 
         public string Comments { get; set; }
 
+        // TODO: add EmployeeDto
+
         public RentalAgreementDto RentalAgreement { get; set; }
 
         public InvoiceStatusDto InvoiceStatus { get; set; }

@@ -20,10 +20,12 @@ namespace Nubles.Core.Application.Dto.Writes
         public string Comments { get; set; }
 
         [Required]
-        public int RentalAgreementId { get; set; }
+        public int? RentalAgreementId { get; set; }
 
         [Required]
-        public int InvoiceStatusId { get; set; }
+        public int? InvoiceStatusId { get; set; }
+
+        public int? EmployeeId { get; set; }
 
         [Required]
         public ICollection<AddInvoiceLineDto> InvoiceLines { get; set; } = new HashSet<AddInvoiceLineDto>();

@@ -230,10 +230,10 @@ namespace Hermes.API.Controllers.v1
             parkingSpace.ModifiedBy = addDto.EmployeeId.Value;
 
             var rentalAgreement = _mapper.Map<RentalAgreement>(addDto);
-            rentalAgreement.CreatedBy = rentalAgreement.ModifiedBy = addDto.EmployeeId.Value;
+            rentalAgreement.EmployeeId = rentalAgreement.ModifiedBy = addDto.EmployeeId.Value;
 
             var customer = _mapper.Map<Customer>(addDto.Customer);
-            customer.CreatedBy = customer.ModifiedBy = addDto.EmployeeId.Value;
+            customer.EmployeeId = customer.ModifiedBy = addDto.EmployeeId.Value;
             customer.Vehicles.Add(_mapper.Map<CustomerVehicle>(addDto.Customer.Vehicle));
 
             rentalAgreement.CustomerRentalAgreements.Add(new CustomerRentalAgreement

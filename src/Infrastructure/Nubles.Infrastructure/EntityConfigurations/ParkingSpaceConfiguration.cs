@@ -56,7 +56,7 @@ namespace Nubles.Infrastructure.EntityConfigurations
                     Amps = (int?)ParkingSpace.AmpCapacity.Thirty,
                     RecurringRate = 400,
                     ParkingSpaceTypeId = 1,
-                    CreatedBy = 1,
+                    EmployeeId = 1,
                     ModifiedBy = 1
                 });
             }

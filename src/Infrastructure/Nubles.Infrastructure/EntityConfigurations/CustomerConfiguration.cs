@@ -65,7 +65,7 @@ namespace Nubles.Infrastructure.EntityConfigurations
                     Gender = 'F',
                     PhoneNumber = "555-555-5555",
                     ModifiedBy = 1,
-                    CreatedBy = 1
+                    EmployeeId = 1
                 }
             };
         }

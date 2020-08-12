@@ -17,7 +17,7 @@ namespace Nubles.Core.Application.Mappings.Profiles
         {
             CreateMap<AddParkingSpaceDto, ParkingSpace>()
                 .ForMember(e => e.ParkingSpaceType, opts => opts.Ignore())
-                .ForMember(e => e.CreatedBy, opts => opts.Ignore())
+                .ForMember(e => e.EmployeeId, opts => opts.Ignore())
                 .ForMember(e => e.CreatedOn, opts => opts.Ignore())
                 .ForMember(e => e.ModifiedBy, opts => opts.Ignore())
                 .ForMember(e => e.ModifiedOn, opts => opts.Ignore())
@@ -39,7 +39,7 @@ namespace Nubles.Core.Application.Mappings.Profiles
         {
             CreateMap<UpdateParkingSpaceDto, ParkingSpace>()
                 .ForMember(e => e.ParkingSpaceType, opts => opts.Ignore())
-                .ForMember(e => e.CreatedBy, opts => opts.Ignore())
+                .ForMember(e => e.EmployeeId, opts => opts.Ignore())
                 .ForMember(e => e.CreatedOn, opts => opts.Ignore())
                 .ForMember(e => e.ModifiedBy, opts => opts.Ignore())
                 .ForMember(e => e.ModifiedOn, opts => opts.Ignore())

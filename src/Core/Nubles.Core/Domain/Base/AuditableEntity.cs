@@ -5,9 +5,9 @@ namespace Nubles.Core.Domain.Base
     public abstract class AuditableEntity : Entity
     {
         /// <summary>
-        /// Contains the EmployeeId of the Employee that created this Entity.
+        /// The employee that created this Entity.
         /// </summary>
-        public int CreatedBy { get; set; }
+        public int EmployeeId { get; set; }
 
         /// <summary>
         /// The timestamp for when this Entity was created.
@@ -15,7 +15,7 @@ namespace Nubles.Core.Domain.Base
         public DateTimeOffset CreatedOn { get; set; }
 
         /// <summary>
-        /// Contains the EmployeeId Employee that last modified this Entity.
+        /// Contains the id number of the employee that last modified this entity.
         /// </summary>
         public int ModifiedBy { get; set; }
 

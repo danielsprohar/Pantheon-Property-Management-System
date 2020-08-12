@@ -13,6 +13,10 @@ namespace Nubles.Core.Application.Dto.Reads
 
         public DateTimeOffset? TerminatedOn { get; set; }
 
+        public DateTimeOffset? CreatedOn { get; set; }
+
+        public DateTimeOffset? ModifiedOn { get; set; }
+
         public RentalAgreementTypeDto RentalAgreementType { get; set; }
 
         public ParkingSpaceDto ParkingSpace { get; set; }

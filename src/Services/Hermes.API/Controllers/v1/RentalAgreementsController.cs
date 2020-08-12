@@ -54,25 +54,7 @@ namespace Hermes.API.Controllers.v1
                                 .AsQueryable()
                                 .AsNoTracking();
 
-            if (parameters.EmployeeId.HasValue)
-            {
-                query = query.Where(e => e.EmployeeId == parameters.EmployeeId.Value);
-            }
-            if (parameters.IsActive.HasValue)
-            {
-                if (parameters.IsActive.Value)
-                {
-                    query = query.Where(e => e.TerminatedOn == null);
-                }
-                else
-                {
-                    query = query.Where(e => e.TerminatedOn != null);
-                }
-            }
-            if (parameters.ParkingSpaceId.HasValue)
-            {
-                query = query.Where(e => e.ParkingSpaceId == parameters.ParkingSpaceId.Value);
-            }
+            query = query.PredicatesFromParameters(parameters);
 
             var orderedQuery = query.OrderBy(u => u.Id);
 
@@ -264,6 +246,63 @@ namespace Hermes.API.Controllers.v1
         private async Task<bool> RentalAgreementExists(int id)
         {
             return await _context.RentalAgreements.AnyAsync(e => e.Id == id);
+        }        
+    }
+
+    static class QueryableExtensions
+    {
+        /// <summary>
+        /// Enumerates the <c>RentalAgreementParameters</c> object and 
+        ///     constructs an object of <c>IQueryable</c> from said object.
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public static IQueryable<RentalAgreement> PredicatesFromParameters(
+            this IQueryable<RentalAgreement> query,
+            RentalAgreementParameters parameters)
+        {
+            if (parameters.EmployeeId.HasValue)
+            {
+                query = query.Where(e => e.EmployeeId == parameters.EmployeeId.Value);
+            }
+            if (parameters.IsActive.HasValue)
+            {
+                if (parameters.IsActive.Value)
+                {
+                    query = query.Where(e => e.TerminatedOn == null);
+                }
+                else
+                {
+                    query = query.Where(e => e.TerminatedOn != null);
+                }
+            }
+            if (parameters.ParkingSpaceId.HasValue)
+            {
+                query = query.Where(e => e.ParkingSpaceId == parameters.ParkingSpaceId.Value);
+            }
+            if (parameters.GetHasDateFilter())
+            {
+                if (parameters.GetHasUpperAndLowerBound())
+                {
+                    query = query.Where(e => 
+                        parameters.StartDate <= e.CreatedOn && 
+                        e.CreatedOn <= parameters.EndDate);
+                }
+                else
+                {
+                    if (parameters.StartDate.HasValue)
+                    {
+                        query = query.Where(e => parameters.StartDate <= e.CreatedOn);
+                    }
+                    else
+                    {
+                        query = query.Where(e => e.CreatedOn <= parameters.EndDate);
+                    }
+                }
+            }
+
+            return query;
         }
     }
 }

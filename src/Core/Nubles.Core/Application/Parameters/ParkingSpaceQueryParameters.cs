@@ -1,6 +1,6 @@
 ﻿namespace Nubles.Core.Application.Parameters
 {
-    public class ParkingSpaceParameters : QueryParameters
+    public class ParkingSpaceQueryParameters : QueryParameters
     {
         public bool? IsAvailable { get; set; }
 

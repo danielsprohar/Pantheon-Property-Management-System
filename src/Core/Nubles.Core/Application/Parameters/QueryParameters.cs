@@ -21,6 +21,20 @@
             PageSize = pageSize;
         }
 
+        /// <summary>
+        /// A comma separated string of values.
+        /// </summary>
+        /// <remarks>
+        /// To sort by descending order, 
+        ///     append "_desc" to the end of each value.<br/>
+        ///     
+        /// The following example will return result set that is sorted in descending order.
+        /// </remarks>
+        /// <example>
+        /// orderBy=createOn_desc
+        /// </example>
+        public string OrderBy { get; set; }
+
         public int PageIndex
         {
             get { return _pageIndex; }

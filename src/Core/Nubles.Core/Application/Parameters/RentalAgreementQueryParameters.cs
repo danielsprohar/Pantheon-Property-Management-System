@@ -1,6 +1,6 @@
 ﻿namespace Nubles.Core.Application.Parameters
 {
-    public class RentalAgreementParameters : DateRangeParameters
+    public class RentalAgreementQueryParameters : DateQueryParameters
     {
         public int? EmployeeId { get; set; }
 

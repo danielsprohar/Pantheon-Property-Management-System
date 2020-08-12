@@ -39,7 +39,7 @@ namespace Hermes.API.Controllers.v1
 
         [HttpGet(Name = nameof(GetParkingSpaces))]
         public async Task<ActionResult<PaginatedApiResponse<IEnumerable<ParkingSpaceDto>>>> GetParkingSpaces(
-            [FromQuery] ParkingSpaceParameters parameters)
+            [FromQuery] ParkingSpaceQueryParameters parameters)
         {
             var query = _context.ParkingSpaces
                                 .AsQueryable()

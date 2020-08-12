@@ -14,7 +14,7 @@ namespace Nubles.Infrastructure.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
-                    CreatedBy = table.Column<int>(nullable: false),
+                    EmployeeId = table.Column<int>(nullable: false),
                     CreatedOn = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETUTCDATE()"),
                     ModifiedBy = table.Column<int>(nullable: false),
                     ModifiedOn = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETUTCDATE()"),
@@ -124,7 +124,7 @@ namespace Nubles.Infrastructure.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
-                    CreatedBy = table.Column<int>(nullable: false),
+                    EmployeeId = table.Column<int>(nullable: false),
                     CreatedOn = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETUTCDATE()"),
                     ModifiedBy = table.Column<int>(nullable: false),
                     ModifiedOn = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETUTCDATE()"),
@@ -154,7 +154,7 @@ namespace Nubles.Infrastructure.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
-                    CreatedBy = table.Column<int>(nullable: false),
+                    EmployeeId = table.Column<int>(nullable: false),
                     CreatedOn = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETUTCDATE()"),
                     ModifiedBy = table.Column<int>(nullable: false),
                     ModifiedOn = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETUTCDATE()"),
@@ -188,13 +188,12 @@ namespace Nubles.Infrastructure.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
-                    CreatedBy = table.Column<int>(nullable: false),
+                    EmployeeId = table.Column<int>(nullable: false),
                     CreatedOn = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETUTCDATE()"),
                     ModifiedBy = table.Column<int>(nullable: false),
                     ModifiedOn = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETUTCDATE()"),
                     RecurringDueDate = table.Column<int>(nullable: false),
                     TerminatedOn = table.Column<DateTimeOffset>(nullable: true),
-                    EmployeeId = table.Column<int>(nullable: false),
                     RentalAgreementTypeId = table.Column<int>(nullable: false),
                     ParkingSpaceId = table.Column<int>(nullable: false)
                 },
@@ -246,7 +245,7 @@ namespace Nubles.Infrastructure.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
-                    CreatedBy = table.Column<int>(nullable: false),
+                    EmployeeId = table.Column<int>(nullable: false),
                     CreatedOn = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETUTCDATE()"),
                     ModifiedBy = table.Column<int>(nullable: false),
                     ModifiedOn = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETUTCDATE()"),
@@ -328,8 +327,8 @@ namespace Nubles.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Customers",
-                columns: new[] { "Id", "CreatedBy", "Email", "FirstName", "Gender", "IsActive", "LastName", "MiddleName", "ModifiedBy", "NormalizedEmail", "PhoneNumber" },
-                values: new object[] { 1, 1, null, "Alice", "F", null, "Smite", null, 1, null, "555-555-5555" });
+                columns: new[] { "Id", "Email", "EmployeeId", "FirstName", "Gender", "IsActive", "LastName", "MiddleName", "ModifiedBy", "NormalizedEmail", "PhoneNumber" },
+                values: new object[] { 1, null, 1, "Alice", "F", null, "Smite", null, 1, null, "555-555-5555" });
 
             migrationBuilder.InsertData(
                 table: "InvoiceStatuses",
@@ -384,47 +383,47 @@ namespace Nubles.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "ParkingSpaces",
-                columns: new[] { "Id", "Amps", "Comments", "CreatedBy", "Description", "ModifiedBy", "Name", "ParkingSpaceTypeId", "RecurringRate" },
+                columns: new[] { "Id", "Amps", "Comments", "Description", "EmployeeId", "ModifiedBy", "Name", "ParkingSpaceTypeId", "RecurringRate" },
                 values: new object[,]
                 {
-                    { 30, 30, null, 1, null, 1, "30", 1, 400m },
-                    { 29, 30, null, 1, null, 1, "29", 1, 400m },
-                    { 28, 30, null, 1, null, 1, "28", 1, 400m },
-                    { 27, 30, null, 1, null, 1, "27", 1, 400m },
-                    { 26, 30, null, 1, null, 1, "26", 1, 400m },
-                    { 25, 30, null, 1, null, 1, "25", 1, 400m },
-                    { 24, 30, null, 1, null, 1, "24", 1, 400m },
-                    { 23, 30, null, 1, null, 1, "23", 1, 400m },
-                    { 22, 30, null, 1, null, 1, "22", 1, 400m },
-                    { 21, 30, null, 1, null, 1, "21", 1, 400m },
-                    { 20, 30, null, 1, null, 1, "20", 1, 400m },
-                    { 19, 30, null, 1, null, 1, "19", 1, 400m },
-                    { 18, 30, null, 1, null, 1, "18", 1, 400m },
-                    { 17, 30, null, 1, null, 1, "17", 1, 400m },
-                    { 31, 30, null, 1, null, 1, "31", 1, 400m },
-                    { 16, 30, null, 1, null, 1, "16", 1, 400m },
-                    { 14, 30, null, 1, null, 1, "14", 1, 400m },
-                    { 13, 30, null, 1, null, 1, "13", 1, 400m },
-                    { 12, 30, null, 1, null, 1, "12", 1, 400m },
-                    { 11, 30, null, 1, null, 1, "11", 1, 400m },
-                    { 10, 30, null, 1, null, 1, "10", 1, 400m },
-                    { 9, 30, null, 1, null, 1, "9", 1, 400m },
-                    { 8, 30, null, 1, null, 1, "8", 1, 400m },
-                    { 7, 30, null, 1, null, 1, "7", 1, 400m },
-                    { 6, 30, null, 1, null, 1, "6", 1, 400m },
-                    { 5, 30, null, 1, null, 1, "5", 1, 400m },
-                    { 4, 30, null, 1, null, 1, "4", 1, 400m },
-                    { 3, 30, null, 1, null, 1, "3", 1, 400m },
-                    { 2, 30, null, 1, null, 1, "2", 1, 400m },
-                    { 1, 30, null, 1, null, 1, "1", 1, 400m },
-                    { 15, 30, null, 1, null, 1, "15", 1, 400m },
-                    { 32, 30, null, 1, null, 1, "32", 1, 400m }
+                    { 30, 30, null, null, 1, 1, "30", 1, 400m },
+                    { 29, 30, null, null, 1, 1, "29", 1, 400m },
+                    { 28, 30, null, null, 1, 1, "28", 1, 400m },
+                    { 27, 30, null, null, 1, 1, "27", 1, 400m },
+                    { 26, 30, null, null, 1, 1, "26", 1, 400m },
+                    { 25, 30, null, null, 1, 1, "25", 1, 400m },
+                    { 24, 30, null, null, 1, 1, "24", 1, 400m },
+                    { 23, 30, null, null, 1, 1, "23", 1, 400m },
+                    { 22, 30, null, null, 1, 1, "22", 1, 400m },
+                    { 21, 30, null, null, 1, 1, "21", 1, 400m },
+                    { 20, 30, null, null, 1, 1, "20", 1, 400m },
+                    { 19, 30, null, null, 1, 1, "19", 1, 400m },
+                    { 18, 30, null, null, 1, 1, "18", 1, 400m },
+                    { 17, 30, null, null, 1, 1, "17", 1, 400m },
+                    { 31, 30, null, null, 1, 1, "31", 1, 400m },
+                    { 16, 30, null, null, 1, 1, "16", 1, 400m },
+                    { 14, 30, null, null, 1, 1, "14", 1, 400m },
+                    { 13, 30, null, null, 1, 1, "13", 1, 400m },
+                    { 12, 30, null, null, 1, 1, "12", 1, 400m },
+                    { 11, 30, null, null, 1, 1, "11", 1, 400m },
+                    { 10, 30, null, null, 1, 1, "10", 1, 400m },
+                    { 9, 30, null, null, 1, 1, "9", 1, 400m },
+                    { 8, 30, null, null, 1, 1, "8", 1, 400m },
+                    { 7, 30, null, null, 1, 1, "7", 1, 400m },
+                    { 6, 30, null, null, 1, 1, "6", 1, 400m },
+                    { 5, 30, null, null, 1, 1, "5", 1, 400m },
+                    { 4, 30, null, null, 1, 1, "4", 1, 400m },
+                    { 3, 30, null, null, 1, 1, "3", 1, 400m },
+                    { 2, 30, null, null, 1, 1, "2", 1, 400m },
+                    { 1, 30, null, null, 1, 1, "1", 1, 400m },
+                    { 15, 30, null, null, 1, 1, "15", 1, 400m },
+                    { 32, 30, null, null, 1, 1, "32", 1, 400m }
                 });
 
             migrationBuilder.InsertData(
                 table: "RentalAgreements",
-                columns: new[] { "Id", "CreatedBy", "EmployeeId", "ModifiedBy", "ParkingSpaceId", "RecurringDueDate", "RentalAgreementTypeId", "TerminatedOn" },
-                values: new object[] { 1, 1, 1, 1, 1, 1, 2, null });
+                columns: new[] { "Id", "EmployeeId", "ModifiedBy", "ParkingSpaceId", "RecurringDueDate", "RentalAgreementTypeId", "TerminatedOn" },
+                values: new object[] { 1, 1, 1, 1, 1, 2, null });
 
             migrationBuilder.InsertData(
                 table: "CustomerRentalAgreements",

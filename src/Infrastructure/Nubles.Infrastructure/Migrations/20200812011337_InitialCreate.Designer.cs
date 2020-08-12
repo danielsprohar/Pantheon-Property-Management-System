@@ -10,7 +10,7 @@ using Nubles.Infrastructure.Data;
 namespace Nubles.Infrastructure.Migrations
 {
     [DbContext(typeof(PantheonDbContext))]
-    [Migration("20200812004125_InitialCreate")]
+    [Migration("20200812011337_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,9 +28,6 @@ namespace Nubles.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
-
                     b.Property<DateTimeOffset>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset")
@@ -39,6 +36,9 @@ namespace Nubles.Infrastructure.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -93,8 +93,8 @@ namespace Nubles.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             FirstName = "Alice",
                             Gender = "F",
                             LastName = "Smite",
@@ -202,9 +202,6 @@ namespace Nubles.Infrastructure.Migrations
                         .HasColumnType("nvarchar(2048)")
                         .HasMaxLength(2048);
 
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
-
                     b.Property<DateTimeOffset>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset")
@@ -212,6 +209,9 @@ namespace Nubles.Infrastructure.Migrations
 
                     b.Property<DateTimeOffset>("DueDate")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
 
                     b.Property<int>("InvoiceStatusId")
                         .HasColumnType("int");
@@ -358,9 +358,6 @@ namespace Nubles.Infrastructure.Migrations
                         .HasColumnType("nvarchar(2048)")
                         .HasMaxLength(2048);
 
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
-
                     b.Property<DateTimeOffset>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset")
@@ -369,6 +366,9 @@ namespace Nubles.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(32)")
                         .HasMaxLength(32);
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
 
                     b.Property<bool?>("IsAvailable")
                         .IsRequired()
@@ -414,8 +414,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 1,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "1",
@@ -426,8 +426,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 2,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "2",
@@ -438,8 +438,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 3,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "3",
@@ -450,8 +450,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 4,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "4",
@@ -462,8 +462,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 5,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "5",
@@ -474,8 +474,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 6,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "6",
@@ -486,8 +486,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 7,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "7",
@@ -498,8 +498,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 8,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "8",
@@ -510,8 +510,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 9,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "9",
@@ -522,8 +522,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 10,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "10",
@@ -534,8 +534,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 11,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "11",
@@ -546,8 +546,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 12,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "12",
@@ -558,8 +558,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 13,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "13",
@@ -570,8 +570,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 14,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "14",
@@ -582,8 +582,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 15,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "15",
@@ -594,8 +594,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 16,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "16",
@@ -606,8 +606,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 17,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "17",
@@ -618,8 +618,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 18,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "18",
@@ -630,8 +630,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 19,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "19",
@@ -642,8 +642,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 20,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "20",
@@ -654,8 +654,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 21,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "21",
@@ -666,8 +666,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 22,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "22",
@@ -678,8 +678,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 23,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "23",
@@ -690,8 +690,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 24,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "24",
@@ -702,8 +702,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 25,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "25",
@@ -714,8 +714,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 26,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "26",
@@ -726,8 +726,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 27,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "27",
@@ -738,8 +738,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 28,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "28",
@@ -750,8 +750,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 29,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "29",
@@ -762,8 +762,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 30,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "30",
@@ -774,8 +774,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 31,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "31",
@@ -786,8 +786,8 @@ namespace Nubles.Infrastructure.Migrations
                         {
                             Id = 32,
                             Amps = 30,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EmployeeId = 1,
                             ModifiedBy = 1,
                             ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "32",
@@ -845,9 +845,6 @@ namespace Nubles.Infrastructure.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("DECIMAL(10, 2)");
 
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
-
                     b.Property<DateTimeOffset>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset")
@@ -858,6 +855,9 @@ namespace Nubles.Infrastructure.Migrations
 
                     b.Property<DateTimeOffset>("Date")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
 
                     b.Property<bool?>("IsRefund")
                         .IsRequired()
@@ -946,9 +946,6 @@ namespace Nubles.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
-
                     b.Property<DateTimeOffset>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset")
@@ -994,7 +991,6 @@ namespace Nubles.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedBy = 1,
                             CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             EmployeeId = 1,
                             ModifiedBy = 1,

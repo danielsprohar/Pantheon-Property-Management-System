@@ -74,7 +74,6 @@ namespace Hermes.API.Controllers.v1
                 query = query.Where(e => e.ParkingSpaceId == parameters.ParkingSpaceId.Value);
             }
 
-
             var orderedQuery = query.OrderBy(u => u.Id);
 
             var paginatedList = await PaginatedList<RentalAgreement>

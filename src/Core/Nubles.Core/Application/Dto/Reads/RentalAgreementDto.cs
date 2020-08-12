@@ -7,6 +7,8 @@ namespace Nubles.Core.Application.Dto.Reads
     {
         public int Id { get; set; }
 
+        public int EmployeeId { get; set; }
+
         public int RecurringDueDate { get; set; }
 
         public DateTimeOffset? TerminatedOn { get; set; }

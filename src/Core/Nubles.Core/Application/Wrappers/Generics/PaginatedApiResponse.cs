@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Nubles.Core.Application.Wrappers.Generics
 {
@@ -35,13 +34,12 @@ namespace Nubles.Core.Application.Wrappers.Generics
 
         public bool HasPrevious()
         {
-            return Count != 0 && PageIndex > 0;
+            return PageIndex > 0;
         }
 
         public bool HasNext()
         {
-            // add 1 because pagenumber starts at 0
-            return Count != 0 && PageIndex + 1 < TotalPages;
+            return PageIndex < TotalPages;
         }
     }
 }

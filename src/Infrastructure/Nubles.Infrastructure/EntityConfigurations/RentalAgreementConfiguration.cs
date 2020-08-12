@@ -13,6 +13,8 @@ namespace Nubles.Infrastructure.EntityConfigurations
 
             builder.Property(e => e.RecurringDueDate).IsRequired();
 
+            builder.Property(e => e.EmployeeId).IsRequired();
+
             #region Relationships
 
             builder.HasOne(e => e.ParkingSpace)
@@ -42,6 +44,7 @@ namespace Nubles.Infrastructure.EntityConfigurations
                 new RentalAgreement
                 {
                     Id = 1,
+                    EmployeeId = 1,
                     ParkingSpaceId = 1, // rv space
                     RentalAgreementTypeId = 2, // billed monthly
                     RecurringDueDate = 1, // billed on the 1st day of every month

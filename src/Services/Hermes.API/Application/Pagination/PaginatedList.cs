@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Hermes.API.Helpers
+namespace Hermes.API.Application.Pagination
 {
     public class PaginatedList<T> : List<T>
     {
@@ -12,7 +12,7 @@ namespace Hermes.API.Helpers
         public int PageSize { get; set; }
         public int TotalPages { get; private set; }
 
-        public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
+        private PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
@@ -36,7 +36,7 @@ namespace Hermes.API.Helpers
             }
         }
 
-        public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int pageIndex, int pageSize)
+        public static async Task<PaginatedList<T>> CreateAsync(IOrderedQueryable<T> source, int pageIndex, int pageSize)
         {
             var count = await source.CountAsync();
 

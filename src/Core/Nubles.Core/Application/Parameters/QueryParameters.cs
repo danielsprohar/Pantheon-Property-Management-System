@@ -11,7 +11,7 @@
 
         public QueryParameters()
         {
-            _pageIndex = 0;
+            _pageIndex = MinPageIndex;
             _pageSize = DefaultPageSize;
         }
 

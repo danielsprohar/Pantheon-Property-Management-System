@@ -31,8 +31,6 @@ namespace Nubles.Core.Application.Mappings.Profiles
                 .ForMember(e => e.RowVersion, opts => opts.Ignore());
 
             CreateMap<AddInvoiceLineDto, InvoiceLine>()
-                .ForMember(e => e.Id, opts => opts.Ignore())
-                .ForMember(e => e.RowVersion, opts => opts.Ignore())
                 .ForMember(e => e.Invoice, opts => opts.Ignore())
                 .ForMember(e => e.ParkingSpace, opts => opts.Ignore());
         }

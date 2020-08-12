@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Hermes.API.Application.Pagination;
 using Hermes.API.Helpers;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -53,23 +54,40 @@ namespace Hermes.API.Controllers.v1
                                 .AsQueryable()
                                 .AsNoTracking();
 
-            var count = await query.CountAsync();
-            var offset = parameters.PageIndex * parameters.PageSize;
+            if (parameters.EmployeeId.HasValue)
+            {
+                query = query.Where(e => e.EmployeeId == parameters.EmployeeId.Value);
+            }
+            if (parameters.IsActive.HasValue)
+            {
+                if (parameters.IsActive.Value)
+                {
+                    query = query.Where(e => e.TerminatedOn == null);
+                }
+                else
+                {
+                    query = query.Where(e => e.TerminatedOn != null);
+                }
+            }
+            if (parameters.ParkingSpaceId.HasValue)
+            {
+                query = query.Where(e => e.ParkingSpaceId == parameters.ParkingSpaceId.Value);
+            }
 
-            query = query.OrderBy(u => u.Id)
-                         .Skip(offset)
-                         .Take(parameters.PageSize);
 
-            var entities = await query.ToListAsync();
-            var data = _mapper.Map<IEnumerable<RentalAgreementDto>>(entities);
+            var orderedQuery = query.OrderBy(u => u.Id);
+
+            var paginatedList = await PaginatedList<RentalAgreement>
+                .CreateAsync(orderedQuery, parameters.PageIndex, parameters.PageSize);
+
+            var data = _mapper.Map<IEnumerable<RentalAgreementDto>>(paginatedList);
 
             var pagedResponse =
                 new PaginatedApiResponse<IEnumerable<RentalAgreementDto>>(
-                    data
-,
+                    data,
                     parameters.PageIndex,
                     parameters.PageSize,
-                    count);
+                    paginatedList.Count);
 
             var pagingHelper = new PagingLinksHelper<IEnumerable<RentalAgreementDto>>(pagedResponse, Url);
 

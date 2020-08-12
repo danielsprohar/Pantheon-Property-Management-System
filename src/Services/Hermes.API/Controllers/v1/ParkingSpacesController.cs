@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Hermes.API.Application.Pagination;
 using Hermes.API.Helpers;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -53,12 +54,10 @@ namespace Hermes.API.Controllers.v1
                 query = query.Where(e => e.Amps == parameters.Amps);
             }
 
-            query = query.OrderBy(u => u.Id);
+            var orderedQuery = query.OrderBy(u => u.Id);
 
             var paginatedList = await PaginatedList<ParkingSpace>
-                .CreateAsync(query, parameters.PageIndex, parameters.PageSize);
-
-            var entities = await query.ToListAsync();
+                .CreateAsync(orderedQuery, parameters.PageIndex, parameters.PageSize);
 
             var data = _mapper.Map<IEnumerable<ParkingSpaceDto>>(paginatedList);
 

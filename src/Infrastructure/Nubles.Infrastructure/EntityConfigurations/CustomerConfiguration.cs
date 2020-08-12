@@ -13,14 +13,14 @@ namespace Nubles.Infrastructure.EntityConfigurations
             builder.HasIndex(e => new { e.FirstName, e.LastName });
 
             builder.Property(e => e.FirstName)
-                .HasMaxLength((int)Customer.DBColumnLength.Name)
+                .HasMaxLength((int)Customer.DbColumnLength.Name)
                 .IsRequired();
 
             builder.Property(e => e.MiddleName)
-                .HasMaxLength((int)Customer.DBColumnLength.Name);
+                .HasMaxLength((int)Customer.DbColumnLength.Name);
 
             builder.Property(e => e.LastName)
-                .HasMaxLength((int)Customer.DBColumnLength.Name)
+                .HasMaxLength((int)Customer.DbColumnLength.Name)
                 .IsRequired();
 
             builder.Property(e => e.Gender)
@@ -28,12 +28,12 @@ namespace Nubles.Infrastructure.EntityConfigurations
                 .IsRequired();
 
             builder.Property(e => e.PhoneNumber)
-                .HasMaxLength((int)Customer.DBColumnLength.PhoneNumber)
+                .HasMaxLength((int)Customer.DbColumnLength.PhoneNumber)
                 .IsRequired();
 
             // https://tools.ietf.org/html/rfc5321#section-4.5.3
             builder.Property(e => e.Email)
-                .HasMaxLength((int)Customer.DBColumnLength.Email);
+                .HasMaxLength((int)Customer.DbColumnLength.Email);
 
             #region Owned Types
 

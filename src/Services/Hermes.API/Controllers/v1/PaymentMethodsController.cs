@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Hermes.API.Application.Pagination;
 using Hermes.API.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -42,23 +43,19 @@ namespace Hermes.API.Controllers.v1
                                 .AsQueryable()
                                 .AsNoTracking();
 
-            var count = await query.CountAsync();
-            var offset = parameters.PageIndex * parameters.PageSize;
+            var orderedQuery = query.OrderBy(u => u.Id);
 
-            query = query.OrderBy(u => u.Id)
-                         .Skip(offset)
-                         .Take(parameters.PageSize);
+            var paginatedList = await PaginatedList<PaymentMethod>
+                .CreateAsync(orderedQuery, parameters.PageIndex, parameters.PageSize);
 
-            var entities = await query.ToListAsync();
-            var data = _mapper.Map<IEnumerable<PaymentMethodDto>>(entities);
+            var data = _mapper.Map<IEnumerable<PaymentMethodDto>>(paginatedList);
 
             var pagedResponse =
                 new PaginatedApiResponse<IEnumerable<PaymentMethodDto>>(
-                    data
-,
+                    data,
                     parameters.PageIndex,
                     parameters.PageSize,
-                    count);
+                    paginatedList.Count);
 
             var pagingHelper = new PagingLinksHelper<IEnumerable<PaymentMethodDto>>(pagedResponse, Url);
 

@@ -55,7 +55,7 @@ namespace Hermes.API.Controllers.v1
                                 .AsQueryable()
                                 .AsNoTracking();
 
-            query = query.Predicates(parameters);
+            query = query.BuildSqlQueryFromParameters(parameters);
 
             var orderedQuery = query.OrderBy(u => u.Id);
 

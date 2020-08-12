@@ -1,8 +1,10 @@
-﻿namespace Nubles.Core.Application.Parameters
+﻿using System.Collections.Generic;
+
+namespace Nubles.Core.Application.Parameters
 {
     public class QueryParameters
     {
-        private readonly int MinPageIndex = 1;
+        public const int MinPageIndex = 1;
         private readonly int MaxPageSize = 50;
         private readonly int DefaultPageSize = 30;
 
@@ -25,15 +27,20 @@
         /// A comma separated string of values.
         /// </summary>
         /// <remarks>
-        /// To sort by descending order, 
+        /// To sort by descending order,
         ///     append "_desc" to the end of each value.<br/>
-        ///     
-        /// The following example will return result set that is sorted in descending order.
+        ///
+        /// The following example will return a result set that is sorted in descending order.
+        /// <code>
+        /// orderBy=createOn_desc
+        /// </code>
         /// </remarks>
         /// <example>
         /// orderBy=createOn_desc
         /// </example>
         public string OrderBy { get; set; }
+
+        // TODO: implement orderBy functionality
 
         public int PageIndex
         {
@@ -55,6 +62,25 @@
                     MaxPageSize :
                     value;
             }
+        }
+
+        public Dictionary<string, object> GetRouteValues()
+        {
+            var routeValuesDictionary = new Dictionary<string, object>();
+            var properties = GetType().GetProperties();
+            object value = null;
+
+            foreach (var p in properties)
+            {
+                value = p.GetValue(this);
+
+                if (value != null)
+                {
+                    routeValuesDictionary.Add(p.Name, value);
+                }
+            }
+
+            return routeValuesDictionary;
         }
     }
 }

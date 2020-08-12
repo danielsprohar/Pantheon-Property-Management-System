@@ -4,19 +4,28 @@ using System.Linq;
 
 namespace Nubles.Core.Application.Extensions
 {
-    public static class QueryParameterExtensions
+    public static class QueryableExtensions
     {
-        public static IQueryable<Invoice> Predicates(
+        public static IQueryable<Invoice> BuildSqlQueryFromParameters(
             this IQueryable<Invoice> query,
             InvoiceQueryParameters parameters)
         {
             return query;
         }
 
-        public static IQueryable<ParkingSpace> Predicates(
+        public static IQueryable<ParkingSpace> BuildSqlQueryFromParameters(
             this IQueryable<ParkingSpace> query,
             ParkingSpaceQueryParameters parameters)
         {
+            if (parameters.IsAvailable.HasValue)
+            {
+                query = query.Where(e => e.IsAvailable == parameters.IsAvailable);
+            }
+            if (parameters.Amps.HasValue)
+            {
+                query = query.Where(e => e.Amps == parameters.Amps);
+            }
+
             return query;
         }
 
@@ -27,7 +36,7 @@ namespace Nubles.Core.Application.Extensions
         /// <param name="query"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public static IQueryable<RentalAgreement> Predicates(
+        public static IQueryable<RentalAgreement> BuildSqlQueryFromParameters(
             this IQueryable<RentalAgreement> query,
             RentalAgreementQueryParameters parameters)
         {

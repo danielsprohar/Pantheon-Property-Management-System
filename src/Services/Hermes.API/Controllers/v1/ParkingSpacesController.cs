@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Nubles.Core.Application.Dto.Reads;
 using Nubles.Core.Application.Dto.Writes;
+using Nubles.Core.Application.Extensions;
 using Nubles.Core.Application.Parameters;
 using Nubles.Core.Application.Wrappers;
 using Nubles.Core.Application.Wrappers.Generics;
@@ -42,17 +43,11 @@ namespace Hermes.API.Controllers.v1
             [FromQuery] ParkingSpaceQueryParameters parameters)
         {
             var query = _context.ParkingSpaces
+                                .Include(space => space.ParkingSpaceType)
                                 .AsQueryable()
                                 .AsNoTracking();
 
-            if (parameters.IsAvailable.HasValue)
-            {
-                query = query.Where(e => e.IsAvailable == parameters.IsAvailable);
-            }
-            if (parameters.Amps.HasValue)
-            {
-                query = query.Where(e => e.Amps == parameters.Amps);
-            }
+            query = query.BuildSqlQueryFromParameters(parameters);
 
             var orderedQuery = query.OrderBy(u => u.Id);
 
@@ -66,7 +61,7 @@ namespace Hermes.API.Controllers.v1
                     data,
                     parameters.PageIndex,
                     parameters.PageSize,
-                    paginatedList.Count);
+                    paginatedList.TotalCount);
 
             var pagingHelper = new PagingLinksHelper<IEnumerable<ParkingSpaceDto>>(paginatedResponse, Url);
 

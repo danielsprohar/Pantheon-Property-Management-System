@@ -16,28 +16,44 @@ namespace Hermes.API.Helpers
             _urlHelper = urlHelper ?? throw new ArgumentNullException(nameof(urlHelper));
         }
 
-        public PaginatedApiResponse<T> GenerateLinks(string routeName, QueryParameters queryParameters)
+        public PaginatedApiResponse<T> GenerateLinks(string routeName, QueryParameters parameters)
         {
+            var originalPageIndex = parameters.PageIndex;
+
             if (_response.HasPrevious())
             {
+                parameters.PageIndex--;
+
                 _response.PreviousPage = _urlHelper.Link(
                     routeName,
-                    new QueryParameters(queryParameters.PageIndex - 1, queryParameters.PageSize));
+                    parameters.GetRouteValues());
+
+                parameters.PageIndex = originalPageIndex;
             }
             if (_response.HasNext())
             {
+                parameters.PageIndex++;
+
                 _response.NextPage = _urlHelper.Link(
                     routeName,
-                    new QueryParameters(queryParameters.PageIndex + 1, queryParameters.PageSize));
+                    parameters.GetRouteValues());
+
+                parameters.PageIndex = originalPageIndex;
             }
+
+            parameters.PageIndex = 0;
 
             _response.FirstPage = _urlHelper.Link(
                     routeName,
-                    new QueryParameters(0, queryParameters.PageSize));
+                    parameters.GetRouteValues());
+
+            parameters.PageIndex = _response.TotalPages;
 
             _response.LastPage = _urlHelper.Link(
                     routeName,
-                    new QueryParameters(_response.TotalPages - 1, queryParameters.PageSize));
+                    parameters.GetRouteValues());
+
+            parameters.PageIndex = originalPageIndex;
 
             return _response;
         }

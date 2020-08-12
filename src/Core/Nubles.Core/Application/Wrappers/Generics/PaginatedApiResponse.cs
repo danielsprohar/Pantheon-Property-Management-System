@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nubles.Core.Application.Parameters;
+using System;
 
 namespace Nubles.Core.Application.Wrappers.Generics
 {
@@ -34,7 +35,7 @@ namespace Nubles.Core.Application.Wrappers.Generics
 
         public bool HasPrevious()
         {
-            return PageIndex > 0;
+            return PageIndex > QueryParameters.MinPageIndex;
         }
 
         public bool HasNext()

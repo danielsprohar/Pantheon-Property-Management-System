@@ -10,11 +10,17 @@ namespace Hermes.API.Application.Pagination
     {
         public int PageIndex { get; private set; }
         public int PageSize { get; set; }
+
+        /// <summary>
+        /// The total count in the database
+        /// </summary>
+        public long TotalCount { get; set; }
         public int TotalPages { get; private set; }
 
-        private PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
+        private PaginatedList(List<T> items, long count, int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;
+            TotalCount = count;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
 
             AddRange(items);

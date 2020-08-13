@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Nubles.Core.Application.Dto.Writes
 {
-    public class AddInvoiceDto
+    public class AddInvoiceDto : IValidatableObject
     {
         [Required]
         public DateTime? DueDate { get; set; }
@@ -29,5 +29,16 @@ namespace Nubles.Core.Application.Dto.Writes
 
         [Required]
         public ICollection<AddInvoiceLineDto> InvoiceLines { get; set; } = new HashSet<AddInvoiceLineDto>();
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (BillingPeriodEnd < BillingPeriodStart)
+            {
+                var message = $"The {nameof(BillingPeriodEnd)} must be greater than or equal to the {BillingPeriodStart} property.";
+                yield return new ValidationResult(
+                    message,
+                    new[] { nameof(BillingPeriodEnd)});
+            }
+        }
     }
 }

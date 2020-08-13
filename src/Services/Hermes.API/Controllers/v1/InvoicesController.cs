@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Hermes.API.Application.Pagination;
 using Hermes.API.Helpers;
-using IdentityServer4.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -14,6 +13,7 @@ using Nubles.Core.Application.Wrappers.Generics;
 using Nubles.Core.Domain.Models;
 using Nubles.Infrastructure.Data;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -122,8 +122,10 @@ namespace Hermes.API.Controllers.v1
 
             if (!await IsValidBillingPeriod(addDto))
             {
-                var message = $"An invoice exists for the billing period: [{addDto.BillingPeriodStart}, {addDto.BillingPeriodEnd}]";
-                return UnprocessableEntity(new ApiResource(message));
+                var startDate = addDto.BillingPeriodStart.Value.ToString("d", DateTimeFormatInfo.InvariantInfo);
+                var endDate = addDto.BillingPeriodEnd.Value.ToString("d", DateTimeFormatInfo.InvariantInfo);
+                var message = $"An invoice exists for the billing period: [{startDate}, {endDate}]";
+                return UnprocessableEntity(new ApiResponse(message));
             }
 
             #endregion Validation

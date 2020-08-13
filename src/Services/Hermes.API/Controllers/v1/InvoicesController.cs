@@ -85,6 +85,7 @@ namespace Hermes.API.Controllers.v1
             var invoice = await _context
                 .Invoices
                 .Include(e => e.InvoiceStatus)
+                .Include(e => e.InvoiceLines)
                 .Where(e => e.Id == id)
                 .FirstOrDefaultAsync();
 

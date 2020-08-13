@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Hermes.API.Application.Pagination;
 using Hermes.API.Helpers;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -12,6 +13,7 @@ using Nubles.Core.Application.Wrappers;
 using Nubles.Core.Application.Wrappers.Generics;
 using Nubles.Core.Domain.Models;
 using Nubles.Infrastructure.Data;
+using Nubles.Infrastructure.Helpers;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -100,6 +102,71 @@ namespace Hermes.API.Controllers.v1
             return Ok(response);
         }
 
+        /// <summary>
+        /// Update an <c>Invoice</c> by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="employeeId"></param>
+        /// <param name="dtoDoc"></param>
+        /// <returns></returns>
+        [HttpPatch("{id}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        public async Task<IActionResult> PatchInvoice(
+            int id,
+            [FromQuery] int employeeId,
+            [FromBody] JsonPatchDocument<UpdateInvoiceDto> dtoDoc)
+        {
+            // TODO: add UserId to request and check if User exists.
+            employeeId = 1;
+
+            var rentalAgreement = await _context.Invoices.FindAsync(id);
+
+            if (rentalAgreement == null)
+            {
+                return NotFound();
+            }
+
+            var patchDoc = _mapper.Map<JsonPatchDocument<Invoice>>(dtoDoc);
+
+            patchDoc.ApplyTo(rentalAgreement, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            rentalAgreement.ModifiedBy = employeeId;
+            var saved = false;
+
+            while (!saved)
+            {
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    saved = true;
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    if (!await RentalAgreementExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        DbExceptionHelper.HandleConcurrencyException(ex, rentalAgreement.GetType());
+                    }
+                }
+            }
+
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Create a new <c>Invoice</c>
+        /// </summary>
+        /// <param name="apiVersion"></param>
+        /// <param name="addDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<ApiResponse<InvoiceDto>>> PostInvoice(
@@ -149,6 +216,9 @@ namespace Hermes.API.Controllers.v1
                                    value: response);
         }
 
+        // =========================================================================
+        // Helper methods
+        // =========================================================================
         private async Task<bool> InvoiceStatusExists(int id)
         {
             return await _context.InvoiceStatuses.AnyAsync(e => e.Id == id);

@@ -11,9 +11,9 @@ namespace Nubles.Core.Domain.Models
             Comments = 2048
         }
 
-        public DateTimeOffset DueDate { get; set; }
-        public DateTimeOffset BillingPeriodStart { get; set; }
-        public DateTimeOffset BillingPeriodEnd { get; set; }
+        public DateTime DueDate { get; set; }
+        public DateTime BillingPeriodStart { get; set; }
+        public DateTime BillingPeriodEnd { get; set; }
         public string Comments { get; set; }
 
         #region Navigation Properties

@@ -1,6 +1,8 @@
 ﻿using Nubles.Core.Application.Dto.Reads;
 using Nubles.Core.Application.Dto.Writes;
 using Nubles.Core.Domain.Models;
+using System;
+using System.Globalization;
 
 namespace Nubles.Core.Application.Mappings.Profiles
 {
@@ -39,7 +41,16 @@ namespace Nubles.Core.Application.Mappings.Profiles
         {
             CreateMap<InvoiceStatus, InvoiceStatusDto>();
             CreateMap<InvoiceLine, InvoiceLineDto>();
-            CreateMap<Invoice, InvoiceDto>();
+            CreateMap<Invoice, InvoiceDto>()
+                .ForMember(e => e.BillingPeriodEnd,
+                            opts => opts.MapFrom(r => 
+                                r.BillingPeriodEnd.ToString("d", DateTimeFormatInfo.InvariantInfo)))
+                .ForMember(e => e.BillingPeriodStart,
+                            opts => opts.MapFrom(r => 
+                                r.BillingPeriodStart.ToString("d", DateTimeFormatInfo.InvariantInfo)))
+                .ForMember(e => e.DueDate,
+                            opts => opts.MapFrom(r => 
+                                r.DueDate.ToString("d", DateTimeFormatInfo.InvariantInfo)));
         }
 
         protected override void CreateUpdateMappings()

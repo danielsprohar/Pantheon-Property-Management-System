@@ -158,9 +158,9 @@ CREATE TABLE [Invoices] (
     [CreatedOn] datetimeoffset NOT NULL DEFAULT (GETUTCDATE()),
     [ModifiedBy] int NOT NULL,
     [ModifiedOn] datetimeoffset NOT NULL DEFAULT (GETUTCDATE()),
-    [DueDate] datetimeoffset NOT NULL,
-    [BillingPeriodStart] datetimeoffset NOT NULL,
-    [BillingPeriodEnd] datetimeoffset NOT NULL,
+    [DueDate] DATE NOT NULL,
+    [BillingPeriodStart] DATE NOT NULL,
+    [BillingPeriodEnd] DATE NOT NULL,
     [Comments] nvarchar(2048) NULL,
     [RentalAgreementId] int NOT NULL,
     [InvoiceStatusId] int NOT NULL,
@@ -374,7 +374,7 @@ CREATE INDEX [IX_RentalAgreements_RentalAgreementTypeId] ON [RentalAgreements] (
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20200812011337_InitialCreate', N'3.1.6');
+VALUES (N'20200813012150_InitialCreate', N'3.1.6');
 
 GO
 

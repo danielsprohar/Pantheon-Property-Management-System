@@ -190,11 +190,11 @@ namespace Nubles.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTimeOffset>("BillingPeriodEnd")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("BillingPeriodEnd")
+                        .HasColumnType("DATE");
 
-                    b.Property<DateTimeOffset>("BillingPeriodStart")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("BillingPeriodStart")
+                        .HasColumnType("DATE");
 
                     b.Property<string>("Comments")
                         .HasColumnType("nvarchar(2048)")
@@ -205,8 +205,8 @@ namespace Nubles.Infrastructure.Migrations
                         .HasColumnType("datetimeoffset")
                         .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.Property<DateTimeOffset>("DueDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("DATE");
 
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");

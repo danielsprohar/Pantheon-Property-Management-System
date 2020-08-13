@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nubles.Core.Domain.Models;
+using Nubles.Infrastructure.Constants;
+using System.Data;
 
 namespace Nubles.Infrastructure.EntityConfigurations
 {
@@ -10,10 +12,20 @@ namespace Nubles.Infrastructure.EntityConfigurations
         {
             base.Configure(builder);
 
-            builder.Property(e => e.BillingPeriodStart).IsRequired();
-            builder.Property(e => e.BillingPeriodEnd).IsRequired();
-            builder.Property(e => e.DueDate).IsRequired();
-            builder.Property(e => e.Comments).HasMaxLength((int)Invoice.DbColumnLength.Comments);
+            builder.Property(e => e.BillingPeriodStart)
+                .HasColumnType(DbConstants.DateDbType)
+                .IsRequired();
+
+            builder.Property(e => e.BillingPeriodEnd)
+                .HasColumnType(DbConstants.DateDbType)
+                .IsRequired();
+
+            builder.Property(e => e.DueDate)
+                .HasColumnType(DbConstants.DateDbType)
+                .IsRequired();
+
+            builder.Property(e => e.Comments)
+                .HasMaxLength((int)Invoice.DbColumnLength.Comments);
 
             #region Relationships
 

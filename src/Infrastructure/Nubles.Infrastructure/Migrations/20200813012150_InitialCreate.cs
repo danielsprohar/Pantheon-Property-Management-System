@@ -249,9 +249,9 @@ namespace Nubles.Infrastructure.Migrations
                     CreatedOn = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETUTCDATE()"),
                     ModifiedBy = table.Column<int>(nullable: false),
                     ModifiedOn = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETUTCDATE()"),
-                    DueDate = table.Column<DateTimeOffset>(nullable: false),
-                    BillingPeriodStart = table.Column<DateTimeOffset>(nullable: false),
-                    BillingPeriodEnd = table.Column<DateTimeOffset>(nullable: false),
+                    DueDate = table.Column<DateTime>(type: "DATE", nullable: false),
+                    BillingPeriodStart = table.Column<DateTime>(type: "DATE", nullable: false),
+                    BillingPeriodEnd = table.Column<DateTime>(type: "DATE", nullable: false),
                     Comments = table.Column<string>(maxLength: 2048, nullable: true),
                     RentalAgreementId = table.Column<int>(nullable: false),
                     InvoiceStatusId = table.Column<int>(nullable: false)

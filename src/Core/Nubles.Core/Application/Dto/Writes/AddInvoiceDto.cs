@@ -8,13 +8,13 @@ namespace Nubles.Core.Application.Dto.Writes
     public class AddInvoiceDto
     {
         [Required]
-        public DateTimeOffset DueDate { get; set; }
+        public DateTime? DueDate { get; set; }
 
         [Required]
-        public DateTimeOffset BillingPeriodStart { get; set; }
+        public DateTime? BillingPeriodStart { get; set; }
 
         [Required]
-        public DateTimeOffset BillingPeriodEnd { get; set; }
+        public DateTime? BillingPeriodEnd { get; set; }
 
         [StringLength((int)Invoice.DbColumnLength.Comments)]
         public string Comments { get; set; }

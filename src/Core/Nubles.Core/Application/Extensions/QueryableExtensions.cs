@@ -21,6 +21,10 @@ namespace Nubles.Core.Application.Extensions
             {
                 query = query.Where(e => e.InvoiceStatusId == parameters.InvoiceStatusId.Value);
             }
+            if (parameters.DueDate.HasValue)
+            {
+                query = query.Where(e => e.DueDate.Date == parameters.DueDate.Value.Date);
+            }
 
             return query;
         }

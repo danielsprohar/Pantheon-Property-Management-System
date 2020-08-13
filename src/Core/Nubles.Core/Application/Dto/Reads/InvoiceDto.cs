@@ -7,11 +7,11 @@ namespace Nubles.Core.Application.Dto.Reads
     {
         public int Id { get; set; }
 
-        public DateTimeOffset DueDate { get; set; }
+        public string DueDate { get; set; }
 
-        public DateTimeOffset BillingPeriodStart { get; set; }
+        public string BillingPeriodStart { get; set; }
 
-        public DateTimeOffset BillingPeriodEnd { get; set; }
+        public string BillingPeriodEnd { get; set; }
 
         public string Comments { get; set; }
 

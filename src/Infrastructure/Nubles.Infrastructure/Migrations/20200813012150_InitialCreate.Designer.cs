@@ -10,7 +10,7 @@ using Nubles.Infrastructure.Data;
 namespace Nubles.Infrastructure.Migrations
 {
     [DbContext(typeof(PantheonDbContext))]
-    [Migration("20200812011337_InitialCreate")]
+    [Migration("20200813012150_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -192,11 +192,11 @@ namespace Nubles.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTimeOffset>("BillingPeriodEnd")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("BillingPeriodEnd")
+                        .HasColumnType("DATE");
 
-                    b.Property<DateTimeOffset>("BillingPeriodStart")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("BillingPeriodStart")
+                        .HasColumnType("DATE");
 
                     b.Property<string>("Comments")
                         .HasColumnType("nvarchar(2048)")
@@ -207,8 +207,8 @@ namespace Nubles.Infrastructure.Migrations
                         .HasColumnType("datetimeoffset")
                         .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.Property<DateTimeOffset>("DueDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("DATE");
 
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");

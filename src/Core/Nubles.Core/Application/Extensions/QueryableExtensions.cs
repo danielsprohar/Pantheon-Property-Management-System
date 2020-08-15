@@ -45,6 +45,28 @@ namespace Nubles.Core.Application.Extensions
             return query;
         }
 
+        public static IQueryable<Payment> BuildSqlQueryFromParameters(
+            this IQueryable<Payment> query,
+            PaymentQueryParameters parameters)
+        {
+            query = query.BuildDateQueryParameters(parameters);
+
+            if (parameters.CustomerId.HasValue)
+            {
+                query = query.Where(e => e.CustomerId == parameters.CustomerId.Value);
+            }
+            if (parameters.IsRefund.HasValue)
+            {
+                query = query.Where(e => e.IsRefund.Value == parameters.IsRefund.Value);
+            }
+            if (parameters.PaymentMethodId.HasValue)
+            {
+                query = query.Where(e => e.PaymentMethodId == parameters.PaymentMethodId);
+            }
+
+            return query;
+        }
+
         /// <summary>
         /// Enumerates the <c>RentalAgreementParameters</c> object and
         ///     constructs a LINQ query from said object.

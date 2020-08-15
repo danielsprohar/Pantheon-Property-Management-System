@@ -6,6 +6,16 @@ using System.Threading.Tasks;
 
 namespace Hermes.API.Application.Pagination
 {
+    /// <summary>
+    /// Creates a paginated list of type <c>T</c>.
+    /// When a new instance of this object is created
+    /// the total number of pages -- 
+    /// based on total <c>Count</c> and <c>PageSize</c> --
+    /// is calculated and stored as a property. In addition,
+    /// the total <c>Count</c>, <c>PageIndex</c>, and <c>PageSize</c>
+    /// are stored as properties.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class PaginatedList<T> : List<T>
     {
         public int PageIndex { get; private set; }
@@ -20,6 +30,7 @@ namespace Hermes.API.Application.Pagination
         private PaginatedList(List<T> items, long count, int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;
+            PageSize = pageSize;
             TotalCount = count;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
 
@@ -42,6 +53,16 @@ namespace Hermes.API.Application.Pagination
             }
         }
 
+        /// <summary>
+        /// Creates a paginated list of type <c>T</c>.
+        /// The total <c>Count</c> is set by making a call to the underlying data source,
+        /// e.g., a SQL Server database. 
+        /// In addition, the data is also retrieved by making a call to the underlying data source.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         public static async Task<PaginatedList<T>> CreateAsync(IOrderedQueryable<T> source, int pageIndex, int pageSize)
         {
             var count = await source.CountAsync();

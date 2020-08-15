@@ -240,7 +240,8 @@ namespace Hermes.API.Controllers.v1
             var end = start.AddMonths(1).AddDays(-1);
 
             return !await _context.Invoices
-                                  .AnyAsync(e => e.BillingPeriodStart.Date == start.Date &&
+                                  .AnyAsync(e => e.RentalAgreementId == invoice.RentalAgreementId &&
+                                                 e.BillingPeriodStart.Date == start.Date &&
                                                  e.BillingPeriodEnd.Date == end.Date);
         }
     }

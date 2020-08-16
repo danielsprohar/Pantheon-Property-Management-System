@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nubles.Core.Domain.Models;
 using Nubles.Infrastructure.Constants;
+using System;
 using System.Data;
 
 namespace Nubles.Infrastructure.EntityConfigurations
@@ -35,6 +36,27 @@ namespace Nubles.Infrastructure.EntityConfigurations
                 .OnDelete(DeleteBehavior.Restrict);
 
             #endregion Relationships
+
+            builder.HasData(GetInvoices());
+        }
+
+        private Invoice[] GetInvoices()
+        {
+            var utcNow = DateTimeOffset.UtcNow;
+
+            return new[]
+            {
+                new Invoice
+                {
+                    Id = 1,
+                    InvoiceStatusId = 1,
+                    RentalAgreementId = 1,
+                    EmployeeId = 1,
+                    BillingPeriodStart = utcNow.Date,
+                    BillingPeriodEnd = utcNow.AddDays(1).Date,
+                    DueDate = utcNow.Date
+                }
+            };
         }
     }
 }

@@ -302,7 +302,7 @@ namespace Nubles.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "InvoicePayment",
+                name: "InvoicePayments",
                 columns: table => new
                 {
                     InvoiceId = table.Column<int>(nullable: false),
@@ -310,15 +310,15 @@ namespace Nubles.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InvoicePayment", x => new { x.InvoiceId, x.PaymentId });
+                    table.PrimaryKey("PK_InvoicePayments", x => new { x.InvoiceId, x.PaymentId });
                     table.ForeignKey(
-                        name: "FK_InvoicePayment_Invoices_InvoiceId",
+                        name: "FK_InvoicePayments_Invoices_InvoiceId",
                         column: x => x.InvoiceId,
                         principalTable: "Invoices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_InvoicePayment_Payments_PaymentId",
+                        name: "FK_InvoicePayments_Payments_PaymentId",
                         column: x => x.PaymentId,
                         principalTable: "Payments",
                         principalColumn: "Id",
@@ -430,6 +430,16 @@ namespace Nubles.Infrastructure.Migrations
                 columns: new[] { "CustomerId", "RentalAgreementId" },
                 values: new object[] { 1, 1 });
 
+            migrationBuilder.InsertData(
+                table: "Invoices",
+                columns: new[] { "Id", "BillingPeriodEnd", "BillingPeriodStart", "Comments", "DueDate", "EmployeeId", "InvoiceStatusId", "ModifiedBy", "RentalAgreementId" },
+                values: new object[] { 1, new DateTime(2020, 8, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 8, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(2020, 8, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, 0, 1 });
+
+            migrationBuilder.InsertData(
+                table: "InvoiceLine",
+                columns: new[] { "InvoiceId", "ParkingSpaceId", "Description", "Price", "Quantity", "Total" },
+                values: new object[] { 1, 1, "Space #1; monthly rate of $400.00; electricity and water are included.", 400m, 1, 400m });
+
             migrationBuilder.CreateIndex(
                 name: "IX_CustomerRentalAgreements_RentalAgreementId",
                 table: "CustomerRentalAgreements",
@@ -451,8 +461,8 @@ namespace Nubles.Infrastructure.Migrations
                 column: "ParkingSpaceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InvoicePayment_PaymentId",
-                table: "InvoicePayment",
+                name: "IX_InvoicePayments_PaymentId",
+                table: "InvoicePayments",
                 column: "PaymentId");
 
             migrationBuilder.CreateIndex(
@@ -509,7 +519,7 @@ namespace Nubles.Infrastructure.Migrations
                 name: "InvoiceLine");
 
             migrationBuilder.DropTable(
-                name: "InvoicePayment");
+                name: "InvoicePayments");
 
             migrationBuilder.DropTable(
                 name: "Invoices");

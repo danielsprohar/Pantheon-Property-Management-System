@@ -33,6 +33,24 @@ namespace Nubles.Infrastructure.EntityConfigurations
             builder.Property(e => e.Total)
                 .HasColumnType(InvoiceLine.DecimalPrecision.Precision)
                 .IsRequired();
+
+            builder.HasData(GetInvoiceLines());
+        }
+
+        private InvoiceLine[] GetInvoiceLines()
+        {
+            return new[]
+            {
+                new InvoiceLine
+                {
+                    InvoiceId = 1,
+                    ParkingSpaceId = 1,
+                    Quantity = 1,
+                    Description = "Space #1; monthly rate of $400.00; electricity and water are included.",
+                    Price = 400M,
+                    Total = 400M,
+                }
+            };
         }
     }
 }

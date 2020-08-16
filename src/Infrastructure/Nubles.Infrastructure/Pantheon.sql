@@ -185,12 +185,12 @@ CREATE TABLE [InvoiceLine] (
 
 GO
 
-CREATE TABLE [InvoicePayment] (
+CREATE TABLE [InvoicePayments] (
     [InvoiceId] int NOT NULL,
     [PaymentId] int NOT NULL,
-    CONSTRAINT [PK_InvoicePayment] PRIMARY KEY ([InvoiceId], [PaymentId]),
-    CONSTRAINT [FK_InvoicePayment_Invoices_InvoiceId] FOREIGN KEY ([InvoiceId]) REFERENCES [Invoices] ([Id]) ON DELETE NO ACTION,
-    CONSTRAINT [FK_InvoicePayment_Payments_PaymentId] FOREIGN KEY ([PaymentId]) REFERENCES [Payments] ([Id]) ON DELETE NO ACTION
+    CONSTRAINT [PK_InvoicePayments] PRIMARY KEY ([InvoiceId], [PaymentId]),
+    CONSTRAINT [FK_InvoicePayments_Invoices_InvoiceId] FOREIGN KEY ([InvoiceId]) REFERENCES [Invoices] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_InvoicePayments_Payments_PaymentId] FOREIGN KEY ([PaymentId]) REFERENCES [Payments] ([Id]) ON DELETE NO ACTION
 );
 
 GO
@@ -321,6 +321,24 @@ IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'CustomerId'
 
 GO
 
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'BillingPeriodEnd', N'BillingPeriodStart', N'Comments', N'DueDate', N'EmployeeId', N'InvoiceStatusId', N'ModifiedBy', N'RentalAgreementId') AND [object_id] = OBJECT_ID(N'[Invoices]'))
+    SET IDENTITY_INSERT [Invoices] ON;
+INSERT INTO [Invoices] ([Id], [BillingPeriodEnd], [BillingPeriodStart], [Comments], [DueDate], [EmployeeId], [InvoiceStatusId], [ModifiedBy], [RentalAgreementId])
+VALUES (1, '2020-08-17T00:00:00.0000000', '2020-08-16T00:00:00.0000000', NULL, '2020-08-16T00:00:00.0000000', 1, 1, 0, 1);
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'BillingPeriodEnd', N'BillingPeriodStart', N'Comments', N'DueDate', N'EmployeeId', N'InvoiceStatusId', N'ModifiedBy', N'RentalAgreementId') AND [object_id] = OBJECT_ID(N'[Invoices]'))
+    SET IDENTITY_INSERT [Invoices] OFF;
+
+GO
+
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'InvoiceId', N'ParkingSpaceId', N'Description', N'Price', N'Quantity', N'Total') AND [object_id] = OBJECT_ID(N'[InvoiceLine]'))
+    SET IDENTITY_INSERT [InvoiceLine] ON;
+INSERT INTO [InvoiceLine] ([InvoiceId], [ParkingSpaceId], [Description], [Price], [Quantity], [Total])
+VALUES (1, 1, N'Space #1; monthly rate of $400.00; electricity and water are included.', 400.0, 1, 400.0);
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'InvoiceId', N'ParkingSpaceId', N'Description', N'Price', N'Quantity', N'Total') AND [object_id] = OBJECT_ID(N'[InvoiceLine]'))
+    SET IDENTITY_INSERT [InvoiceLine] OFF;
+
+GO
+
 CREATE INDEX [IX_CustomerRentalAgreements_RentalAgreementId] ON [CustomerRentalAgreements] ([RentalAgreementId]);
 
 GO
@@ -337,7 +355,7 @@ CREATE INDEX [IX_InvoiceLine_ParkingSpaceId] ON [InvoiceLine] ([ParkingSpaceId])
 
 GO
 
-CREATE INDEX [IX_InvoicePayment_PaymentId] ON [InvoicePayment] ([PaymentId]);
+CREATE INDEX [IX_InvoicePayments_PaymentId] ON [InvoicePayments] ([PaymentId]);
 
 GO
 
@@ -374,7 +392,7 @@ CREATE INDEX [IX_RentalAgreements_RentalAgreementTypeId] ON [RentalAgreements] (
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20200813012150_InitialCreate', N'3.1.6');
+VALUES (N'20200816031206_InitialCreate', N'3.1.7');
 
 GO
 

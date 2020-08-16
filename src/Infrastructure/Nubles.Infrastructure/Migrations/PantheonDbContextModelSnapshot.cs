@@ -15,7 +15,7 @@ namespace Nubles.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.6")
+                .HasAnnotation("ProductVersion", "3.1.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -237,6 +237,21 @@ namespace Nubles.Infrastructure.Migrations
                     b.HasIndex("RentalAgreementId");
 
                     b.ToTable("Invoices");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BillingPeriodEnd = new DateTime(2020, 8, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BillingPeriodStart = new DateTime(2020, 8, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DueDate = new DateTime(2020, 8, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EmployeeId = 1,
+                            InvoiceStatusId = 1,
+                            ModifiedBy = 0,
+                            ModifiedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            RentalAgreementId = 1
+                        });
                 });
 
             modelBuilder.Entity("Nubles.Core.Domain.Models.InvoiceLine", b =>
@@ -266,6 +281,17 @@ namespace Nubles.Infrastructure.Migrations
                     b.HasIndex("ParkingSpaceId");
 
                     b.ToTable("InvoiceLine");
+
+                    b.HasData(
+                        new
+                        {
+                            InvoiceId = 1,
+                            ParkingSpaceId = 1,
+                            Description = "Space #1; monthly rate of $400.00; electricity and water are included.",
+                            Price = 400m,
+                            Quantity = 1,
+                            Total = 400m
+                        });
                 });
 
             modelBuilder.Entity("Nubles.Core.Domain.Models.InvoicePayment", b =>
@@ -280,7 +306,7 @@ namespace Nubles.Infrastructure.Migrations
 
                     b.HasIndex("PaymentId");
 
-                    b.ToTable("InvoicePayment");
+                    b.ToTable("InvoicePayments");
                 });
 
             modelBuilder.Entity("Nubles.Core.Domain.Models.InvoiceStatus", b =>

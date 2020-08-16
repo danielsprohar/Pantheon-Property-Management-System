@@ -33,8 +33,8 @@ namespace Pantheon.Identity.Extensions
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
-                options.UserInteraction.LoginUrl = "/Identity/Account/Login";
-                options.UserInteraction.LogoutUrl = "/Identity/Account/Logout";
+                options.UserInteraction.LoginUrl = "https://localhost:6001/Identity/Account/Login";
+                options.UserInteraction.LogoutUrl = "https://localhost:6001/Identity/Account/Logout";
                 options.Authentication = new AuthenticationOptions()
                 {
                     CookieLifetime = TimeSpan.FromHours(10), // ID server cookie timeout set to 10 hours

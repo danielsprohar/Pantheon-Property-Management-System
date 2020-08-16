@@ -1,7 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
-
-
+﻿using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
 
@@ -11,16 +8,51 @@ namespace IdentityServer
     {
         public static IEnumerable<IdentityResource> IdentityResources =>
             new IdentityResource[]
-            { 
-                new IdentityResources.OpenId()
+            {
+                // https://auth0.com/docs/scopes/openid-connect-scopes
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
+                new IdentityResources.Email()
             };
 
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
-            { };
+            {
+                // https://auth0.com/docs/scopes/api-scopes
+                // https://identityserver4.readthedocs.io/en/latest/topics/resources.html#scopes
+                new ApiScope("hermes.api", "Hermes API"),
+            };
 
         public static IEnumerable<Client> Clients =>
-            new Client[] 
-            { };
+            new Client[]
+            {
+                new Client
+                {
+                    ClientId = "nubles.webapp.interactive",
+                    ClientName = "Nubles' webapp",
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowOfflineAccess = true,
+                    ClientSecrets =
+                    {
+                        new Secret("MyNotSoSecretSecret_0987".Sha256())
+                    },
+                    RedirectUris =
+                    {
+                        "https://localhost:5002/signin-oidc"
+                    },
+                    PostLogoutRedirectUris =
+                    {
+                        "https://localhost:5002/"
+                    },
+                    FrontChannelLogoutUri = "https://localhost:5002/signout-oidc",
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        "hermes.api"
+                    },
+                }
+            };
     }
 }

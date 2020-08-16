@@ -1,4 +1,5 @@
 using Hermes.API.Transformers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -50,6 +51,8 @@ namespace Hermes.API
                     .AddNublesInfrastructure(Configuration, HermesLoggerFactory);
 
             services.AddSwaggerGenWithOptions();
+
+            services.AddJwtAuthentication();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -113,6 +116,26 @@ namespace Hermes.API
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
+
+            return services;
+        }
+
+        public static IServiceCollection AddJwtAuthentication(this IServiceCollection services)
+        {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(configureOptions =>
+                    {
+                        // base address for IdentityServer
+                        configureOptions.Authority = HermesConstants.Identity.AuthorityAddress;
+
+                        // IdentityServer emits a typ header by default, recommended extra check
+                        configureOptions.TokenValidationParameters.ValidTypes = new[]
+                        {
+                            "at+jwt",
+                        };
+
+                        configureOptions.TokenValidationParameters.ValidateAudience = false;
+                    });
 
             return services;
         }

@@ -24,6 +24,7 @@ namespace Pantheon.Identity.Extensions
 
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
             services.AddIdentityServer(options =>

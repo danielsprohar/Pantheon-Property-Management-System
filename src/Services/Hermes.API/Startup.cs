@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Nubles.Core;
 using Nubles.Infrastructure;
@@ -82,7 +83,8 @@ namespace Hermes.API
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllers()
+                         .RequireAuthorization(AuthConstants.Policy.ApiScope);
             });
         }
     }
@@ -126,16 +128,28 @@ namespace Hermes.API
                     .AddJwtBearer(configureOptions =>
                     {
                         // base address for IdentityServer
-                        configureOptions.Authority = HermesConstants.Identity.AuthorityAddress;
+                        configureOptions.Authority = AuthConstants.Identity.AuthorityAddress;
 
-                        // IdentityServer emits a typ header by default, recommended extra check
-                        configureOptions.TokenValidationParameters.ValidTypes = new[]
+                        configureOptions.TokenValidationParameters = new TokenValidationParameters
                         {
-                            "at+jwt",
+                            ValidTypes = new[]
+                            {
+                                // IdentityServer emits a typ header by default, recommended extra check
+                                "at+jwt"
+                            },
+                            // Using scope only authentication
+                            ValidateAudience = false
                         };
-
-                        configureOptions.TokenValidationParameters.ValidateAudience = false;
                     });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(AuthConstants.Policy.ApiScope, policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim("scope", AuthConstants.Identity.ScopeName);
+                });
+            });
 
             return services;
         }

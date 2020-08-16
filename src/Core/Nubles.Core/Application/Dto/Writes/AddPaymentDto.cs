@@ -14,12 +14,12 @@ namespace Nubles.Core.Application.Dto.Writes
         public bool? IsRefund { get; set; }
 
         [Required]
-        public int PaymentMethodId { get; set; }
+        public int? PaymentMethodId { get; set; }
 
         [Required]
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
 
         [Required]
-        public int InvoiceId { get; set; }
+        public int? InvoiceId { get; set; }
     }
 }

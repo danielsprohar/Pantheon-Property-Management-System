@@ -10,6 +10,7 @@ namespace Nubles.Infrastructure.Data
         public DbSet<CustomerVehicle> CustomerVehicles { get; set; }
         public DbSet<CustomerRentalAgreement> CustomerRentalAgreements { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<InvoicePayment> InvoicePayments { get; set; }
         public DbSet<InvoiceStatus> InvoiceStatuses { get; set; }
         public DbSet<ParkingSpace> ParkingSpaces { get; set; }
         public DbSet<ParkingSpaceType> ParkingSpaceTypes { get; set; }

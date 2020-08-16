@@ -11,7 +11,6 @@ using Nubles.Core.Application.Wrappers;
 using Nubles.Core.Application.Wrappers.Generics;
 using Nubles.Core.Domain.Models;
 using Nubles.Infrastructure.Data;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -66,7 +65,6 @@ namespace Hermes.API.Controllers.v1
 
             return Ok(pagedResponse);
         }
-
 
         [HttpGet("{id}", Name = nameof(GetPayment))]
         public async Task<ActionResult<ApiResponse<PaymentDto>>> GetPayment(int id)

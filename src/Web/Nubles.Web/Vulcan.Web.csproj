@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>Vulcan.Web</AssemblyName>
+    <RootNamespace>Vulcan.Web</RootNamespace>
+    <StartupObject>Vulcan.Web.Program</StartupObject>
+    <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+</Project>

@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hermes.API", "src\Services\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{1BD34660-7DD5-4663-8B76-3485A16B099B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nubles.Web", "src\Web\Nubles.Web\Nubles.Web.csproj", "{5CD3DD11-EE22-4154-A2ED-3F25B83A5D7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vulcan.Web", "src\Web\Nubles.Web\Vulcan.Web.csproj", "{5CD3DD11-EE22-4154-A2ED-3F25B83A5D7C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pantheon.Identity", "src\Infrastructure\Pantheon.Identity\Pantheon.Identity.csproj", "{FC8E566A-E3F9-4061-B069-ACED1133C6F4}"
 EndProject

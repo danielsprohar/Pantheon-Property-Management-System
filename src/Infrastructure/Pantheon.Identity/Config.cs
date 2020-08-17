@@ -28,8 +28,8 @@ namespace Pantheon.Identity
             {
                 new Client
                 {
-                    ClientId = "nubles.webapp.interactive",
-                    ClientName = "Nubles' webapp",
+                    ClientId = "vulcan.webapp.interactive",
+                    ClientName = "Vulcan Webapp",
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowOfflineAccess = true,
                     ClientSecrets =

@@ -8,4 +8,8 @@
     <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Services\Hermes.API\Hermes.API.csproj" />
+  </ItemGroup>
+
 </Project>

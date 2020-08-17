@@ -99,8 +99,8 @@ namespace Hermes.API.Controllers.v1
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<ApiResponse<PaymentMethodDto>>> PostPaymentMethod(
-            ApiVersion apiVersion,
-            AddPaymentMethodDto addDto)
+            [FromRoute] ApiVersion apiVersion,
+            [FromBody] AddPaymentMethodDto addDto)
         {
             var entity = _mapper.Map<PaymentMethod>(addDto);
 

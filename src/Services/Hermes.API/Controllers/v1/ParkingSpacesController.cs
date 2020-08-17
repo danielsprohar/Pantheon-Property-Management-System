@@ -109,8 +109,8 @@ namespace Hermes.API.Controllers.v1
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<ApiResponse<ParkingSpaceDto>>> PostParkingSpace(
-            ApiVersion apiVersion,
-            AddParkingSpaceDto addDto)
+            [FromRoute] ApiVersion apiVersion,
+            [FromBody] AddParkingSpaceDto addDto)
         {
             #region Validation
 

@@ -98,8 +98,8 @@ namespace Hermes.API.Controllers.v1
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<ApiResponse<InvoiceStatusDto>>> PostInvoiceStatus(
-            ApiVersion apiVersion,
-            AddInvoiceStatusDto addDto)
+            [FromRoute] ApiVersion apiVersion,
+            [FromBody] AddInvoiceStatusDto addDto)
         {
             var entity = _mapper.Map<InvoiceStatus>(addDto);
 

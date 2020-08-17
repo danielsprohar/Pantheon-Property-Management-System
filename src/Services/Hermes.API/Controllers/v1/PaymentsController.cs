@@ -20,10 +20,7 @@ using System.Threading.Tasks;
 namespace Hermes.API.Controllers.v1
 {
     [ApiVersion("1.0")]
-    [ApiController]
-    [Produces(MediaTypeNames.Application.Json)]
-    [Route("api/v{version:apiVersion}/[controller]")]
-    public class PaymentsController : ControllerBase
+    public class PaymentsController : VersionedApiController
     {
         private readonly PantheonDbContext _context;
         private readonly ILogger _logger;
@@ -91,9 +88,9 @@ namespace Hermes.API.Controllers.v1
         [HttpPost("~/api/v{version:apiVersion}/invoices/{invoiceId}/payments")]
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<ApiResponse<PaymentDto>>> PostInvoicePayment(
-            int invoiceId,
-            ApiVersion apiVersion,
-            AddPaymentDto addDto)
+            [FromRoute] int invoiceId,
+            [FromRoute] ApiVersion apiVersion,
+            [FromBody] AddPaymentDto addDto)
         {
             #region Validation
 

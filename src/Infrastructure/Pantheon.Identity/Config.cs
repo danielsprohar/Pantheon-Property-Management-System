@@ -1,5 +1,6 @@
 ﻿using IdentityServer4;
 using IdentityServer4.Models;
+using Pantheon.Identity.Constants;
 using System.Collections.Generic;
 
 namespace Pantheon.Identity
@@ -20,7 +21,7 @@ namespace Pantheon.Identity
             {
                 // https://auth0.com/docs/scopes/api-scopes
                 // https://identityserver4.readthedocs.io/en/latest/topics/resources.html#scopes
-                new ApiScope("hermes.api", "Hermes API"),
+                new ApiScope(PantheonIdentityConstants.ApiScopes.Hermes, "Hermes API"),
             };
 
         public static IEnumerable<Client> Clients =>
@@ -28,7 +29,7 @@ namespace Pantheon.Identity
             {
                 new Client
                 {
-                    ClientId = "vulcan.webapp.interactive",
+                    ClientId = PantheonIdentityConstants.Clients.Vulcan,
                     ClientName = "Vulcan Webapp",
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowOfflineAccess = true,
@@ -50,7 +51,7 @@ namespace Pantheon.Identity
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Email,
-                        "hermes.api"
+                        PantheonIdentityConstants.ApiScopes.Hermes
                     },
                 }
             };

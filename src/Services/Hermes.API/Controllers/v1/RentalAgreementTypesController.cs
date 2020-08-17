@@ -101,8 +101,8 @@ namespace Hermes.API.Controllers.v1
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<ApiResponse<RentalAgreementTypeDto>>> PostRentalAgreementType(
-            ApiVersion apiVersion,
-            AddRentalAgreementTypeDto addDto)
+            [FromRoute] ApiVersion apiVersion,
+            [FromBody] AddRentalAgreementTypeDto addDto)
         {
             var entity = _mapper.Map<RentalAgreementType>(addDto);
 

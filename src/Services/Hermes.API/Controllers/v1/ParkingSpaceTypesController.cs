@@ -98,8 +98,8 @@ namespace Hermes.API.Controllers.v1
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<ApiResponse<ParkingSpaceTypeDto>>> PostParkingSpaceType(
-            ApiVersion apiVersion,
-            AddParkingSpaceTypeDto addDto)
+            [FromRoute] ApiVersion apiVersion,
+            [FromBody] AddParkingSpaceTypeDto addDto)
         {
             var entity = _mapper.Map<ParkingSpaceType>(addDto);
 

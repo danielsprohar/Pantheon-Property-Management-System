@@ -1,3 +1,4 @@
+using Hermes.API.Constants;
 using Hermes.API.Transformers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -12,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Nubles.Core;
 using Nubles.Infrastructure;
+using Pantheon.Identity.Constants;
 using System;
 using System.IO;
 using System.Reflection;
@@ -84,7 +86,7 @@ namespace Hermes.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers()
-                         .RequireAuthorization(AuthConstants.Policy.ApiScope);
+                         .RequireAuthorization(HermesConstants.AuthorizationPolicy.ApiScope);
             });
         }
     }
@@ -128,7 +130,7 @@ namespace Hermes.API
                     .AddJwtBearer(configureOptions =>
                     {
                         // base address for IdentityServer
-                        configureOptions.Authority = AuthConstants.Identity.AuthorityAddress;
+                        configureOptions.Authority = PantheonIdentityConstants.IssuerAddress;
 
                         configureOptions.TokenValidationParameters = new TokenValidationParameters
                         {
@@ -144,10 +146,10 @@ namespace Hermes.API
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(AuthConstants.Policy.ApiScope, policy =>
+                options.AddPolicy(HermesConstants.AuthorizationPolicy.ApiScope, policy =>
                 {
                     policy.RequireAuthenticatedUser();
-                    policy.RequireClaim("scope", AuthConstants.Identity.ScopeName);
+                    policy.RequireClaim("scope", PantheonIdentityConstants.ApiScopes.Hermes);
                 });
             });
 

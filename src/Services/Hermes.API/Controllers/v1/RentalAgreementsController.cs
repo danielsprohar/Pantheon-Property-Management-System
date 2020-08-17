@@ -181,8 +181,8 @@ namespace Hermes.API.Controllers.v1
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<ApiResponse<RentalAgreementDto>>> PostRentalAgreement(
-            ApiVersion apiVersion,
-            AddRentalAgreementDto addDto)
+            [FromRoute] ApiVersion apiVersion,
+            [FromBody] AddRentalAgreementDto addDto)
         {
             #region Validation
 

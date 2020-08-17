@@ -5,7 +5,7 @@
         /// <summary>
         /// The url to Identity Server
         /// </summary>
-        public const string IssuerAddress = "https://localhost:6001";
+        public const string AuthorityAddress = "https://localhost:6001";
 
         public class ApiScopes
         {

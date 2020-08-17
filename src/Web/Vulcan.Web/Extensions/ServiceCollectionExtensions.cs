@@ -22,7 +22,7 @@ namespace Vulcan.Web.Extensions
                 .AddOpenIdConnect(IdentityServerConstants.ProtocolTypes.OpenIdConnect, options =>
                 {
                     // The address of Identity Server
-                    options.Authority = "https://localhost:5001";
+                    options.Authority = PantheonIdentityConstants.AuthorityAddress;
 
                     options.ClientId = PantheonIdentityConstants.Clients.Vulcan;
 

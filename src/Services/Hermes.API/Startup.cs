@@ -130,7 +130,7 @@ namespace Hermes.API
                     .AddJwtBearer(configureOptions =>
                     {
                         // base address for IdentityServer
-                        configureOptions.Authority = PantheonIdentityConstants.IssuerAddress;
+                        configureOptions.Authority = PantheonIdentityConstants.AuthorityAddress;
 
                         configureOptions.TokenValidationParameters = new TokenValidationParameters
                         {

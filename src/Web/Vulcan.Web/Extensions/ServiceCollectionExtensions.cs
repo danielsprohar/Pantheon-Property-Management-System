@@ -27,7 +27,7 @@ namespace Vulcan.Web.Extensions
                     options.ClientId = PantheonIdentityConstants.Clients.Vulcan;
 
                     // TODO: Store the secret in a secure store
-                    options.ClientSecret = "MyNotSoSecretSecret_0987".Sha256();
+                    options.ClientSecret = "MyNotSoSecretSecret_0987";
 
                     // https://identityserver4.readthedocs.io/en/latest/topics/grant_types.html#interactive-clients
                     options.ResponseType = "code";

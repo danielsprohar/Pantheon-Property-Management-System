@@ -22,7 +22,13 @@ namespace Pantheon.Identity.Extensions
             services.AddDbContext<ApplicationDbContext>(options => 
                 options.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationsAssembly)));
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            {
+                options.ClaimsIdentity = new ClaimsIdentityOptions
+                {
+                    
+                };
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();

@@ -1,5 +1,4 @@
 ﻿using IdentityServer4;
-using IdentityServer4.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Pantheon.Identity.Constants;
 using System.IdentityModel.Tokens.Jwt;
@@ -33,6 +32,8 @@ namespace Vulcan.Web.Extensions
                     options.ResponseType = "code";
 
                     options.SaveTokens = true;
+
+                    options.GetClaimsFromUserInfoEndpoint = true;
 
                     // so we can access the API resources
                     options.Scope.Add(PantheonIdentityConstants.ApiScopes.Hermes);

@@ -1,0 +1,40 @@
+﻿@using System.Security.Claims
+
+@{
+    Claim userNameClaim = User.Claims.FirstOrDefault(e => e.Type == "name");
+}
+
+<ul class="navbar-nav">
+    @if (userNameClaim != null)
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark"
+               href="https://localhost:6001/Identity/Account/Manage"
+               title="Manage your account">
+                Hello @userNameClaim.Value
+            </a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline"
+                  href="https://localhost:6001/Identity/Account/Logout"
+                  method="post">
+                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark"
+               href="https://localhost:6001/Identity/Account/Register">
+                Register
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark"
+               href="https://localhost:6001/Identity/Account/Login">
+                Login
+            </a>
+        </li>
+    }
+</ul>

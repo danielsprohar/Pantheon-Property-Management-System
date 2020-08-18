@@ -1,8 +1,8 @@
-﻿using Nubles.Core.Application.Dto.Reads;
-using Nubles.Core.Application.Dto.Writes;
-using Nubles.Core.Domain.Models;
+﻿using Pantheon.Core.Application.Dto.Reads;
+using Pantheon.Core.Application.Dto.Writes;
+using Pantheon.Core.Domain.Models;
 
-namespace Nubles.Core.Application.Mappings.Profiles
+namespace Pantheon.Core.Application.Mappings.Profiles
 {
     public class PaymentProfile : EntityProfile
     {

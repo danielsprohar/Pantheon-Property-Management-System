@@ -1,4 +1,4 @@
-﻿namespace Nubles.Core.Domain.Base
+﻿namespace Pantheon.Core.Domain.Base
 {
     public abstract class Entity
     {

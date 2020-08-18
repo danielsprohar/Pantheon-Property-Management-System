@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Nubles.Core.Application.Dto.Writes
+namespace Pantheon.Core.Application.Dto.Writes
 {
     public class AddCustomerVehicleDto
     {

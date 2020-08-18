@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nubles.Core.Domain.Models;
+using Pantheon.Core.Domain.Models;
 using System.Collections.Generic;
 
 namespace Nubles.Infrastructure.EntityConfigurations

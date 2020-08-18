@@ -1,4 +1,4 @@
-﻿namespace Nubles.Core.Domain.Models
+﻿namespace Pantheon.Core.Domain.Models
 {
     public class InvoiceLine
     {

@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using Nubles.Core.Application.Dto.Reads;
-using Nubles.Core.Application.Dto.Writes;
-using Nubles.Core.Application.Extensions;
 using Nubles.Core.Application.Parameters;
 using Nubles.Core.Application.Wrappers.Generics;
+using Pantheon.Core.Application.Dto.Reads;
+using Pantheon.Core.Application.Dto.Writes;
+using Pantheon.Core.Application.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -24,20 +24,17 @@ namespace Vulcan.Web.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HttpClient _httpClient;
         private readonly HermesApiOptions _hermesApiOptions;
-        private readonly LinkGenerator _linkGenerator;
 
         public ParkingSpaceService(
             ILogger<ParkingSpaceService> logger,
             IHttpContextAccessor httpContextAccessor,
             HttpClient httpClient,
-            IOptions<HermesApiOptions> options,
-            LinkGenerator linkGenerator)
+            IOptions<HermesApiOptions> options)
         {
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
             _httpClient = httpClient;
             _hermesApiOptions = options.Value;
-            _linkGenerator = linkGenerator;
         }
 
         public Task<bool> AddParkingSpace(AddParkingSpaceDto parkingSpaceDto)

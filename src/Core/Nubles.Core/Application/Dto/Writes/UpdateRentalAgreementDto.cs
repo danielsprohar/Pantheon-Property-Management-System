@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nubles.Core.Application.Dto.Writes
+namespace Pantheon.Core.Application.Dto.Writes
 {
     public class UpdateRentalAgreementDto
     {

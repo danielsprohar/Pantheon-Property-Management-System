@@ -1,10 +1,9 @@
-﻿using Nubles.Core.Application.Dto.Reads;
-using Nubles.Core.Application.Dto.Writes;
-using Nubles.Core.Domain.Models;
-using System;
+﻿using Pantheon.Core.Application.Dto.Reads;
+using Pantheon.Core.Application.Dto.Writes;
+using Pantheon.Core.Domain.Models;
 using System.Globalization;
 
-namespace Nubles.Core.Application.Mappings.Profiles
+namespace Pantheon.Core.Application.Mappings.Profiles
 {
     public class InvoiceProfile : EntityProfile
     {
@@ -43,13 +42,13 @@ namespace Nubles.Core.Application.Mappings.Profiles
             CreateMap<InvoiceLine, InvoiceLineDto>();
             CreateMap<Invoice, InvoiceDto>()
                 .ForMember(e => e.BillingPeriodEnd,
-                            opts => opts.MapFrom(r => 
+                            opts => opts.MapFrom(r =>
                                 r.BillingPeriodEnd.ToString("d", DateTimeFormatInfo.InvariantInfo)))
                 .ForMember(e => e.BillingPeriodStart,
-                            opts => opts.MapFrom(r => 
+                            opts => opts.MapFrom(r =>
                                 r.BillingPeriodStart.ToString("d", DateTimeFormatInfo.InvariantInfo)))
                 .ForMember(e => e.DueDate,
-                            opts => opts.MapFrom(r => 
+                            opts => opts.MapFrom(r =>
                                 r.DueDate.ToString("d", DateTimeFormatInfo.InvariantInfo)));
         }
 

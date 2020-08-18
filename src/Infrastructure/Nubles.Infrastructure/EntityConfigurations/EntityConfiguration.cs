@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nubles.Core.Domain.Base;
+using Pantheon.Core.Domain.Base;
 
 namespace Nubles.Infrastructure.EntityConfigurations
 {

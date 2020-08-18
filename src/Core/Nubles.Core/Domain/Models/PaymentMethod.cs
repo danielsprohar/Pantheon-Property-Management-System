@@ -1,6 +1,6 @@
-﻿using Nubles.Core.Domain.Base;
+﻿using Pantheon.Core.Domain.Base;
 
-namespace Nubles.Core.Domain.Models
+namespace Pantheon.Core.Domain.Models
 {
     public class PaymentMethod : Entity
     {

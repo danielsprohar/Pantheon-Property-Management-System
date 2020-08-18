@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nubles.Core.Domain.Models;
 using Nubles.Infrastructure.Constants;
+using Pantheon.Core.Domain.Models;
 using System;
 using System.Data;
 

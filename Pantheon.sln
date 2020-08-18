@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{ACDD6628-886
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{3CF29844-1C7B-4E9F-A9FA-E1CD32C1757B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nubles.Core", "src\Core\Nubles.Core\Nubles.Core.csproj", "{B02301F2-4775-4D52-BA7B-B364A3521DC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pantheon.Core", "src\Core\Nubles.Core\Pantheon.Core.csproj", "{B02301F2-4775-4D52-BA7B-B364A3521DC6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{73F0C72F-6D67-4776-8A6F-DA37B220B129}"
 EndProject

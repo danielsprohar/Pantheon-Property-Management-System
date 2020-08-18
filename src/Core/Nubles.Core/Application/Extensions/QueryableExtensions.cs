@@ -1,9 +1,9 @@
 ﻿using Nubles.Core.Application.Parameters;
-using Nubles.Core.Domain.Base;
-using Nubles.Core.Domain.Models;
+using Pantheon.Core.Domain.Base;
+using Pantheon.Core.Domain.Models;
 using System.Linq;
 
-namespace Nubles.Core.Application.Extensions
+namespace Pantheon.Core.Application.Extensions
 {
     public static class QueryableExtensions
     {

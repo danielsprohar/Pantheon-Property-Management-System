@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Nubles.Core.Application.Exceptions
+namespace Pantheon.Core.Application.Exceptions
 {
     public class ApiException : Exception
     {

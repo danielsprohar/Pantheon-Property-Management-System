@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>Pantheon.Core</AssemblyName>
+    <RootNamespace>Pantheon.Core</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Application\Interfaces\" />
     <Folder Include="Application\Mappings\Profiles\" />
   </ItemGroup>
 

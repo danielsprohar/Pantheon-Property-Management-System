@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.JsonPatch.Operations;
 
-namespace Nubles.Core.Application.Mappings
+namespace Pantheon.Core.Application.Mappings
 {
     public class NublesProfile : Profile
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Web;
 
-namespace Nubles.Core.Application.Extensions
+namespace Pantheon.Core.Application.Extensions
 {
     public static class UriStringExtensions
     {

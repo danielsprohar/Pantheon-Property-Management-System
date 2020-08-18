@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Nubles.Core.Application.Dto.Writes;
-using Nubles.Core.Domain.Models;
+using Pantheon.Core.Application.Dto.Writes;
+using Pantheon.Core.Domain.Models;
 
-namespace Nubles.Core.Application.Mappings.Resolvers
+namespace Pantheon.Core.Application.Mappings.Resolvers
 {
     internal class NormalizeEmailResolver : IValueResolver<AddCustomerDto, Customer, string>
     {

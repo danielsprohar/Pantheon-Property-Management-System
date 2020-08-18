@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Nubles.Core.Application.Dto.Reads
+namespace Pantheon.Core.Application.Dto.Reads
 {
     public class RentalAgreementDto
     {

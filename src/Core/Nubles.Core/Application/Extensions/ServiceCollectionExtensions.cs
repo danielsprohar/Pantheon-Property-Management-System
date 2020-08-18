@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
-using Nubles.Core.Application.Mappings;
+using Pantheon.Core.Application.Mappings;
 
-namespace Nubles.Core.Application.Extensions
+namespace Pantheon.Core.Application.Extensions
 {
     public static class ServiceCollectionExtensions
     {

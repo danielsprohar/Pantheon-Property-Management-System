@@ -1,9 +1,9 @@
-﻿using Nubles.Core.Application.Dto.Reads;
-using Nubles.Core.Application.Dto.Writes;
-using Nubles.Core.Application.Mappings.Resolvers;
-using Nubles.Core.Domain.Models;
+﻿using Pantheon.Core.Application.Dto.Reads;
+using Pantheon.Core.Application.Dto.Writes;
+using Pantheon.Core.Application.Mappings.Resolvers;
+using Pantheon.Core.Domain.Models;
 
-namespace Nubles.Core.Application.Mappings.Profiles
+namespace Pantheon.Core.Application.Mappings.Profiles
 {
     public class CustomerProfile : EntityProfile
     {
@@ -60,7 +60,7 @@ namespace Nubles.Core.Application.Mappings.Profiles
                 .ForMember(e => e.ModifiedOn, opts => opts.Ignore())
                 .ForMember(e => e.Id, opts => opts.Ignore())
                 .ForMember(e => e.RowVersion, opts => opts.Ignore())
-                .ForMember(e => e.NormalizedEmail, 
+                .ForMember(e => e.NormalizedEmail,
                     opts => opts.MapFrom(valueResolver => valueResolver.Email.ToUpperInvariant()));
         }
     }

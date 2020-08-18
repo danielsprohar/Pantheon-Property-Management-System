@@ -1,4 +1,4 @@
-﻿namespace Nubles.Core.Application.Dto.Reads
+﻿namespace Pantheon.Core.Application.Dto.Reads
 {
     public class RentalAgreementTypeDto
     {

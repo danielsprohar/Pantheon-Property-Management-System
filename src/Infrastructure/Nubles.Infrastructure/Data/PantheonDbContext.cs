@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Nubles.Core.Domain.Models;
 using Nubles.Infrastructure.EntityConfigurations;
+using Pantheon.Core.Domain.Models;
 
 namespace Nubles.Infrastructure.Data
 {

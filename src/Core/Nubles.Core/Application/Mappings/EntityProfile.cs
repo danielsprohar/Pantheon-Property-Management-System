@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace Nubles.Core.Application.Mappings
+namespace Pantheon.Core.Application.Mappings
 {
     public abstract class EntityProfile : Profile
     {

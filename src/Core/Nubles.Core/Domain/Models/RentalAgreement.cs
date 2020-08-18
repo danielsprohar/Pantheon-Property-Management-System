@@ -1,8 +1,8 @@
-﻿using Nubles.Core.Domain.Base;
+﻿using Pantheon.Core.Domain.Base;
 using System;
 using System.Collections.Generic;
 
-namespace Nubles.Core.Domain.Models
+namespace Pantheon.Core.Domain.Models
 {
     public class RentalAgreement : AuditableEntity
     {

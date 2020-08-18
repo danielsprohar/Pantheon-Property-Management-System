@@ -1,9 +1,9 @@
-﻿using Nubles.Core.Domain.Models;
+﻿using Pantheon.Core.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Nubles.Core.Application.Dto.Writes
+namespace Pantheon.Core.Application.Dto.Writes
 {
     public class AddInvoiceDto : IValidatableObject
     {
@@ -37,7 +37,7 @@ namespace Nubles.Core.Application.Dto.Writes
                 var message = $"The {nameof(BillingPeriodEnd)} must be greater than or equal to the {BillingPeriodStart} property.";
                 yield return new ValidationResult(
                     message,
-                    new[] { nameof(BillingPeriodEnd)});
+                    new[] { nameof(BillingPeriodEnd) });
             }
         }
     }

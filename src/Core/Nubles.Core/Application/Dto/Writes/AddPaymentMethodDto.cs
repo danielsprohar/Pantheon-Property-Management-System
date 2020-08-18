@@ -1,7 +1,7 @@
-﻿using Nubles.Core.Domain.Models;
+﻿using Pantheon.Core.Domain.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace Nubles.Core.Application.Dto.Writes
+namespace Pantheon.Core.Application.Dto.Writes
 {
     public class AddPaymentMethodDto
     {

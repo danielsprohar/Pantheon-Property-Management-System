@@ -1,14 +1,18 @@
+using IdentityServer4;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Vulcan.Web.Extensions;
+using Pantheon.Identity.Constants;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Vulcan.Web
 {
     public class Startup
     {
+        private const string CookieScheme = "Pantheon.Cookie";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -19,8 +23,39 @@ namespace Vulcan.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.RegisterAuthenticaionMiddleware();
+            JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieScheme;
+                options.DefaultChallengeScheme = IdentityServerConstants.ProtocolTypes.OpenIdConnect;
+            })
+                .AddCookie(CookieScheme) // add the handler that can process cookies
+                .AddOpenIdConnect(IdentityServerConstants.ProtocolTypes.OpenIdConnect, options =>
+                {
+                    // The address of Identity Server
+                    options.Authority = PantheonIdentityConstants.AuthorityAddress;
+
+                    options.ClientId = PantheonIdentityConstants.Clients.Vulcan;
+
+                    // TODO: Store the secret in a secure store
+                    options.ClientSecret = "MyNotSoSecretSecret_0987";
+
+                    // https://identityserver4.readthedocs.io/en/latest/topics/grant_types.html#interactive-clients
+                    options.ResponseType = "code";
+
+                    options.SaveTokens = true;
+
+                    options.GetClaimsFromUserInfoEndpoint = true;
+
+                    // so we can access the API resources
+                    options.Scope.Add(PantheonIdentityConstants.ApiScopes.Hermes);
+                });
+
+            //services.AddRazorPages(options =>
+            //{ 
+            //    //options.Conventions.AuthorizeAreaFolder("Identity")
+            //});
             services.AddRazorPages();
         }
 

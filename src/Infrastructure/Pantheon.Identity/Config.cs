@@ -37,15 +37,18 @@ namespace Pantheon.Identity
                     {
                         new Secret("MyNotSoSecretSecret_0987".Sha256())
                     },
+                    // where to redirect to after login
                     RedirectUris =
                     {
                         "https://localhost:5002/signin-oidc"
                     },
+
+                    // where to redirect to after logout
                     PostLogoutRedirectUris =
                     {
-                        "https://localhost:5002/"
+                        "https://localhost:5002/signout-callback-oidc" 
                     },
-                    FrontChannelLogoutUri = "https://localhost:5002/signout-oidc",
+                    //FrontChannelLogoutUri = "https://localhost:5002/signout-oidc",
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,

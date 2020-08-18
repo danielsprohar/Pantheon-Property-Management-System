@@ -80,7 +80,7 @@ namespace Hermes.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -127,7 +127,7 @@ namespace Hermes.API
         public static IServiceCollection AddJwtAuthentication(this IServiceCollection services)
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(configureOptions =>
+                    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, configureOptions =>
                     {
                         // base address for IdentityServer
                         configureOptions.Authority = PantheonIdentityConstants.AuthorityAddress;

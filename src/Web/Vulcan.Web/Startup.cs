@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Pantheon.Identity.Constants;
 using System.IdentityModel.Tokens.Jwt;
+using Vulcan.Web.Services;
 
 namespace Vulcan.Web
 {
@@ -20,7 +21,6 @@ namespace Vulcan.Web
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
@@ -53,13 +53,19 @@ namespace Vulcan.Web
                 });
 
             //services.AddRazorPages(options =>
-            //{ 
+            //{
             //    //options.Conventions.AuthorizeAreaFolder("Identity")
             //});
+
+            services.AddOptions();
+
+            services.AddHttpContextAccessor();
+
+            services.AddHttpClient<IParkingSpaceService, ParkingSpaceService>();
+
             services.AddRazorPages();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

@@ -1,0 +1,53 @@
+﻿@page
+@model Vulcan.Web.Pages.ParkingSpaces.IndexModel
+@{
+    ViewData["Title"] = "Parking Spaces";
+}
+
+<h1>Parking Spaces</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ParkingSpaces.First().Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParkingSpaces.First().ParkingSpaceType.SpaceType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParkingSpaces.First().Amps)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParkingSpaces.First().IsAvailable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParkingSpaces.First().RecurringRate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ParkingSpaces)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ParkingSpaceType.SpaceType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amps)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsAvailable)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RecurringRate)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

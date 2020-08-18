@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Nubles.Core.Application.Dto.Reads;
 using Nubles.Core.Application.Dto.Writes;
+using Nubles.Core.Application.Extensions;
 using Nubles.Core.Application.Parameters;
 using Nubles.Core.Application.Wrappers.Generics;
 using System;
@@ -11,6 +14,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Vulcan.Web.Options;
 
 namespace Vulcan.Web.Services
 {
@@ -19,19 +23,26 @@ namespace Vulcan.Web.Services
         private readonly ILogger<ParkingSpaceService> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HttpClient _httpClient;
+        private readonly HermesApiOptions _hermesApiOptions;
+        private readonly LinkGenerator _linkGenerator;
 
         public ParkingSpaceService(
             ILogger<ParkingSpaceService> logger,
             IHttpContextAccessor httpContextAccessor,
-            HttpClient httpClient)
+            HttpClient httpClient,
+            IOptions<HermesApiOptions> options,
+            LinkGenerator linkGenerator)
         {
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
             _httpClient = httpClient;
+            _hermesApiOptions = options.Value;
+            _linkGenerator = linkGenerator;
         }
 
         public Task<bool> AddParkingSpace(AddParkingSpaceDto parkingSpaceDto)
         {
+            // var userId = _httpContextAccessor.HttpContext.User.Identity.GetSubjectId();
             throw new NotImplementedException();
         }
 
@@ -47,9 +58,14 @@ namespace Vulcan.Web.Services
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            var requestUri = "https://localhost:5001/api/v1/parking-spaces";
+            var routeValues = new RouteValueDictionary(parameters.GetRouteValues());
 
-            // TODO: append the queryParameters to the requestUri
+            var requestUri = string.Concat(_hermesApiOptions.BaseAddress,
+                                           _hermesApiOptions.Version.V1,
+                                           _hermesApiOptions.ResourcePath.ParkingSpaces)
+                                   .AppendRouteValues(routeValues);
+
+            _logger.LogInformation($"URI: {requestUri}");
 
             if (string.IsNullOrWhiteSpace(requestUri))
             {

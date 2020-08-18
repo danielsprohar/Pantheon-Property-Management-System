@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Pantheon.Identity.Constants;
 using System.IdentityModel.Tokens.Jwt;
+using Vulcan.Web.Options;
 using Vulcan.Web.Services;
 
 namespace Vulcan.Web
@@ -58,6 +59,8 @@ namespace Vulcan.Web
             //});
 
             services.AddOptions();
+
+            services.Configure<HermesApiOptions>(Configuration.GetSection(HermesApiOptions.HermesApi));
 
             services.AddHttpContextAccessor();
 

@@ -11,7 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Nubles.Core;
+using Nubles.Core.Application.Extensions;
 using Nubles.Infrastructure;
 using Pantheon.Identity.Constants;
 using System;
@@ -50,7 +50,7 @@ namespace Hermes.API
                 options.DefaultApiVersion = new ApiVersion(majorVersion: 1, minorVersion: 0);
             });
 
-            services.AddNublesCore()
+            services.AddPantheonCoreLayer()
                     .AddNublesInfrastructure(Configuration, HermesLoggerFactory);
 
             services.AddSwaggerGenWithOptions();

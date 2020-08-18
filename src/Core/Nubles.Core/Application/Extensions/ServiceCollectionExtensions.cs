@@ -2,11 +2,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using Nubles.Core.Application.Mappings;
 
-namespace Nubles.Core
+namespace Nubles.Core.Application.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddNublesCore(this IServiceCollection services)
+        public static IServiceCollection AddPantheonCoreLayer(this IServiceCollection services)
         {
             var configuration = new MapperConfiguration(config =>
             {

@@ -64,19 +64,19 @@ namespace Nubles.Core.Application.Parameters
             }
         }
 
-        public Dictionary<string, object> GetRouteValues()
+        public IDictionary<string, object> GetRouteValues()
         {
             var routeValuesDictionary = new Dictionary<string, object>();
             var properties = GetType().GetProperties();
             object value = null;
 
-            foreach (var p in properties)
+            foreach (var property in properties)
             {
-                value = p.GetValue(this);
+                value = property.GetValue(this);
 
                 if (value != null)
                 {
-                    routeValuesDictionary.Add(p.Name, value);
+                    routeValuesDictionary.Add(property.Name, value);
                 }
             }
 

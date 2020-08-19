@@ -2,7 +2,7 @@
 using Pantheon.Core.Domain.Models;
 using System.Collections.Generic;
 
-namespace Nubles.Infrastructure.EntityConfigurations
+namespace Pantheon.Infrastructure.EntityConfigurations
 {
     internal class CustomerConfiguration : AuditableEntityConfiguration<Customer>
     {

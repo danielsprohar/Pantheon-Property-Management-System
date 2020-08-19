@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Pantheon.Core.Domain.Base;
 
-namespace Nubles.Infrastructure.EntityConfigurations
+namespace Pantheon.Infrastructure.EntityConfigurations
 {
     internal class EntityConfiguration<T> : IEntityTypeConfiguration<T> where T : Entity
     {

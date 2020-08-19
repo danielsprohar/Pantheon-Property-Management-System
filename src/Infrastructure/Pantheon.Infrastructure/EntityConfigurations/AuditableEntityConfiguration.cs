@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nubles.Infrastructure.Constants;
 using Pantheon.Core.Domain.Base;
+using Pantheon.Infrastructure.Constants;
 
-namespace Nubles.Infrastructure.EntityConfigurations
+namespace Pantheon.Infrastructure.EntityConfigurations
 {
     internal class AuditableEntityConfiguration<T> : EntityConfiguration<T> where T : AuditableEntity
     {

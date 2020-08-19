@@ -2,9 +2,9 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Nubles.Infrastructure.Data;
+using Pantheon.Infrastructure.Data;
 
-namespace Nubles.Infrastructure
+namespace Pantheon.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {

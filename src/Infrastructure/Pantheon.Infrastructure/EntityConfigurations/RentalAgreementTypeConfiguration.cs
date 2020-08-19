@@ -1,8 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Pantheon.Core.Domain.Models;
 
-namespace Nubles.Infrastructure.EntityConfigurations
+namespace Pantheon.Infrastructure.EntityConfigurations
 {
     internal class RentalAgreementTypeConfiguration : EntityConfiguration<RentalAgreementType>
     {

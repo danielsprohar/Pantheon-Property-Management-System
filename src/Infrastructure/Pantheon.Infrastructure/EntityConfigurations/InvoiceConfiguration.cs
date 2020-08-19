@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nubles.Infrastructure.Constants;
 using Pantheon.Core.Domain.Models;
+using Pantheon.Infrastructure.Constants;
 using System;
-using System.Data;
 
-namespace Nubles.Infrastructure.EntityConfigurations
+namespace Pantheon.Infrastructure.EntityConfigurations
 {
     internal class InvoiceConfiguration : AuditableEntityConfiguration<Invoice>
     {

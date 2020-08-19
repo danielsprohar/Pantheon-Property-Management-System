@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Nubles.Infrastructure.EntityConfigurations;
 using Pantheon.Core.Domain.Models;
+using Pantheon.Infrastructure.EntityConfigurations;
 
-namespace Nubles.Infrastructure.Data
+namespace Pantheon.Infrastructure.Data
 {
     public class PantheonDbContext : DbContext
     {

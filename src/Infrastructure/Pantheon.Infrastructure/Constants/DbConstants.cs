@@ -1,4 +1,4 @@
-﻿namespace Nubles.Infrastructure.Constants
+﻿namespace Pantheon.Infrastructure.Constants
 {
     public class DbConstants
     {

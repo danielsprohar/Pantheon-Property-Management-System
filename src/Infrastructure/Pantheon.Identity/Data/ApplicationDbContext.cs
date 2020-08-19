@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Pantheon.Identity.Models;
+using System;
 
 namespace Pantheon.Identity.Data
 {
     public class ApplicationDbContext
-        : IdentityDbContext<ApplicationUser, ApplicationRole, int>
+        : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

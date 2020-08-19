@@ -1,8 +1,6 @@
 ﻿using Nubles.Core.Application.Parameters;
 using Pantheon.Core.Application.Dto.Reads;
 using Pantheon.Core.Application.Dto.Writes;
-using Pantheon.Core.Domain.Models;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

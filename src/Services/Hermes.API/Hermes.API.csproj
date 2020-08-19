@@ -25,9 +25,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Core\Nubles.Core\Pantheon.Core.csproj" />
 		<ProjectReference Include="..\..\Core\Pantheon.Core\Pantheon.Core.csproj" />
-		<ProjectReference Include="..\..\Infrastructure\Nubles.Infrastructure\Nubles.Infrastructure.csproj" />
 		<ProjectReference Include="..\..\Infrastructure\Pantheon.Identity\Pantheon.Identity.csproj" />
 		<ProjectReference Include="..\..\Infrastructure\Pantheon.Infrastructure\Pantheon.Infrastructure.csproj" />
 	</ItemGroup>

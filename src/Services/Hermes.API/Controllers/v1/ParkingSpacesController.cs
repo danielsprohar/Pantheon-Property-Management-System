@@ -230,6 +230,54 @@ namespace Hermes.API.Controllers.v1
             return NoContent();
         }
 
+        [HttpPut("{id}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        public async Task<IActionResult> PutParkingSpace(
+            [FromRoute] int id,
+            [FromQuery] string employeeId,
+            [FromBody] UpdateParkingSpaceDto dto)
+        {
+            var parkingSpace = await _context.ParkingSpaces.FindAsync(id);
+            if (parkingSpace == null)
+            {
+                _logger.LogInformation($"ParkingSpace with Id number {id} does not exist.");
+                return BadRequest();
+            }
+
+            _mapper.Map(dto, parkingSpace);
+
+            // TODO: Changed all the modified by data types to string type
+            parkingSpace.ModifiedBy = 1;
+            parkingSpace.ModifiedOn = System.DateTimeOffset.UtcNow;
+
+            _context.Entry(parkingSpace).State = EntityState.Modified;
+
+            var saved = false;
+
+            while (!saved)
+            {
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    _logger.LogInformation($"ParkingSpace with Id number {id} was updated.");
+                    saved = true;
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    if (!await ParkingSpaceExistsAsync(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        DbExceptionHelper.HandleConcurrencyException(ex, parkingSpace.GetType());
+                    }
+                }
+            }
+
+            return NoContent();
+        }
+
         private async Task<bool> ParkingSpaceExistsAsync(int id)
         {
             return await _context.ParkingSpaces.AnyAsync(e => e.Id == id);

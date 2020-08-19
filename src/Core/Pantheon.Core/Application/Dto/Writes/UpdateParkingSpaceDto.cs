@@ -11,7 +11,7 @@ namespace Pantheon.Core.Application.Dto.Writes
         [StringLength((int)ParkingSpace.DbColumnLength.Description)]
         public string Description { get; set; }
 
-        public decimal RecurringRate { get; set; }
+        public decimal? RecurringRate { get; set; }
 
         public bool? IsAvailable { get; set; }
 

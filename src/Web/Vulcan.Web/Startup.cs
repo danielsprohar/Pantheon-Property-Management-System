@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Pantheon.Core.Application.Extensions;
 using Pantheon.Identity.Constants;
 using System.IdentityModel.Tokens.Jwt;
 using Vulcan.Web.Options;
@@ -53,11 +54,6 @@ namespace Vulcan.Web
                     options.Scope.Add(PantheonIdentityConstants.ApiScopes.Hermes);
                 });
 
-            //services.AddRazorPages(options =>
-            //{
-            //    //options.Conventions.AuthorizeAreaFolder("Identity")
-            //});
-
             services.AddOptions();
 
             services.Configure<HermesApiOptions>(Configuration.GetSection(HermesApiOptions.HermesApi));
@@ -65,6 +61,8 @@ namespace Vulcan.Web
             services.AddHttpContextAccessor();
 
             services.AddHttpClient<IParkingSpaceService, ParkingSpaceService>();
+
+            services.AddPantheonCoreLayer();
 
             services.AddRazorPages();
         }

@@ -45,6 +45,8 @@ namespace Pantheon.Core.Application.Mappings.Profiles
                 .ForMember(e => e.ModifiedOn, opts => opts.Ignore())
                 .ForMember(e => e.Id, opts => opts.Ignore())
                 .ForMember(e => e.RowVersion, opts => opts.Ignore());
+
+            CreateMap<ParkingSpaceDto, UpdateParkingSpaceDto>();
         }
     }
 }

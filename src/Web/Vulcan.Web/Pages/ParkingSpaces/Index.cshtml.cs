@@ -1,31 +1,30 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Nubles.Core.Application.Parameters;
 using Pantheon.Core.Application.Dto.Reads;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Vulcan.Web.Services;
 
 namespace Vulcan.Web.Pages.ParkingSpaces
 {
     public class IndexModel : PageModel
     {
-        private readonly IParkingSpaceService _parkingSpaceService;
+        private readonly IParkingSpaceService _service;
 
-        public IndexModel(IParkingSpaceService parkingSpaceService)
+        public IndexModel(IParkingSpaceService service)
         {
-            _parkingSpaceService = parkingSpaceService ?? throw new ArgumentNullException(nameof(parkingSpaceService));
+            _service = service;
         }
 
         public IEnumerable<ParkingSpaceDto> ParkingSpaces { get; set; }
 
         public async Task OnGetAsync()
         {
+            // TODO: move this
             var parameters = new ParkingSpaceQueryParameters();
 
-            ParkingSpaces = await _parkingSpaceService.GetParkingSpaces(parameters);
+            ParkingSpaces = await _service.GetParkingSpaces(parameters);
         }
     }
 }

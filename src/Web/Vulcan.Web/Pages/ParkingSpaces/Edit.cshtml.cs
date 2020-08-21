@@ -40,9 +40,11 @@ namespace Vulcan.Web.Pages.ParkingSpaces
                 dataValueField: nameof(ParkingSpaceType.Id),
                 dataTextField: nameof(ParkingSpaceType.SpaceType));
 
-            var dictionary = new Dictionary<string, bool>();
-            dictionary.Add("false", false);
-            dictionary.Add("true", true);
+            var dictionary = new Dictionary<string, bool>
+            {
+                { "false", false },
+                { "true", true }
+            };
 
             AvailabilitySelectList = new SelectList(dictionary, "Key", "Value");
         }
@@ -63,7 +65,7 @@ namespace Vulcan.Web.Pages.ParkingSpaces
                 return Page();
             }
 
-            return RedirectToPage($"/Details/{ParkingSpace.Id}");
+            return RedirectToPage("./Details", new { Id = ParkingSpace.Id });
         }
     }
 }

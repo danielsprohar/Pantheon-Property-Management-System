@@ -41,3 +41,25 @@ The Vulcan web app runs on port 5001.
 
 https://localhost:5002
 
+# Getting Started
+To run the project you will need an instance of Microsoft's SQL Server up and running on your computer. Open a terminal and navigate to your preferred location to clone the repository. The EF Migrations should already be created in the Infrastructure layer, thus, run the following commands at the root of the solution folder to created the databases:
+
+```
+dotnet ef database update -p .\src\Infrastructure\Pantheon.Infrastructure\ -s .\src\Services\Hermes.API\
+```
+and
+```
+dotnet ef database update -s .\src\Infrastructure\Pantheon.Identity\
+
+```
+
+Each database comes prepopulated with dummy data to see the application in action.
+
+Next, you will need to start the following projects:
+
+1. Pantheon.Identity
+2. Hermes.API
+3. Vulcan.Web
+
+You can either do this via Visual Studio by selecting Multiple Startup Projects or by opening 3 terminals and running each project manually.
+

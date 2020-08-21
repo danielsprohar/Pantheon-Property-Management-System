@@ -51,7 +51,7 @@ namespace Hermes.API
             });
 
             services.AddPantheonCoreLayer()
-                    .AddNublesInfrastructure(Configuration, HermesLoggerFactory);
+                    .AddPantheonInfrastructure(Configuration, HermesLoggerFactory);
 
             services.AddSwaggerGenWithOptions();
 
@@ -85,8 +85,8 @@ namespace Hermes.API
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
-                        //  .RequireAuthorization(HermesConstants.AuthorizationPolicy.ApiScope);
+                endpoints.MapControllers()
+                          .RequireAuthorization(HermesConstants.AuthorizationPolicy.ApiScope);
             });
         }
     }

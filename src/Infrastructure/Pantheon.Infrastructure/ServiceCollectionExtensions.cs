@@ -8,7 +8,7 @@ namespace Pantheon.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddNublesInfrastructure(
+        public static IServiceCollection AddPantheonInfrastructure(
             this IServiceCollection services,
             IConfiguration configuration,
             ILoggerFactory loggerFactory = null)

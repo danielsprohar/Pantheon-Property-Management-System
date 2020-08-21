@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Pantheon.Identity.EntityConfigurations;
 using Pantheon.Identity.Models;
 using System;
 
@@ -17,13 +18,8 @@ namespace Pantheon.Identity.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<ApplicationUser>(user =>
-            {
-                user.Property(e => e.DateCreated)
-                    .ValueGeneratedOnAdd()
-                    .HasDefaultValueSql("GETUTCDATE()")
-                    .IsRequired();
-            });
+            builder.ApplyConfiguration(new ApplicationUserConfiguration());
+            builder.ApplyConfiguration(new ApplicationRoleConfiguration());
         }
     }
 }

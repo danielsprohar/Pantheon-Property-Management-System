@@ -1,5 +1,6 @@
 ﻿using Pantheon.Core.Application.Dto.Reads;
 using Pantheon.Core.Application.Dto.Writes;
+using Pantheon.Core.Application.Mappings.Resolvers;
 using Pantheon.Core.Domain.Models;
 
 namespace Pantheon.Core.Application.Mappings.Profiles
@@ -16,14 +17,14 @@ namespace Pantheon.Core.Application.Mappings.Profiles
         protected override void CreateAddMappings()
         {
             CreateMap<AddRentalAgreementDto, RentalAgreement>()
+                .ForMember(e => e.EmployeeId, opts => opts.MapFrom(dto => dto.EmployeeId))
+                .ForMember(e => e.ModifiedBy, opts => opts.MapFrom(dto => dto.EmployeeId))
                 .ForMember(e => e.TerminatedOn, opts => opts.Ignore())
                 .ForMember(e => e.RentalAgreementType, opts => opts.Ignore())
                 .ForMember(e => e.ParkingSpace, opts => opts.Ignore())
                 .ForMember(e => e.CustomerRentalAgreements, opts => opts.Ignore())
                 .ForMember(e => e.Invoices, opts => opts.Ignore())
-                .ForMember(e => e.EmployeeId, opts => opts.Ignore())
                 .ForMember(e => e.CreatedOn, opts => opts.Ignore())
-                .ForMember(e => e.ModifiedBy, opts => opts.Ignore())
                 .ForMember(e => e.ModifiedOn, opts => opts.Ignore())
                 .ForMember(e => e.Id, opts => opts.Ignore())
                 .ForMember(e => e.RowVersion, opts => opts.Ignore());
@@ -44,15 +45,15 @@ namespace Pantheon.Core.Application.Mappings.Profiles
         protected override void CreateUpdateMappings()
         {
             CreateMap<UpdateRentalAgreementDto, RentalAgreement>()
+                .ForMember(e => e.ModifiedBy, opts => opts.MapFrom(dto => dto.EmployeeId))
                 .ForMember(e => e.Invoices, opts => opts.Ignore())
                 .ForMember(e => e.ParkingSpace, opts => opts.Ignore())
                 .ForMember(e => e.RentalAgreementType, opts => opts.Ignore())
                 .ForMember(e => e.EmployeeId, opts => opts.Ignore())
                 .ForMember(e => e.CreatedOn, opts => opts.Ignore())
-                .ForMember(e => e.ModifiedBy, opts => opts.Ignore())
-                .ForMember(e => e.ModifiedOn, opts => opts.Ignore())
                 .ForMember(e => e.Id, opts => opts.Ignore())
-                .ForMember(e => e.RowVersion, opts => opts.Ignore());
+                .ForMember(e => e.RowVersion, opts => opts.Ignore())
+                .ForMember(e => e.ModifiedOn, opts => opts.MapFrom<UtcNowDateResolver>());
         }
     }
 }

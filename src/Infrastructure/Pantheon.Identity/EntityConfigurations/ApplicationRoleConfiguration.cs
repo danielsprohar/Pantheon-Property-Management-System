@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Pantheon.Identity.Constants;
+using Pantheon.Core.Domain.Constants;
 using Pantheon.Identity.Models;
 using System;
 

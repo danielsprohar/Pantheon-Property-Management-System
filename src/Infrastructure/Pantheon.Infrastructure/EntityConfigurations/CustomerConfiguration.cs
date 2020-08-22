@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Pantheon.Core.Domain.Constants;
 using Pantheon.Core.Domain.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Pantheon.Infrastructure.EntityConfigurations
@@ -64,8 +66,8 @@ namespace Pantheon.Infrastructure.EntityConfigurations
                     LastName = "Smite",
                     Gender = 'F',
                     PhoneNumber = "555-555-5555",
-                    ModifiedBy = 1,
-                    EmployeeId = 1
+                    ModifiedBy = new Guid(DbDefaultValues.UserId),
+                    EmployeeId = new Guid(DbDefaultValues.UserId)
                 }
             };
         }

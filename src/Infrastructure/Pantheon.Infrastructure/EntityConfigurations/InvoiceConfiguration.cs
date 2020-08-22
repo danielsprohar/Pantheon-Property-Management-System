@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Pantheon.Core.Domain.Constants;
 using Pantheon.Core.Domain.Models;
 using Pantheon.Infrastructure.Constants;
 using System;
@@ -50,7 +51,7 @@ namespace Pantheon.Infrastructure.EntityConfigurations
                     Id = 1,
                     InvoiceStatusId = 1,
                     RentalAgreementId = 1,
-                    EmployeeId = 1,
+                    EmployeeId = new Guid(DbDefaultValues.UserId),
                     BillingPeriodStart = utcNow.Date,
                     BillingPeriodEnd = utcNow.AddDays(1).Date,
                     DueDate = utcNow.Date

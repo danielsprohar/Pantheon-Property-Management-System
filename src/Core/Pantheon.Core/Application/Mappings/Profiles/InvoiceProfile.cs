@@ -1,5 +1,6 @@
 ﻿using Pantheon.Core.Application.Dto.Reads;
 using Pantheon.Core.Application.Dto.Writes;
+using Pantheon.Core.Application.Mappings.Resolvers;
 using Pantheon.Core.Domain.Models;
 using System.Globalization;
 
@@ -17,12 +18,12 @@ namespace Pantheon.Core.Application.Mappings.Profiles
         protected override void CreateAddMappings()
         {
             CreateMap<AddInvoiceDto, Invoice>()
-                .ForMember(e => e.EmployeeId, opts => opts.Ignore())
+                .ForMember(e => e.EmployeeId, opts => opts.MapFrom(dto => dto.EmployeeId))
+                .ForMember(e => e.ModifiedBy, opts => opts.MapFrom(dto => dto.EmployeeId))
                 .ForMember(e => e.CreatedOn, opts => opts.Ignore())
                 .ForMember(e => e.Id, opts => opts.Ignore())
                 .ForMember(e => e.InvoicePayments, opts => opts.Ignore())
                 .ForMember(e => e.InvoiceStatus, opts => opts.Ignore())
-                .ForMember(e => e.ModifiedBy, opts => opts.Ignore())
                 .ForMember(e => e.ModifiedOn, opts => opts.Ignore())
                 .ForMember(e => e.RentalAgreement, opts => opts.Ignore())
                 .ForMember(e => e.RowVersion, opts => opts.Ignore());
@@ -64,11 +65,11 @@ namespace Pantheon.Core.Application.Mappings.Profiles
                 .ForMember(e => e.InvoiceLines, opts => opts.Ignore())
                 .ForMember(e => e.InvoicePayments, opts => opts.Ignore())
                 .ForMember(e => e.InvoiceStatus, opts => opts.Ignore())
-                .ForMember(e => e.ModifiedBy, opts => opts.Ignore())
-                .ForMember(e => e.ModifiedOn, opts => opts.Ignore())
                 .ForMember(e => e.RentalAgreement, opts => opts.Ignore())
                 .ForMember(e => e.RentalAgreementId, opts => opts.Ignore())
-                .ForMember(e => e.RowVersion, opts => opts.Ignore());
+                .ForMember(e => e.RowVersion, opts => opts.Ignore())
+                .ForMember(e => e.ModifiedBy, opts => opts.MapFrom(dto => dto.EmployeeId))
+                .ForMember(e => e.ModifiedOn, opts => opts.MapFrom<UtcNowDateResolver>());
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Pantheon.Core.Domain.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Pantheon.Core.Application.Dto.Writes
@@ -21,5 +22,8 @@ namespace Pantheon.Core.Application.Dto.Writes
         public string Comments { get; set; }
 
         public int? ParkingSpaceTypeId { get; set; }
+
+        [Required]
+        public Guid EmployeeId { get; set; }
     }
 }

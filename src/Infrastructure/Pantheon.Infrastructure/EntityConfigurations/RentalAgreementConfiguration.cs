@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Pantheon.Core.Domain.Constants;
 using Pantheon.Core.Domain.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Pantheon.Infrastructure.EntityConfigurations
@@ -42,11 +44,11 @@ namespace Pantheon.Infrastructure.EntityConfigurations
                 new RentalAgreement
                 {
                     Id = 1,
-                    EmployeeId = 1,
                     ParkingSpaceId = 1, // rv space
                     RentalAgreementTypeId = 2, // billed monthly
                     RecurringDueDate = 1, // billed on the 1st day of every month
-                    ModifiedBy = 1
+                    EmployeeId = new Guid(DbDefaultValues.UserId),
+                    ModifiedBy = new Guid(DbDefaultValues.UserId)
                 }
             };
         }

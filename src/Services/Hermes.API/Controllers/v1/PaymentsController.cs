@@ -1,17 +1,21 @@
 ﻿using AutoMapper;
 using Hermes.API.Application.Pagination;
 using Hermes.API.Helpers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Pantheon.Core.Application.Dto.Reads;
 using Pantheon.Core.Application.Dto.Writes;
+using Pantheon.Core.Application.Exceptions;
 using Pantheon.Core.Application.Extensions;
 using Pantheon.Core.Application.Parameters;
 using Pantheon.Core.Application.Wrappers;
 using Pantheon.Core.Application.Wrappers.Generics;
 using Pantheon.Core.Domain.Models;
+using Pantheon.Identity.Models;
 using Pantheon.Infrastructure.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
@@ -22,20 +26,20 @@ namespace Hermes.API.Controllers.v1
     [ApiVersion("1.0")]
     public class PaymentsController : VersionedApiController
     {
-        private readonly PantheonDbContext _context;
-        private readonly ILogger _logger;
-        private readonly IMapper _mapper;
-
         public PaymentsController(
+            UserManager<ApplicationUser> userManager,
             PantheonDbContext context,
             ILogger<PaymentsController> logger,
             IMapper mapper)
+                : base(userManager, context, logger, mapper)
         {
-            _context = context;
-            _logger = logger;
-            _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get a paginated list of <c>Payment</c>s
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         [HttpGet(Name = nameof(GetPayments))]
         public async Task<ActionResult<PaginatedApiResponse<PaymentDto>>> GetPayments(
             [FromQuery] PaymentQueryParameters parameters)
@@ -68,6 +72,11 @@ namespace Hermes.API.Controllers.v1
             return Ok(pagedResponse);
         }
 
+        /// <summary>
+        /// Get a Payment entity by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}", Name = nameof(GetPayment))]
         public async Task<ActionResult<ApiResponse<PaymentDto>>> GetPayment(int id)
         {
@@ -75,8 +84,7 @@ namespace Hermes.API.Controllers.v1
 
             if (payment == null)
             {
-                var message = $"Payment with Id={id} does not exist.";
-                return NotFound(new ApiResponse(message));
+                return EntityDoesNotExistResponse<Payment, int>(id);
             }
 
             var dto = _mapper.Map<PaymentDto>(payment);
@@ -84,7 +92,13 @@ namespace Hermes.API.Controllers.v1
             return Ok(new ApiResponse<PaymentDto>(dto));
         }
 
-        // POST: api/v1/invoices/1/payments
+        /// <summary>
+        /// Pay an Invoice
+        /// </summary>
+        /// <param name="invoiceId">The id number of the Invoice to associated with this payment</param>
+        /// <param name="apiVersion"></param>
+        /// <param name="addDto">The payment details</param>
+        /// <returns></returns>
         [HttpPost("~/api/v{version:apiVersion}/invoices/{invoiceId}/payments")]
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<ApiResponse<PaymentDto>>> PostInvoicePayment(
@@ -94,7 +108,11 @@ namespace Hermes.API.Controllers.v1
         {
             #region Validation
 
-            // TODO: check if user exists.
+            if (!await EmployeeExistsAsync(addDto.EmployeeId))
+            {
+                return EntityDoesNotExistResponse<ApplicationUser, Guid>(addDto.EmployeeId);
+            }
+
             if (invoiceId != addDto.InvoiceId.Value)
             {
                 var message = $"The invoice id in the url does not match the invoice id in the request body.";
@@ -103,14 +121,12 @@ namespace Hermes.API.Controllers.v1
 
             if (!await CustomerExistsAsync(addDto.CustomerId.Value))
             {
-                var message = $"Customer with Id={addDto.CustomerId.Value} does not exist.";
-                return NotFound(new ApiResponse(message));
+                return EntityDoesNotExistResponse<Customer, int>(addDto.CustomerId.Value);
             }
 
             if (!await PaymentMethodExistsAsync(addDto.PaymentMethodId.Value))
             {
-                var message = $"Payment Method with Id={addDto.InvoiceId.Value} does not exist.";
-                return NotFound(new ApiResponse(message));
+                return EntityDoesNotExistResponse<PaymentMethod, int>(addDto.PaymentMethodId.Value);
             }
 
             var invoice = await _context.Invoices
@@ -121,9 +137,9 @@ namespace Hermes.API.Controllers.v1
 
             if (invoice == null)
             {
-                var message = $"Invoice with Id={addDto.InvoiceId.Value} does not exist.";
-                return NotFound(new ApiResponse(message));
+                return EntityDoesNotExistResponse<Invoice, int>(invoiceId);
             }
+
             if (invoice.InvoiceStatus.Description != InvoiceStatus.Status.AwaitingPayment &&
                 invoice.InvoiceStatus.Description != InvoiceStatus.Status.Partial &&
                 invoice.InvoiceStatus.Description != InvoiceStatus.Status.PastDue)
@@ -155,6 +171,8 @@ namespace Hermes.API.Controllers.v1
             });
 
             await _context.SaveChangesAsync();
+
+            _logger.LogInformation($"Payment.Id {payment.Id} was created.");
 
             var dto = _mapper.Map<PaymentDto>(payment);
 
@@ -195,22 +213,8 @@ namespace Hermes.API.Controllers.v1
             }
             else
             {
-                // TODO: throw an error
+                throw new ApiException($"InvoiceStatus.Id {invoiceStatusId} does not exist.");
             }
-        }
-
-        private async Task<bool> CustomerExistsAsync(int id)
-        {
-            return await _context.Customers
-                .AsNoTracking()
-                .AnyAsync(e => e.Id == id);
-        }
-
-        private async Task<bool> PaymentMethodExistsAsync(int id)
-        {
-            return await _context.PaymentMethods
-                .AsNoTracking()
-                .AnyAsync(e => e.Id == id);
         }
     }
 }

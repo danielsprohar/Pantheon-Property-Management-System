@@ -1,5 +1,6 @@
 ﻿using Pantheon.Core.Application.Dto.Reads;
 using Pantheon.Core.Application.Dto.Writes;
+using Pantheon.Core.Application.Mappings.Resolvers;
 using Pantheon.Core.Domain.Models;
 
 namespace Pantheon.Core.Application.Mappings.Profiles
@@ -16,10 +17,10 @@ namespace Pantheon.Core.Application.Mappings.Profiles
         protected override void CreateAddMappings()
         {
             CreateMap<AddParkingSpaceDto, ParkingSpace>()
+                .ForMember(e => e.EmployeeId, opts => opts.MapFrom(dto => dto.EmployeeId))
+                .ForMember(e => e.ModifiedBy, opts => opts.MapFrom(dto => dto.EmployeeId))
                 .ForMember(e => e.ParkingSpaceType, opts => opts.Ignore())
-                .ForMember(e => e.EmployeeId, opts => opts.Ignore())
                 .ForMember(e => e.CreatedOn, opts => opts.Ignore())
-                .ForMember(e => e.ModifiedBy, opts => opts.Ignore())
                 .ForMember(e => e.ModifiedOn, opts => opts.Ignore())
                 .ForMember(e => e.Id, opts => opts.Ignore())
                 .ForMember(e => e.RowVersion, opts => opts.Ignore());
@@ -41,10 +42,10 @@ namespace Pantheon.Core.Application.Mappings.Profiles
                 .ForMember(e => e.ParkingSpaceType, opts => opts.Ignore())
                 .ForMember(e => e.EmployeeId, opts => opts.Ignore())
                 .ForMember(e => e.CreatedOn, opts => opts.Ignore())
-                .ForMember(e => e.ModifiedBy, opts => opts.Ignore())
-                .ForMember(e => e.ModifiedOn, opts => opts.Ignore())
                 .ForMember(e => e.Id, opts => opts.Ignore())
-                .ForMember(e => e.RowVersion, opts => opts.Ignore());
+                .ForMember(e => e.RowVersion, opts => opts.Ignore())
+                .ForMember(e => e.ModifiedBy, opts => opts.MapFrom(dto => dto.EmployeeId))
+                .ForMember(e => e.ModifiedOn, opts => opts.MapFrom<UtcNowDateResolver>());
 
             CreateMap<ParkingSpaceDto, UpdateParkingSpaceDto>();
         }

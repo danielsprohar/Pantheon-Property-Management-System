@@ -1,4 +1,5 @@
 ﻿using Pantheon.Core.Domain.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Pantheon.Core.Application.Dto.Writes
@@ -19,7 +20,8 @@ namespace Pantheon.Core.Application.Dto.Writes
         [Required]
         public int? RentalAgreementTypeId { get; set; }
 
-        public int? EmployeeId { get; set; }
+        [Required]
+        public Guid EmployeeId { get; set; }
 
         [Required]
         public int? ParkingSpaceId { get; set; }

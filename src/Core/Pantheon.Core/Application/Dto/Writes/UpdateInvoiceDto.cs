@@ -1,4 +1,5 @@
 ﻿using Pantheon.Core.Domain.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Pantheon.Core.Application.Dto.Writes
@@ -9,5 +10,8 @@ namespace Pantheon.Core.Application.Dto.Writes
 
         [StringLength((int)Invoice.DbColumnLength.Comments)]
         public string Comments { get; set; }
+
+        [Required]
+        public Guid EmployeeId { get; set; }
     }
 }

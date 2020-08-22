@@ -17,17 +17,18 @@ namespace Pantheon.Core.Application.Mappings.Profiles
         protected override void CreateAddMappings()
         {
             CreateMap<AddCustomerDto, Customer>()
+                .ForMember(e => e.EmployeeId, opts => opts.MapFrom(dto => dto.EmployeeId))
+                .ForMember(e => e.ModifiedBy, opts => opts.MapFrom(dto => dto.EmployeeId))
                 .ForMember(e => e.IsActive, opts => opts.Ignore())
                 .ForMember(e => e.Vehicles, opts => opts.Ignore())
                 .ForMember(e => e.CustomerRentalAgreements, opts => opts.Ignore())
                 .ForMember(e => e.Payments, opts => opts.Ignore())
-                .ForMember(e => e.EmployeeId, opts => opts.Ignore())
                 .ForMember(e => e.CreatedOn, opts => opts.Ignore())
-                .ForMember(e => e.ModifiedBy, opts => opts.Ignore())
                 .ForMember(e => e.ModifiedOn, opts => opts.Ignore())
                 .ForMember(e => e.Id, opts => opts.Ignore())
                 .ForMember(e => e.RowVersion, opts => opts.Ignore())
-                .ForMember(e => e.NormalizedEmail, opts => opts.MapFrom<NormalizeEmailResolver>());
+                .ForMember(e => e.NormalizedEmail,
+                    opts => opts.MapFrom(valueResolver => valueResolver.Email.ToUpperInvariant()));
 
             CreateMap<AddCustomerVehicleDto, CustomerVehicle>()
                 .ForMember(e => e.Id, opts => opts.Ignore())
@@ -56,12 +57,12 @@ namespace Pantheon.Core.Application.Mappings.Profiles
                 .ForMember(e => e.Payments, opts => opts.Ignore())
                 .ForMember(e => e.EmployeeId, opts => opts.Ignore())
                 .ForMember(e => e.CreatedOn, opts => opts.Ignore())
-                .ForMember(e => e.ModifiedBy, opts => opts.Ignore())
-                .ForMember(e => e.ModifiedOn, opts => opts.Ignore())
                 .ForMember(e => e.Id, opts => opts.Ignore())
                 .ForMember(e => e.RowVersion, opts => opts.Ignore())
                 .ForMember(e => e.NormalizedEmail,
-                    opts => opts.MapFrom(valueResolver => valueResolver.Email.ToUpperInvariant()));
+                    opts => opts.MapFrom(valueResolver => valueResolver.Email.ToUpperInvariant()))
+                .ForMember(e => e.ModifiedBy, opts => opts.MapFrom(dto => dto.EmployeeId))
+                .ForMember(e => e.ModifiedOn, opts => opts.MapFrom<UtcNowDateResolver>());
         }
     }
 }

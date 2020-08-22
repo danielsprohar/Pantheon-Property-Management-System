@@ -21,5 +21,8 @@ namespace Pantheon.Core.Application.Dto.Writes
 
         [Required]
         public int? InvoiceId { get; set; }
+
+        [Required]
+        public Guid EmployeeId { get; set; }
     }
 }

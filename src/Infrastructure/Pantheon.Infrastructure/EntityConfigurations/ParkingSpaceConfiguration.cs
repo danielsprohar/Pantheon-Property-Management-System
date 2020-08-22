@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Pantheon.Core.Domain.Constants;
 using Pantheon.Core.Domain.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Pantheon.Infrastructure.EntityConfigurations
@@ -56,8 +58,8 @@ namespace Pantheon.Infrastructure.EntityConfigurations
                     Amps = (int?)ParkingSpace.AmpCapacity.Thirty,
                     RecurringRate = 400,
                     ParkingSpaceTypeId = 1,
-                    EmployeeId = 1,
-                    ModifiedBy = 1
+                    EmployeeId = new Guid(DbDefaultValues.UserId),
+                    ModifiedBy = new Guid(DbDefaultValues.UserId)
                 });
             }
 

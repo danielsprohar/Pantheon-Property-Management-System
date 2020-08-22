@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Hermes.API.Application.Pagination;
 using Hermes.API.Helpers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,8 +13,10 @@ using Pantheon.Core.Application.Parameters;
 using Pantheon.Core.Application.Wrappers;
 using Pantheon.Core.Application.Wrappers.Generics;
 using Pantheon.Core.Domain.Models;
+using Pantheon.Identity.Models;
 using Pantheon.Infrastructure.Data;
 using Pantheon.Infrastructure.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -25,18 +28,13 @@ namespace Hermes.API.Controllers.v1
     [ApiVersion("1.0")]
     public class InvoicesController : VersionedApiController
     {
-        private readonly PantheonDbContext _context;
-        private readonly ILogger _logger;
-        private readonly IMapper _mapper;
-
         public InvoicesController(
+            UserManager<ApplicationUser> userManager,
             PantheonDbContext context,
             ILogger<InvoicesController> logger,
             IMapper mapper)
+                : base(userManager, context, logger, mapper)
         {
-            _context = context;
-            _logger = logger;
-            _mapper = mapper;
         }
 
         /// <summary>
@@ -93,7 +91,7 @@ namespace Hermes.API.Controllers.v1
 
             if (invoice == null)
             {
-                return NotFound();
+                return EntityDoesNotExistResponse<Invoice, int>(id);
             }
 
             var dto = _mapper.Map<InvoiceDto>(invoice);
@@ -106,36 +104,41 @@ namespace Hermes.API.Controllers.v1
         /// Update an <c>Invoice</c> by Id
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="employeeId"></param>
+        /// <param name="uid">The employee id</param>
         /// <param name="dtoDoc"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult<ApiResponse>> PatchInvoice(
+        public async Task<IActionResult> PatchInvoice(
             int id,
-            [FromQuery] int employeeId,
+            [FromQuery] Guid uid,
             [FromBody] JsonPatchDocument<UpdateInvoiceDto> dtoDoc)
         {
-            // TODO: add UserId to request and check if User exists.
-            employeeId = 1;
+            #region Validation
 
-            var rentalAgreement = await _context.Invoices.FindAsync(id);
-
-            if (rentalAgreement == null)
+            if (!await EmployeeExistsAsync(uid))
             {
-                return NotFound();
+                return EntityDoesNotExistResponse<ApplicationUser, Guid>(uid);
             }
+            var invoice = await _context.Invoices.FindAsync(id);
+
+            if (invoice == null)
+            {
+                return EntityDoesNotExistResponse<RentalAgreement, int>(id);
+            }
+
+            #endregion Validation
 
             var patchDoc = _mapper.Map<JsonPatchDocument<Invoice>>(dtoDoc);
 
-            patchDoc.ApplyTo(rentalAgreement, ModelState);
+            patchDoc.ApplyTo(invoice, ModelState);
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            rentalAgreement.ModifiedBy = employeeId;
+            invoice.ModifiedBy = uid;
             var saved = false;
 
             while (!saved)
@@ -147,18 +150,20 @@ namespace Hermes.API.Controllers.v1
                 }
                 catch (DbUpdateConcurrencyException ex)
                 {
-                    if (!await RentalAgreementExists(id))
+                    if (!await InvoiceExists(id))
                     {
-                        return NotFound();
+                        return EntityDoesNotExistResponse<Invoice, int>(id);
                     }
                     else
                     {
-                        DbExceptionHelper.HandleConcurrencyException(ex, rentalAgreement.GetType());
+                        DbExceptionHelper.HandleConcurrencyException(ex, invoice.GetType());
                     }
                 }
             }
 
-            return Ok(new ApiResponse($"Invoice with Id={id} has been updated.", true));
+            _logger.LogInformation($"Invoice.Id={id} has been updated.");
+
+            return NoContent();
         }
 
         /// <summary>
@@ -175,17 +180,19 @@ namespace Hermes.API.Controllers.v1
         {
             #region Validation
 
-            // TODO: check is Employee exists
-            if (!await InvoiceStatusExists(addDto.InvoiceStatusId.Value))
+            if (!await EmployeeExistsAsync(addDto.EmployeeId))
             {
-                var message = $"InvoiceStatus {addDto.InvoiceStatusId.Value} does not exist.";
-                return NotFound(new ApiResponse(message));
+                return EntityDoesNotExistResponse<ApplicationUser, Guid>(addDto.EmployeeId);
             }
 
-            if (!await RentalAgreementExists(addDto.RentalAgreementId.Value))
+            if (!await InvoiceStatusExists(addDto.InvoiceStatusId.Value))
             {
-                var message = $"RentalAgreement {addDto.RentalAgreementId.Value} does not exist.";
-                return NotFound(new ApiResponse(message));
+                return EntityDoesNotExistResponse<InvoiceStatus, int>(addDto.InvoiceStatusId.Value);
+            }
+
+            if (!await InvoiceExists(addDto.RentalAgreementId.Value))
+            {
+                return EntityDoesNotExistResponse<RentalAgreement, int>(addDto.RentalAgreementId.Value);
             }
 
             if (!await IsValidBillingPeriod(addDto))
@@ -208,6 +215,8 @@ namespace Hermes.API.Controllers.v1
             _context.Invoices.Add(invoice);
             await _context.SaveChangesAsync();
 
+            _logger.LogInformation($"Invoice.Id {invoice.Id} was created.");
+
             var dto = _mapper.Map<InvoiceDto>(invoice);
             var response = new ApiResponse<InvoiceDto>(dto);
 
@@ -216,19 +225,7 @@ namespace Hermes.API.Controllers.v1
                                    value: response);
         }
 
-        // =========================================================================
-        // Helper methods
-        // =========================================================================
-
-        private async Task<bool> InvoiceStatusExists(int id)
-        {
-            return await _context.InvoiceStatuses.AnyAsync(e => e.Id == id);
-        }
-
-        private async Task<bool> RentalAgreementExists(int id)
-        {
-            return await _context.RentalAgreements.AnyAsync(e => e.Id == id);
-        }
+        #region Helper methods
 
         /// <summary>
         /// Checks to see if an <c>Invoice</c> exists for the given billing period.
@@ -245,5 +242,7 @@ namespace Hermes.API.Controllers.v1
                                                  e.BillingPeriodStart.Date == start.Date &&
                                                  e.BillingPeriodEnd.Date == end.Date);
         }
+
+        #endregion Helper methods
     }
 }

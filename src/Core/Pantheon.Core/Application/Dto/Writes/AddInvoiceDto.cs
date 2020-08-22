@@ -25,7 +25,8 @@ namespace Pantheon.Core.Application.Dto.Writes
         [Required]
         public int? InvoiceStatusId { get; set; }
 
-        public int? EmployeeId { get; set; }
+        [Required]
+        public Guid EmployeeId { get; set; }
 
         [Required]
         public ICollection<AddInvoiceLineDto> InvoiceLines { get; set; } = new HashSet<AddInvoiceLineDto>();

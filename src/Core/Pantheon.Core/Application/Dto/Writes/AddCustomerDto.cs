@@ -1,4 +1,5 @@
 ﻿using Pantheon.Core.Domain.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Pantheon.Core.Application.Dto.Writes
@@ -35,5 +36,8 @@ namespace Pantheon.Core.Application.Dto.Writes
         public AddCustomerVehicleDto Vehicle { get; set; }
 
         #endregion Owned entity attributes
+
+        [Required]
+        public Guid EmployeeId { get; set; }
     }
 }

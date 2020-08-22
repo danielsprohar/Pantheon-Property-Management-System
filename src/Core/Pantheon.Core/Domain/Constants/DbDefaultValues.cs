@@ -1,4 +1,4 @@
-﻿namespace Pantheon.Identity.Constants
+﻿namespace Pantheon.Core.Domain.Constants
 {
     public class DbDefaultValues
     {

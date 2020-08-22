@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Hermes.API.Application.Pagination;
 using Hermes.API.Helpers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,8 +12,10 @@ using Pantheon.Core.Application.Extensions;
 using Pantheon.Core.Application.Parameters;
 using Pantheon.Core.Application.Wrappers.Generics;
 using Pantheon.Core.Domain.Models;
+using Pantheon.Identity.Models;
 using Pantheon.Infrastructure.Data;
 using Pantheon.Infrastructure.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
@@ -23,18 +26,13 @@ namespace Hermes.API.Controllers.v1
     [ApiVersion("1.0")]
     public class RentalAgreementsController : VersionedApiController
     {
-        private readonly PantheonDbContext _context;
-        private readonly ILogger _logger;
-        private readonly IMapper _mapper;
-
         public RentalAgreementsController(
+            UserManager<ApplicationUser> userManager,
             PantheonDbContext context,
             ILogger<RentalAgreementsController> logger,
             IMapper mapper)
+                : base(userManager, context, logger, mapper)
         {
-            _context = context;
-            _logger = logger;
-            _mapper = mapper;
         }
 
         /// <summary>
@@ -90,7 +88,7 @@ namespace Hermes.API.Controllers.v1
 
             if (rentalAgreement == null)
             {
-                return NotFound();
+                return EntityDoesNotExistResponse<RentalAgreement, int>(id);
             }
 
             // TODO: check perfomance in SSMS; perhaps a Stored Procedure or View will be better ...
@@ -123,19 +121,25 @@ namespace Hermes.API.Controllers.v1
         [HttpPatch("{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> PatchRentalAgreement(
-            int id,
-            [FromQuery] int employeeId,
+            [FromRoute] int id,
+            [FromQuery] Guid uid,
             [FromBody] JsonPatchDocument<UpdateRentalAgreementDto> dtoDoc)
         {
-            // TODO: add UserId to request and check if User exists.
-            employeeId = 1;
+            #region Validation
+
+            if (!await EmployeeExistsAsync(uid))
+            {
+                return EntityDoesNotExistResponse<ApplicationUser, Guid>(uid);
+            }
 
             var rentalAgreement = await _context.RentalAgreements.FindAsync(id);
 
             if (rentalAgreement == null)
             {
-                return NotFound();
+                return EntityDoesNotExistResponse<RentalAgreement, int>(id);
             }
+
+            #endregion Validation
 
             var patchDoc = _mapper.Map<JsonPatchDocument<RentalAgreement>>(dtoDoc);
 
@@ -146,7 +150,6 @@ namespace Hermes.API.Controllers.v1
                 return BadRequest(ModelState);
             }
 
-            rentalAgreement.ModifiedBy = employeeId;
             var saved = false;
 
             while (!saved)
@@ -160,7 +163,7 @@ namespace Hermes.API.Controllers.v1
                 {
                     if (!await RentalAgreementExists(id))
                     {
-                        return NotFound();
+                        return EntityDoesNotExistResponse<RentalAgreement, int>(id);
                     }
                     else
                     {
@@ -186,12 +189,15 @@ namespace Hermes.API.Controllers.v1
         {
             #region Validation
 
-            // TODO: check if user exists.
+            if (!await EmployeeExistsAsync(addDto.EmployeeId))
+            {
+                return EntityDoesNotExistResponse<ApplicationUser, Guid>(addDto.EmployeeId);
+            }
 
             var rat = await _context.RentalAgreementTypes.FindAsync(addDto.RentalAgreementTypeId.Value);
             if (rat == null)
             {
-                return NotFound();
+                return EntityDoesNotExistResponse<RentalAgreementType, int>(addDto.RentalAgreementTypeId.Value);
             }
 
             var parkingSpace = await _context
@@ -202,20 +208,17 @@ namespace Hermes.API.Controllers.v1
 
             if (parkingSpace == null)
             {
-                return NotFound();
+                return EntityDoesNotExistResponse<ParkingSpace, int>(addDto.ParkingSpaceId.Value);
             }
 
             #endregion Validation
 
-            addDto.EmployeeId = 1;
             parkingSpace.IsAvailable = false;
-            parkingSpace.ModifiedBy = addDto.EmployeeId.Value;
+            parkingSpace.ModifiedBy = addDto.EmployeeId;
 
             var rentalAgreement = _mapper.Map<RentalAgreement>(addDto);
-            rentalAgreement.EmployeeId = rentalAgreement.ModifiedBy = addDto.EmployeeId.Value;
 
             var customer = _mapper.Map<Customer>(addDto.Customer);
-            customer.EmployeeId = customer.ModifiedBy = addDto.EmployeeId.Value;
             customer.Vehicles.Add(_mapper.Map<CustomerVehicle>(addDto.Customer.Vehicle));
 
             rentalAgreement.CustomerRentalAgreements.Add(new CustomerRentalAgreement
@@ -227,6 +230,8 @@ namespace Hermes.API.Controllers.v1
             _context.RentalAgreements.Add(rentalAgreement);
 
             await _context.SaveChangesAsync();
+
+            _logger.LogInformation($"RentalAgreement.Id {rentalAgreement.Id} was created.");
 
             await _context.Entry(customer)
                           .Collection(e => e.Vehicles)
@@ -242,11 +247,6 @@ namespace Hermes.API.Controllers.v1
                 actionName: nameof(GetRentalAgreement),
                 routeValues: new { id = rentalAgreement.Id, version = apiVersion.ToString() },
                 value: response);
-        }
-
-        private async Task<bool> RentalAgreementExists(int id)
-        {
-            return await _context.RentalAgreements.AnyAsync(e => e.Id == id);
         }
     }
 }

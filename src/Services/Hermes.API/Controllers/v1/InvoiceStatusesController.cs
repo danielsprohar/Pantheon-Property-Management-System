@@ -1,14 +1,17 @@
 ﻿using AutoMapper;
 using Hermes.API.Application.Pagination;
 using Hermes.API.Helpers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Pantheon.Core.Application.Dto.Reads;
 using Pantheon.Core.Application.Dto.Writes;
 using Pantheon.Core.Application.Parameters;
+using Pantheon.Core.Application.Wrappers;
 using Pantheon.Core.Application.Wrappers.Generics;
 using Pantheon.Core.Domain.Models;
+using Pantheon.Identity.Models;
 using Pantheon.Infrastructure.Data;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,18 +23,13 @@ namespace Hermes.API.Controllers.v1
     [ApiVersion("1.0")]
     public class InvoiceStatusesController : VersionedApiController
     {
-        private readonly PantheonDbContext _context;
-        private readonly ILogger _logger;
-        private readonly IMapper _mapper;
-
         public InvoiceStatusesController(
+            UserManager<ApplicationUser> userManager,
             PantheonDbContext context,
             ILogger<InvoiceStatusesController> logger,
             IMapper mapper)
+                : base(userManager, context, logger, mapper)
         {
-            _context = context;
-            _logger = logger;
-            _mapper = mapper;
         }
 
         /// <summary>
@@ -80,7 +78,7 @@ namespace Hermes.API.Controllers.v1
 
             if (entity == null)
             {
-                return NotFound();
+                return InvoiceStatusDoesNotExistResponse(id);
             }
 
             var dto = _mapper.Map<InvoiceStatusDto>(entity);
@@ -110,10 +108,23 @@ namespace Hermes.API.Controllers.v1
             var dto = _mapper.Map<InvoiceStatusDto>(entity);
             var response = new ApiResponse<InvoiceStatusDto>(dto);
 
+            _logger.LogInformation($"InvoiceStatus.Id {entity.Id} was created.");
+
             return CreatedAtAction(
                 actionName: nameof(GetInvoiceStatus),
                 routeValues: new { id = entity.Id, version = apiVersion.ToString() },
                 value: response);
         }
+
+        #region Helper methods
+
+        private ActionResult InvoiceStatusDoesNotExistResponse(int id)
+        {
+            var message = $"InvoiceStatus.Id {id} does not exist.";
+            _logger.LogInformation(message);
+            return NotFound(new ApiResponse(message));
+        }
+
+        #endregion Helper methods
     }
 }

@@ -85,8 +85,8 @@ namespace Hermes.API
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers()
-                          .RequireAuthorization(HermesConstants.AuthorizationPolicy.ApiScope);
+                endpoints.MapControllers();
+                          //.RequireAuthorization(HermesConstants.AuthorizationPolicy.ApiScope);
             });
         }
     }

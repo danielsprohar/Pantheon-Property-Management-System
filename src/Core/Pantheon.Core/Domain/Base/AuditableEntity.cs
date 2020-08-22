@@ -7,7 +7,7 @@ namespace Pantheon.Core.Domain.Base
         /// <summary>
         /// The employee that created this Entity.
         /// </summary>
-        public int EmployeeId { get; set; }
+        public Guid EmployeeId { get; set; }
 
         /// <summary>
         /// The timestamp for when this Entity was created.
@@ -17,7 +17,7 @@ namespace Pantheon.Core.Domain.Base
         /// <summary>
         /// Contains the id number of the employee that last modified this entity.
         /// </summary>
-        public int ModifiedBy { get; set; }
+        public Guid ModifiedBy { get; set; }
 
         /// <summary>
         /// The timestamp for when this Enitity was last modified.

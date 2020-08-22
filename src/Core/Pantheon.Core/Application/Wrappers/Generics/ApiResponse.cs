@@ -1,6 +1,4 @@
-﻿using Pantheon.Core.Application.Wrappers;
-
-namespace Pantheon.Core.Application.Wrappers.Generics
+﻿namespace Pantheon.Core.Application.Wrappers.Generics
 {
     public class ApiResponse<T> : ApiResponse
     {

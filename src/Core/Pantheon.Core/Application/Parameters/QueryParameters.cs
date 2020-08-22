@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Nubles.Core.Application.Parameters
+namespace Pantheon.Core.Application.Parameters
 {
     public class QueryParameters
     {

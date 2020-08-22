@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nubles.Core.Application.Parameters
+namespace Pantheon.Core.Application.Parameters
 {
     public class InvoiceQueryParameters : DateQueryParameters
     {

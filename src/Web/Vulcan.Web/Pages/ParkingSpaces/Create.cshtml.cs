@@ -1,9 +1,7 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using Pantheon.Core.Application.Dto.Reads;
 using Pantheon.Core.Application.Dto.Writes;
 using Pantheon.Core.Domain.Models;
 using System.Collections.Generic;
@@ -12,34 +10,28 @@ using Vulcan.Web.Services;
 
 namespace Vulcan.Web.Pages.ParkingSpaces
 {
-    public class EditModel : PageModel
+    public class CreateModel : PageModel
     {
         private readonly IParkingSpaceService _service;
-        private readonly IMapper _mapper;
-        private readonly ILogger<EditModel> _logger;
+        private readonly ILogger<CreateModel> _logger;
 
         [BindProperty]
-        public ParkingSpaceDto ParkingSpace { get; set; }
+        public AddParkingSpaceDto ParkingSpace { get; set; }
 
         public SelectList ParkingSpaceTypesSelectList { get; set; }
 
         public SelectList AvailabilitySelectList { get; set; }
 
-        public EditModel(
-            IParkingSpaceService service, 
-            IMapper mapper,
-            ILogger<EditModel> logger)
+        public CreateModel(
+            IParkingSpaceService service,
+            ILogger<CreateModel> logger)
         {
             _service = service;
-            _mapper = mapper;
             _logger = logger;
         }
 
-        public async Task OnGetAsync(int id)
+        public async Task OnGetAsync()
         {
-            var apiResponse = await _service.GetParkingSpaceAsync(id);
-            ParkingSpace = apiResponse.Data;
-
             var paginatedApiResponse = await _service.GetParkingSpaceTypesAsync();
             var parkingSpaceTypes = paginatedApiResponse.Data;
 
@@ -59,18 +51,10 @@ namespace Vulcan.Web.Pages.ParkingSpaces
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            var updateDto = _mapper.Map<UpdateParkingSpaceDto>(ParkingSpace);
-
-            var apiResponse = await _service.UpdateParkingSpaceAsync(ParkingSpace.Id, updateDto);
+            var apiResponse = await _service.AddParkingSpaceAsync(ParkingSpace);
 
             if (!apiResponse.Succeeded)
             {
-                // TODO: show error reason
                 _logger.LogError(apiResponse.Message);
                 foreach (var error in apiResponse.Errors)
                 {
@@ -79,7 +63,9 @@ namespace Vulcan.Web.Pages.ParkingSpaces
                 return Page();
             }
 
-            return RedirectToPage("./Details", new { Id = ParkingSpace.Id });
+            var parkingSpaceDto = apiResponse.Data;
+
+            return RedirectToPage("./Details", new { Id = parkingSpaceDto.Id });
         }
     }
 }

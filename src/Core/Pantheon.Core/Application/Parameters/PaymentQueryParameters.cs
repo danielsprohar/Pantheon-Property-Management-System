@@ -1,4 +1,4 @@
-﻿namespace Nubles.Core.Application.Parameters
+﻿namespace Pantheon.Core.Application.Parameters
 {
     public class PaymentQueryParameters : DateQueryParameters
     {

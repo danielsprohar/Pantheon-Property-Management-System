@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Nubles.Core.Application.Parameters;
+using Pantheon.Core.Application.Parameters;
 using Pantheon.Core.Application.Wrappers.Generics;
 using System;
 

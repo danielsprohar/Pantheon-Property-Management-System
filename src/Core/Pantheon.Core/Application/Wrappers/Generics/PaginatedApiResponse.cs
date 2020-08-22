@@ -1,4 +1,4 @@
-﻿using Nubles.Core.Application.Parameters;
+﻿using Pantheon.Core.Application.Parameters;
 using System;
 
 namespace Pantheon.Core.Application.Wrappers.Generics

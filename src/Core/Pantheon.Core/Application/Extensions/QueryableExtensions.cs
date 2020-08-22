@@ -1,4 +1,4 @@
-﻿using Nubles.Core.Application.Parameters;
+﻿using Pantheon.Core.Application.Parameters;
 using Pantheon.Core.Domain.Base;
 using Pantheon.Core.Domain.Models;
 using System.Linq;

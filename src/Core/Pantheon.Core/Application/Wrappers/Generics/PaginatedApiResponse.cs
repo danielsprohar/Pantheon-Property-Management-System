@@ -1,7 +1,7 @@
 ﻿using Nubles.Core.Application.Parameters;
 using System;
 
-namespace Nubles.Core.Application.Wrappers.Generics
+namespace Pantheon.Core.Application.Wrappers.Generics
 {
     public class PaginatedApiResponse<T> : ApiResponse<T>
     {

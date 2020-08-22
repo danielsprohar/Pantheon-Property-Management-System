@@ -1,3 +1,4 @@
+using IdentityServer4.Test;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Serilog;
@@ -29,6 +30,11 @@ namespace Pantheon.Identity
                     outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", 
                     theme: AnsiConsoleTheme.Code)
                 .CreateLogger();
+
+            var user = new TestUser
+            { 
+                
+            };
 
             try
             {

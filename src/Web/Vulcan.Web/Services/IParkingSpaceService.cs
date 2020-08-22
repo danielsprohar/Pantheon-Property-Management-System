@@ -1,6 +1,8 @@
 ﻿using Nubles.Core.Application.Parameters;
 using Pantheon.Core.Application.Dto.Reads;
 using Pantheon.Core.Application.Dto.Writes;
+using Pantheon.Core.Application.Wrappers;
+using Pantheon.Core.Application.Wrappers.Generics;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,15 +10,17 @@ namespace Vulcan.Web.Services
 {
     public interface IParkingSpaceService
     {
-        Task<bool> AddParkingSpace(AddParkingSpaceDto parkingSpaceDto);
+        Task<ApiResponse<ParkingSpaceDto>> AddParkingSpaceAsync(AddParkingSpaceDto parkingSpaceDto);
 
-        Task<IEnumerable<ParkingSpaceDto>> GetParkingSpaces(ParkingSpaceQueryParameters parameters = null);
+        Task<ApiResponse> DeleteParkingSpaceAsync(int id);
 
-        Task<ParkingSpaceDto> GetParkingSpace(int id);
+        Task<PaginatedApiResponse<IEnumerable<ParkingSpaceDto>>> GetParkingSpacesAsync(ParkingSpaceQueryParameters parameters = null);
 
-        Task<ParkingSpaceTypeDto> GetParkingSpaceType(int id);
+        Task<ApiResponse<ParkingSpaceDto>> GetParkingSpaceAsync(int id);
 
-        Task<IEnumerable<ParkingSpaceTypeDto>> GetParkingSpaceTypes(QueryParameters parameters = null);
+        Task<ApiResponse<ParkingSpaceTypeDto>> GetParkingSpaceTypeAsync(int id);
+
+        Task<PaginatedApiResponse<IEnumerable<ParkingSpaceTypeDto>>> GetParkingSpaceTypesAsync(QueryParameters parameters = null);
 
         /// <summary>
         /// Updates an existing ParkingSpace via HttpPatch
@@ -25,7 +29,7 @@ namespace Vulcan.Web.Services
         /// <param name="dto">RequestBody: The ParkingSpace attributes to be updated</param>
         /// <param name="employeeId">Query Parameter: the Id of the Employee that is modifying </param>
         /// <returns></returns>
-        Task<bool> PatchParkingSpace(int id, UpdateParkingSpaceDto dto);
+        Task<ApiResponse> PatchParkingSpaceAsync(int id, UpdateParkingSpaceDto dto);
 
         /// <summary>
         /// Updates an existig ParkingSpace via HttpPut
@@ -33,6 +37,6 @@ namespace Vulcan.Web.Services
         /// <param name="id"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<bool> UpdateParkingSpace(int id, UpdateParkingSpaceDto dto);
+        Task<ApiResponse> UpdateParkingSpaceAsync(int id, UpdateParkingSpaceDto dto);
     }
 }

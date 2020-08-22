@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Nubles.Core.Application.Parameters;
 using Pantheon.Core.Application.Dto.Reads;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Vulcan.Web.Services;
@@ -21,10 +20,12 @@ namespace Vulcan.Web.Pages.ParkingSpaces
 
         public async Task OnGetAsync()
         {
-            // TODO: move this
+            // TODO: implement this in the UI
             var parameters = new ParkingSpaceQueryParameters();
 
-            ParkingSpaces = await _service.GetParkingSpaces(parameters);
+            var paginatedApiResponse = await _service.GetParkingSpacesAsync(parameters);
+
+            ParkingSpaces = paginatedApiResponse.Data;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Nubles.Core.Application.Wrappers
+namespace Pantheon.Core.Application.Wrappers
 {
     public class ApiResponse
     {

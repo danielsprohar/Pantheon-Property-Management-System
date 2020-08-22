@@ -31,9 +31,11 @@ namespace Vulcan.Web.Pages.ParkingSpaces
 
         public async Task OnGetAsync(int id)
         {
-            ParkingSpace = await _service.GetParkingSpace(id);
+            var apiResponse = await _service.GetParkingSpaceAsync(id);
+            ParkingSpace = apiResponse.Data;
 
-            var parkingSpaceTypes = await _service.GetParkingSpaceTypes();
+            var paginatedApiResponse = await _service.GetParkingSpaceTypesAsync();
+            var parkingSpaceTypes = paginatedApiResponse.Data;
 
             ParkingSpaceTypesSelectList = new SelectList(
                 items: parkingSpaceTypes,
@@ -58,10 +60,11 @@ namespace Vulcan.Web.Pages.ParkingSpaces
 
             var updateDto = _mapper.Map<UpdateParkingSpaceDto>(ParkingSpace);
 
-            var succeeded = await _service.UpdateParkingSpace(ParkingSpace.Id, updateDto);
+            var apiResponse = await _service.UpdateParkingSpaceAsync(ParkingSpace.Id, updateDto);
 
-            if (!succeeded)
+            if (!apiResponse.Succeeded)
             {
+                // TODO: show error reason
                 return Page();
             }
 

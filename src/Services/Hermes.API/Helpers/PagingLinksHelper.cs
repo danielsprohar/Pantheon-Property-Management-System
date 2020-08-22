@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Nubles.Core.Application.Parameters;
-using Nubles.Core.Application.Wrappers.Generics;
+using Pantheon.Core.Application.Wrappers.Generics;
 using System;
 
 namespace Hermes.API.Helpers

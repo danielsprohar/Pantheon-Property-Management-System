@@ -7,10 +7,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Nubles.Core.Application.Parameters;
-using Nubles.Core.Application.Wrappers.Generics;
 using Pantheon.Core.Application.Dto.Reads;
 using Pantheon.Core.Application.Dto.Writes;
 using Pantheon.Core.Application.Extensions;
+using Pantheon.Core.Application.Wrappers;
+using Pantheon.Core.Application.Wrappers.Generics;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -51,7 +52,7 @@ namespace Vulcan.Web.Services
                                                   _hermesApiOptions.ResourcePath.ParkingSpaceTypes);
         }
 
-        public async Task<bool> AddParkingSpace(AddParkingSpaceDto addParkingSpaceDto)
+        public async Task<ApiResponse<ParkingSpaceDto>> AddParkingSpaceAsync(AddParkingSpaceDto addParkingSpaceDto)
         {
             await SetBearerToken(_httpContextAccessor.HttpContext, _httpClient);
 
@@ -78,10 +79,17 @@ namespace Vulcan.Web.Services
                 throw new Exception(responseMessage.ReasonPhrase);
             }
 
-            return true;
+            var responseBody = await responseMessage.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<ApiResponse<ParkingSpaceDto>>(responseBody);
         }
 
-        public async Task<ParkingSpaceDto> GetParkingSpace(int id)
+        public Task<ApiResponse> DeleteParkingSpaceAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ApiResponse<ParkingSpaceDto>> GetParkingSpaceAsync(int id)
         {
             await SetBearerToken(_httpContextAccessor.HttpContext, _httpClient);
 
@@ -98,10 +106,10 @@ namespace Vulcan.Web.Services
 
             var apiResponse = JsonConvert.DeserializeObject<ApiResponse<ParkingSpaceDto>>(content);
 
-            return apiResponse.Data;
+            return apiResponse;
         }
 
-        public async Task<IEnumerable<ParkingSpaceDto>> GetParkingSpaces(
+        public async Task<PaginatedApiResponse<IEnumerable<ParkingSpaceDto>>> GetParkingSpacesAsync(
             ParkingSpaceQueryParameters parameters = null)
         {
             await SetBearerToken(_httpContextAccessor.HttpContext, _httpClient);
@@ -112,13 +120,11 @@ namespace Vulcan.Web.Services
 
             var responseString = await _httpClient.GetStringAsync(requestUri);
 
-            var paginatedApiResponse = JsonConvert
+            return JsonConvert
                 .DeserializeObject<PaginatedApiResponse<IEnumerable<ParkingSpaceDto>>>(responseString);
-
-            return paginatedApiResponse.Data;
         }
 
-        public async Task<ParkingSpaceTypeDto> GetParkingSpaceType(int id)
+        public async Task<ApiResponse<ParkingSpaceTypeDto>> GetParkingSpaceTypeAsync(int id)
         {
             await SetBearerToken(_httpContextAccessor.HttpContext, _httpClient);
 
@@ -133,12 +139,10 @@ namespace Vulcan.Web.Services
 
             var content = await responseMessage.Content.ReadAsStringAsync();
 
-            var apiResponse = JsonConvert.DeserializeObject<ApiResponse<ParkingSpaceTypeDto>>(content);
-
-            return apiResponse.Data;
+            return JsonConvert.DeserializeObject<ApiResponse<ParkingSpaceTypeDto>>(content);
         }
 
-        public async Task<IEnumerable<ParkingSpaceTypeDto>> GetParkingSpaceTypes(
+        public async Task<PaginatedApiResponse<IEnumerable<ParkingSpaceTypeDto>>> GetParkingSpaceTypesAsync(
             QueryParameters parameters = null)
         {
             await SetBearerToken(_httpContextAccessor.HttpContext, _httpClient);
@@ -156,13 +160,11 @@ namespace Vulcan.Web.Services
 
             var content = await responseMessage.Content.ReadAsStringAsync();
 
-            var paginatedApiResponse = JsonConvert
+            return JsonConvert
                 .DeserializeObject<PaginatedApiResponse<IEnumerable<ParkingSpaceTypeDto>>>(content);
-
-            return paginatedApiResponse.Data;
         }
 
-        public async Task<bool> PatchParkingSpace(int id, UpdateParkingSpaceDto dto)
+        public async Task<ApiResponse> PatchParkingSpaceAsync(int id, UpdateParkingSpaceDto dto)
         {
             await SetBearerToken(_httpContextAccessor.HttpContext, _httpClient);
 
@@ -190,13 +192,13 @@ namespace Vulcan.Web.Services
 
             if (!responseMessage.IsSuccessStatusCode)
             {
-                throw new Exception(responseMessage.ReasonPhrase);
+                return new ApiResponse($"StatusCode: {responseMessage.StatusCode}; Reason: {responseMessage.ReasonPhrase}");
             }
 
-            return true;
+            return new ApiResponse("Parking Space was patched", true);
         }
 
-        public async Task<bool> UpdateParkingSpace(int id, UpdateParkingSpaceDto dto)
+        public async Task<ApiResponse> UpdateParkingSpaceAsync(int id, UpdateParkingSpaceDto dto)
         {
             await SetBearerToken(_httpContextAccessor.HttpContext, _httpClient);
 
@@ -220,10 +222,10 @@ namespace Vulcan.Web.Services
 
             if (!responseMessage.IsSuccessStatusCode)
             {
-                throw new Exception(responseMessage.ReasonPhrase);
+                return new ApiResponse($"StatusCode: {responseMessage.StatusCode}; Reason: {responseMessage.ReasonPhrase}");
             }
 
-            return true;
+            return new ApiResponse("Parking Space was updated", true);
         }
 
         // =====================================================================================

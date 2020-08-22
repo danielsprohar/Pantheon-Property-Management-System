@@ -38,6 +38,7 @@ namespace Pantheon.Identity.EntityConfigurations
                 SecurityStamp = Guid.NewGuid().ToString()
             };
 
+            // TODO: fix this; the hash produced here does not result in the same hash in the application
             user.PasswordHash = passwordHasher.HashPassword(user, "Password123$");
 
             return new ApplicationUser[] { user };

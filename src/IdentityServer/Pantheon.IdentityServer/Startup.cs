@@ -4,10 +4,12 @@
 using IdentityServer4.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Pantheon.Identity;
+using Pantheon.Identity.Data;
 using Pantheon.Identity.Models;
 using System;
 
@@ -29,6 +31,11 @@ namespace Pantheon.IdentityServer
             services.AddRazorPages();
 
             services.AddPantheonIdentityInfrastructure(Configuration);
+
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<PantheonIdentityDbContext>()
+                .AddDefaultTokenProviders()
+                .AddDefaultUI();
 
             services.AddIdentityServer(options =>
             {

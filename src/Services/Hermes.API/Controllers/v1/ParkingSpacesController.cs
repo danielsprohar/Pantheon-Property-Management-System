@@ -37,6 +37,36 @@ namespace Hermes.API.Controllers.v1
         }
 
         /// <summary>
+        /// Delete <c>ParkingSpace</c> by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteParkingSpace(int id)
+        {
+            var parkingSpace = await _context.ParkingSpaces.FindAsync(id);
+
+            if (parkingSpace == null)
+            {
+                return EntityDoesNotExistResponse<ParkingSpace, int>(id);
+            }
+
+            if (!parkingSpace.IsAvailable.Value)
+            {
+                var message = $"Parking Space with Id={id} is currently occupied.";
+                _logger.LogInformation(message);
+                return UnprocessableEntity(new ApiResponse(message));
+            }
+
+            _context.ParkingSpaces.Remove(parkingSpace);
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation($"Parking Space with Id={id} was deleted.");
+
+            return NoContent();
+        }
+
+        /// <summary>
         /// Get a paginated list of <c>ParkingSpace</c>s
         /// </summary>
         /// <param name="parameters"></param>
@@ -109,16 +139,15 @@ namespace Hermes.API.Controllers.v1
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<ApiResponse<ParkingSpaceDto>>> PostParkingSpace(
             [FromRoute] ApiVersion apiVersion,
-            [FromQuery] Guid uid,
             [FromBody] AddParkingSpaceDto addDto)
         {
             #region Validation
 
             _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
-            if (!await EmployeeExistsAsync(uid))
+            if (!await EmployeeExistsAsync(addDto.EmployeeId))
             {
-                return EntityDoesNotExistResponse<ApplicationUser, Guid>(uid);
+                return EntityDoesNotExistResponse<ApplicationUser, Guid>(addDto.EmployeeId);
             }
 
             if (!await ParkingSpaceTypeExistsAsync(addDto.ParkingSpaceTypeId.Value))
@@ -131,10 +160,10 @@ namespace Hermes.API.Controllers.v1
             #endregion Validation
 
             var entity = _mapper.Map<ParkingSpace>(addDto);
-            entity.ModifiedBy = entity.EmployeeId = uid;
 
             _context.ParkingSpaces.Add(entity);
             await _context.SaveChangesAsync();
+
             _logger.LogInformation($"ParkingSpace.Id {entity.Id} was created.");
 
             var dto = _mapper.Map<ParkingSpaceDto>(entity);
@@ -143,36 +172,6 @@ namespace Hermes.API.Controllers.v1
             return CreatedAtAction(nameof(GetParkingSpace),
                                    new { id = entity.Id, version = apiVersion.ToString() },
                                    response);
-        }
-
-        /// <summary>
-        /// Delete <c>ParkingSpace</c> by Id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteParkingSpace(int id)
-        {
-            var parkingSpace = await _context.ParkingSpaces.FindAsync(id);
-
-            if (parkingSpace == null)
-            {
-                return EntityDoesNotExistResponse<ParkingSpace, int>(id);
-            }
-
-            if (!parkingSpace.IsAvailable.Value)
-            {
-                var message = $"Parking Space with Id={id} is currently occupied.";
-                _logger.LogInformation(message);
-                return UnprocessableEntity(new ApiResponse(message));
-            }
-
-            _context.ParkingSpaces.Remove(parkingSpace);
-            await _context.SaveChangesAsync();
-
-            _logger.LogInformation($"Parking Space with Id={id} was deleted.");
-
-            return NoContent();
         }
 
         /// <summary>

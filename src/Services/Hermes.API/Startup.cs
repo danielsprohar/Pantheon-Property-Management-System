@@ -143,6 +143,14 @@ namespace Hermes.API
                             //    "at+jwt"
                             //}
                         };
+
+                        //options.Events = new JwtBearerEvents
+                        //{
+                        //    OnChallenge = c =>
+                        //    {
+                                
+                        //    }
+                        //};
                     });
 
             services.AddAuthorization(options =>

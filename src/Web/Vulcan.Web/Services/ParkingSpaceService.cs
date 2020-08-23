@@ -56,15 +56,9 @@ namespace Vulcan.Web.Services
         {
             await SetBearerToken(_httpContextAccessor.HttpContext, _httpClient);
 
-            var employeeId = GetEmployeeId(_httpContextAccessor.HttpContext);
+            addParkingSpaceDto.EmployeeId = new Guid(GetEmployeeId(_httpContextAccessor.HttpContext));
 
-            var routeValues = new RouteValueDictionary(new { employeeId });
-
-            var requestUri = _parkingSpacesUri.AppendRouteValues(routeValues);
-
-            requestUri.AppendRouteValues(routeValues);
-
-            var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUri)
+            var requestMessage = new HttpRequestMessage(HttpMethod.Post, _parkingSpacesUri)
             {
                 Content = new StringContent(
                     JsonConvert.SerializeObject(addParkingSpaceDto),
@@ -118,10 +112,17 @@ namespace Vulcan.Web.Services
                             _parkingSpacesUri.AppendRouteValues(new RouteValueDictionary(parameters.GetRouteValues())) :
                             _parkingSpacesUri;
 
-            var responseString = await _httpClient.GetStringAsync(requestUri);
+            var responseMessage = await _httpClient.GetAsync(requestUri);
+
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                throw new Exception(responseMessage.ReasonPhrase);
+            }
+
+            var content = await responseMessage.Content.ReadAsStringAsync();
 
             return JsonConvert
-                .DeserializeObject<PaginatedApiResponse<IEnumerable<ParkingSpaceDto>>>(responseString);
+                .DeserializeObject<PaginatedApiResponse<IEnumerable<ParkingSpaceDto>>>(content);
         }
 
         public async Task<ApiResponse<ParkingSpaceTypeDto>> GetParkingSpaceTypeAsync(int id)
@@ -234,7 +235,7 @@ namespace Vulcan.Web.Services
         private string GetEmployeeId(HttpContext httpContext)
         {
             //return httpContext.User.Identity.GetSubjectId();
-            return httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return httpContext.User.FindFirstValue("sub");
         }
 
         private async Task SetBearerToken(HttpContext httpContext, HttpClient httpClient)

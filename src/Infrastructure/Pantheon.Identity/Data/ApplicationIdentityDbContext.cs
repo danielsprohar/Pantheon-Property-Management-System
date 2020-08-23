@@ -8,10 +8,10 @@ using System;
 
 namespace Pantheon.Identity.Data
 {
-    public class ApplicationDbContext
+    public class ApplicationIdentityDbContext
         : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public ApplicationIdentityDbContext(DbContextOptions<ApplicationIdentityDbContext> options)
             : base(options)
         {
         }

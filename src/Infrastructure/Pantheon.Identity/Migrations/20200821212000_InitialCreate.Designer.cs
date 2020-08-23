@@ -9,7 +9,7 @@ using Pantheon.Identity.Data;
 
 namespace Pantheon.Identity.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(ApplicationIdentityDbContext))]
     [Migration("20200821212000_InitialCreate")]
     partial class InitialCreate
     {

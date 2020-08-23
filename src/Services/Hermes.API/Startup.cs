@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Pantheon.Core.Application.Extensions;
 using Pantheon.Identity.Constants;
+using Pantheon.Identity.Models;
 using Pantheon.Infrastructure;
 using System;
 using System.IO;

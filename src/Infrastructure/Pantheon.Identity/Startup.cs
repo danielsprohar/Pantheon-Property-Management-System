@@ -27,11 +27,11 @@ namespace Pantheon.Identity
             var connectionString = Configuration.GetConnectionString("DefaultConnection"); ;
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<ApplicationIdentityDbContext>(options =>
                 options.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationsAssembly)));
 
             services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddEntityFrameworkStores<ApplicationIdentityDbContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Pantheon.Core.Application.Extensions;
 using Pantheon.Identity.Constants;
 using System.IdentityModel.Tokens.Jwt;
+using Vulcan.Web.Constants;
 using Vulcan.Web.Options;
 using Vulcan.Web.Services;
 
@@ -13,9 +14,6 @@ namespace Vulcan.Web
 {
     public class Startup
     {
-        private const string CookieScheme = "Pantheon.Cookie";
-        private const string DefaultChallangeScheme = "oidc";
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -29,16 +27,18 @@ namespace Vulcan.Web
 
             services.AddAuthentication(options =>
             {
-                options.DefaultScheme = CookieScheme;
-                options.DefaultChallengeScheme = DefaultChallangeScheme;
+                options.DefaultScheme = AppConstants.CookieScheme;
+                options.DefaultChallengeScheme = AppConstants.DefaultChallangeScheme;
             })
-                .AddCookie(CookieScheme) // add the handler that can process cookies
-                .AddOpenIdConnect(DefaultChallangeScheme, options =>
+                .AddCookie(AppConstants.CookieScheme) // add the handler that can process cookies
+                .AddOpenIdConnect(AppConstants.DefaultChallangeScheme, options =>
                 {
                     // The address of Identity Server
                     options.Authority = PantheonIdentityConstants.AuthorityAddress;
 
                     options.ClientId = PantheonIdentityConstants.Clients.Vulcan;
+
+                    options.GetClaimsFromUserInfoEndpoint = true;
 
                     // TODO: Store the secret in a secure store
                     options.ClientSecret = "MyNotSoSecretSecret_0987";
@@ -47,8 +47,6 @@ namespace Vulcan.Web
                     options.ResponseType = "code";
 
                     options.SaveTokens = true;
-
-                    options.GetClaimsFromUserInfoEndpoint = true;
 
                     // so we can access the API resources
                     options.Scope.Add(PantheonIdentityConstants.ApiScopes.Hermes);

@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>aspnet-Pantheon.IdentityServer-95854476-6AF7-45D1-981F-5F70CAC5B944</UserSecretsId>
+    <StartupObject>Pantheon.IdentityServer.Program</StartupObject>
+    <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +17,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.7" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
   </ItemGroup>
 
   <ItemGroup>

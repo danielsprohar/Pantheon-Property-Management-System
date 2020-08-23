@@ -24,7 +24,10 @@ namespace Pantheon.Core.Application.Extensions
 
             foreach (var value in routeValues)
             {
-                currentRouteValues.Add(value.Key, value.Value.ToString());
+                if (value.Value != null)
+                {
+                    currentRouteValues.Add(value.Key, value.Value?.ToString());
+                }
             }
 
             uriBuilder.Query = currentRouteValues.ToString();

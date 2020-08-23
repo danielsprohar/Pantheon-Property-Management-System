@@ -240,12 +240,11 @@ namespace Hermes.API.Controllers.v1
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> PutParkingSpace(
             [FromRoute] int id,
-            [FromQuery] Guid uid,
             [FromBody] UpdateParkingSpaceDto dto)
         {
-            if (!await EmployeeExistsAsync(uid))
+            if (!await EmployeeExistsAsync(dto.EmployeeId))
             {
-                return EntityDoesNotExistResponse<ApplicationUser, Guid>(uid);
+                return EntityDoesNotExistResponse<ApplicationUser, Guid>(dto.EmployeeId);
             }
 
             var parkingSpace = await _context.ParkingSpaces.FindAsync(id);
@@ -255,9 +254,6 @@ namespace Hermes.API.Controllers.v1
             }
 
             _mapper.Map(dto, parkingSpace);
-
-            parkingSpace.ModifiedBy = uid;
-            parkingSpace.ModifiedOn = DateTimeOffset.UtcNow;
 
             _context.Entry(parkingSpace).State = EntityState.Modified;
 

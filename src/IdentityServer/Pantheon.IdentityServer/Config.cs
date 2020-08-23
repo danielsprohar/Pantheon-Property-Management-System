@@ -36,6 +36,8 @@ namespace Pantheon.IdentityServer
                     ClientName = "Vulcan Webapp",
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowOfflineAccess = true,
+                    ClientUri = "https://localhost:5002",
+                    FrontChannelLogoutUri = "https://localhost:5002/signout-oidc",
                     ClientSecrets =
                     {
                         new Secret("MyNotSoSecretSecret_0987".Sha256())
@@ -45,13 +47,11 @@ namespace Pantheon.IdentityServer
                     {
                         "https://localhost:5002/signin-oidc"
                     },
-
                     // where to redirect to after logout
                     PostLogoutRedirectUris =
                     {
                         "https://localhost:5002/signout-callback-oidc"
                     },
-                    //FrontChannelLogoutUri = "https://localhost:5002/signout-oidc",
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,

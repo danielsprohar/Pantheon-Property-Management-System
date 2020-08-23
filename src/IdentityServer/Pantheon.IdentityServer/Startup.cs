@@ -37,6 +37,9 @@ namespace Pantheon.IdentityServer
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
 
+                options.UserInteraction.LoginUrl = "/Identity/Account/Login";
+                options.UserInteraction.LogoutUrl = "/Identity/Account/Logout";
+
                 options.Authentication = new AuthenticationOptions()
                 {
                     CookieLifetime = TimeSpan.FromHours(10),

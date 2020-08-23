@@ -25,7 +25,7 @@ namespace Hermes.API
     public class Startup
     {
         public static readonly ILoggerFactory HermesLoggerFactory
-            = LoggerFactory.Create(builder => { builder.AddConsole(); });
+            = LoggerFactory.Create(builder => builder.AddConsole());
 
         public Startup(IConfiguration configuration)
         {
@@ -34,7 +34,6 @@ namespace Hermes.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddPantheonIdentityInfrastructure(Configuration);
@@ -86,8 +85,8 @@ namespace Hermes.API
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
-                //.RequireAuthorization(HermesConstants.AuthorizationPolicy.ApiScope);
+                endpoints.MapControllers()
+                    .RequireAuthorization(HermesConstants.AuthorizationPolicy.ApiScope);
             });
         }
     }
@@ -138,11 +137,11 @@ namespace Hermes.API
                             // Using "scope only" authentication
                             ValidateAudience = false
 
-                            // ValidTypes = new[]
-                            // {
-                            //     // IdentityServer emits a typ header by default, recommended extra check
-                            //     "at+jwt"
-                            // },
+                            //ValidTypes = new[]
+                            //{
+                            //    // IdentityServer emits a typ header by default, recommended extra check
+                            //    "at+jwt"
+                            //}
                         };
                     });
 

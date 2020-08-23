@@ -2,14 +2,15 @@
 @using Microsoft.AspNetCore.Authentication
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home";
 }
 
 <h1>Welcome</h1>
+<hr />
 
-@if (User != null)
+@if (User.Identity.IsAuthenticated)
 {
-    <div class="text-center">
+    <div>
         <h2>Claims</h2>
 
         <dl>
@@ -22,11 +23,11 @@
 
         <h2>Properties</h2>
 
-        <dl>
+        <dl class="text-wrap">
             @foreach (var prop in (await HttpContext.AuthenticateAsync()).Properties.Items)
             {
                 <dt>@prop.Key</dt>
-                <dd class="text-wrap">@prop.Value</dd>
+                <dd>@prop.Value</dd>
             }
         </dl>
     </div>

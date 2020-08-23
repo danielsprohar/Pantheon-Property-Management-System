@@ -6,8 +6,11 @@ using Microsoft.Extensions.Logging;
 using Pantheon.Core.Application.Dto.Reads;
 using Pantheon.Core.Application.Dto.Writes;
 using Pantheon.Core.Domain.Models;
+using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Vulcan.Web.Constants;
 using Vulcan.Web.Services;
 
 namespace Vulcan.Web.Pages.ParkingSpaces
@@ -65,6 +68,7 @@ namespace Vulcan.Web.Pages.ParkingSpaces
             }
 
             var updateDto = _mapper.Map<UpdateParkingSpaceDto>(ParkingSpace);
+            updateDto.EmployeeId = new Guid(User.FindFirstValue(AppConstants.SubjectIdClaimName));
 
             var apiResponse = await _service.UpdateParkingSpaceAsync(ParkingSpace.Id, updateDto);
 

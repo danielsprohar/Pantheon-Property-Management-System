@@ -7,7 +7,7 @@ namespace Pantheon.Identity.Models
     {
         public class Roles
         {
-            public const string Admin = "admin";
+            public const string Admin = "administrator";
             public const string User = "user";
         }
     }

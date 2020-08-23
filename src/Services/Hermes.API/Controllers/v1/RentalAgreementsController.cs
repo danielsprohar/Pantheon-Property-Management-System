@@ -27,7 +27,7 @@ namespace Hermes.API.Controllers.v1
     public class RentalAgreementsController : VersionedApiController
     {
         public RentalAgreementsController(
-            ApplicationIdentityDbContext identityContext,
+            PantheonIdentityDbContext identityContext,
             PantheonDbContext context,
             ILogger<RentalAgreementsController> logger,
             IMapper mapper)

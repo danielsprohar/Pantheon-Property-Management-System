@@ -22,7 +22,7 @@ namespace Hermes.API.Controllers.v1
     public class ParkingSpaceTypesController : VersionedApiController
     {
         public ParkingSpaceTypesController(
-            ApplicationIdentityDbContext identityContext,
+            PantheonIdentityDbContext identityContext,
             PantheonDbContext context,
             ILogger<ParkingSpaceTypesController> logger,
             IMapper mapper)

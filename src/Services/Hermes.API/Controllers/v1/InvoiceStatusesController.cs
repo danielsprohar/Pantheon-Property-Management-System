@@ -23,7 +23,7 @@ namespace Hermes.API.Controllers.v1
     public class InvoiceStatusesController : VersionedApiController
     {
         public InvoiceStatusesController(
-            ApplicationIdentityDbContext identityContext,
+            PantheonIdentityDbContext identityContext,
             PantheonDbContext context,
             ILogger<InvoiceStatusesController> logger,
             IMapper mapper)

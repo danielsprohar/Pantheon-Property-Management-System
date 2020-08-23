@@ -22,7 +22,7 @@ namespace Hermes.API.Controllers.v1
     public class PaymentMethodsController : VersionedApiController
     {
         public PaymentMethodsController(
-            ApplicationIdentityDbContext identityContext,
+            PantheonIdentityDbContext identityContext,
             PantheonDbContext context,
             ILogger<PaymentMethodsController> logger,
             IMapper mapper)

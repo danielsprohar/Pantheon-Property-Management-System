@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Pantheon.Core.Application.Extensions;
-using Pantheon.Identity.Constants;
+using Pantheon.IdentityServer.Constants;
 using System.IdentityModel.Tokens.Jwt;
 using Vulcan.Web.Options;
 using Vulcan.Web.Services;

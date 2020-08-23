@@ -5,8 +5,12 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="IdentityServer4" Version="4.0.0" />
-
-    <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
+    <PackageReference Include="IdentityServer4" Version="4.0.4" />
+    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.0.4" />
+    <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\Pantheon.Identity\Pantheon.Identity.csproj" />
   </ItemGroup>
 </Project>

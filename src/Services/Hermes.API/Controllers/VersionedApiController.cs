@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Pantheon.Core.Application.Wrappers;
 using Pantheon.Identity.Data;
-using Pantheon.Identity.Models;
 using Pantheon.Infrastructure.Data;
 using System;
 using System.Net.Mime;
@@ -18,13 +16,13 @@ namespace Hermes.API.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class VersionedApiController : ControllerBase
     {
-        protected readonly ApplicationIdentityDbContext _identityContext;
+        protected readonly PantheonIdentityDbContext _identityContext;
         protected readonly PantheonDbContext _context;
         protected readonly ILogger _logger;
         protected readonly IMapper _mapper;
 
         public VersionedApiController(
-            ApplicationIdentityDbContext identityContext,
+            PantheonIdentityDbContext identityContext,
             PantheonDbContext context,
             ILogger logger,
             IMapper mapper)

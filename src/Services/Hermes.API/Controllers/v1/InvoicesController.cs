@@ -29,7 +29,7 @@ namespace Hermes.API.Controllers.v1
     public class InvoicesController : VersionedApiController
     {
         public InvoicesController(
-            ApplicationIdentityDbContext identityContext,
+            PantheonIdentityDbContext identityContext,
             PantheonDbContext context,
             ILogger<InvoicesController> logger,
             IMapper mapper)

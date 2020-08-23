@@ -1,4 +1,4 @@
-﻿namespace Pantheon.Identity.Constants
+namespace Pantheon.Identity.Constants
 {
     public class PantheonIdentityConstants
     {

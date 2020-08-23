@@ -13,7 +13,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Pantheon.Core.Application.Extensions;
 using Pantheon.Identity.Constants;
-using Pantheon.Identity.Models;
 using Pantheon.Infrastructure;
 using System;
 using System.IO;
@@ -59,7 +58,6 @@ namespace Hermes.API
             services.AddJwtAuthentication();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -87,7 +85,7 @@ namespace Hermes.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                          //.RequireAuthorization(HermesConstants.AuthorizationPolicy.ApiScope);
+                //.RequireAuthorization(HermesConstants.AuthorizationPolicy.ApiScope);
             });
         }
     }
@@ -128,20 +126,21 @@ namespace Hermes.API
         public static IServiceCollection AddJwtAuthentication(this IServiceCollection services)
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, configureOptions =>
+                    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                     {
                         // base address for IdentityServer
-                        configureOptions.Authority = PantheonIdentityConstants.AuthorityAddress;
+                        options.Authority = PantheonIdentityConstants.AuthorityAddress;
 
-                        configureOptions.TokenValidationParameters = new TokenValidationParameters
+                        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                         {
-                            ValidTypes = new[]
-                            {
-                                // IdentityServer emits a typ header by default, recommended extra check
-                                "at+jwt"
-                            },
-                            // Using scope only authentication
+                            // Using "scope only" authentication
                             ValidateAudience = false
+
+                            // ValidTypes = new[]
+                            // {
+                            //     // IdentityServer emits a typ header by default, recommended extra check
+                            //     "at+jwt"
+                            // },
                         };
                     });
 

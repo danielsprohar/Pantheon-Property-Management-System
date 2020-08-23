@@ -23,7 +23,7 @@ namespace Pantheon.Identity
                 }
 
                 optionsBuilder.UseSqlServer(
-                    configuration.GetConnectionString("DefaultConnection"),
+                    configuration.GetConnectionString("Identity"),
                     providerOptions => providerOptions.MigrationsAssembly(
                         typeof(PantheonIdentityDbContext).Assembly.FullName));
             });

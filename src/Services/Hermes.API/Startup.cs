@@ -9,9 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Pantheon.Core.Application.Extensions;
+using Pantheon.Identity;
 using Pantheon.Identity.Constants;
 using Pantheon.Infrastructure;
 using System;
@@ -37,6 +37,8 @@ namespace Hermes.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddPantheonIdentityInfrastructure(Configuration);
+
             services.AddControllers(config =>
             {
                 var pageRouteTransformer = new RouteTokenTransformerConvention(new SlugifyParameterTransformer());

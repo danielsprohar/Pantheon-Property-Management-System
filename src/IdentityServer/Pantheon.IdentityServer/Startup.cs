@@ -26,7 +26,7 @@ namespace Pantheon.IdentityServer
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddRazorPages();
 
             services.AddPantheonIdentityInfrastructure(Configuration);
 
@@ -68,7 +68,7 @@ namespace Pantheon.IdentityServer
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute();
+                endpoints.MapRazorPages();
             });
         }
     }

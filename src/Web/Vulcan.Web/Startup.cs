@@ -1,11 +1,10 @@
-using IdentityServer4;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Pantheon.Core.Application.Extensions;
-using Pantheon.IdentityServer.Constants;
+using Pantheon.Identity.Constants;
 using System.IdentityModel.Tokens.Jwt;
 using Vulcan.Web.Options;
 using Vulcan.Web.Services;
@@ -15,6 +14,7 @@ namespace Vulcan.Web
     public class Startup
     {
         private const string CookieScheme = "Pantheon.Cookie";
+        private const string DefaultChallangeScheme = "oidc";
 
         public Startup(IConfiguration configuration)
         {
@@ -30,10 +30,10 @@ namespace Vulcan.Web
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieScheme;
-                options.DefaultChallengeScheme = IdentityServerConstants.ProtocolTypes.OpenIdConnect;
+                options.DefaultChallengeScheme = DefaultChallangeScheme;
             })
                 .AddCookie(CookieScheme) // add the handler that can process cookies
-                .AddOpenIdConnect(IdentityServerConstants.ProtocolTypes.OpenIdConnect, options =>
+                .AddOpenIdConnect(DefaultChallangeScheme, options =>
                 {
                     // The address of Identity Server
                     options.Authority = PantheonIdentityConstants.AuthorityAddress;

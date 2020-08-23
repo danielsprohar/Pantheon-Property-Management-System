@@ -1,5 +1,4 @@
-﻿using IdentityServer4.Extensions;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Routing;
@@ -17,6 +16,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Mime;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Vulcan.Web.Options;
 
@@ -233,7 +233,8 @@ namespace Vulcan.Web.Services
         // =====================================================================================
         private string GetEmployeeId(HttpContext httpContext)
         {
-            return httpContext.User.Identity.GetSubjectId();
+            //return httpContext.User.Identity.GetSubjectId();
+            return httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
         private async Task SetBearerToken(HttpContext httpContext, HttpClient httpClient)

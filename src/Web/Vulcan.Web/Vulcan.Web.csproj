@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Services\Hermes.API\Hermes.API.csproj" />
-    <ProjectReference Include="..\..\IdentityServer\Pantheon.IdentityServer\Pantheon.IdentityServer.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Hermes.API.Application.Pagination;
 using Hermes.API.Helpers;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +12,7 @@ using Pantheon.Core.Application.Parameters;
 using Pantheon.Core.Application.Wrappers;
 using Pantheon.Core.Application.Wrappers.Generics;
 using Pantheon.Core.Domain.Models;
+using Pantheon.Identity.Data;
 using Pantheon.Identity.Models;
 using Pantheon.Infrastructure.Data;
 using Pantheon.Infrastructure.Helpers;
@@ -29,11 +29,11 @@ namespace Hermes.API.Controllers.v1
     public class InvoicesController : VersionedApiController
     {
         public InvoicesController(
-            UserManager<ApplicationUser> userManager,
+            ApplicationIdentityDbContext identityContext,
             PantheonDbContext context,
             ILogger<InvoicesController> logger,
             IMapper mapper)
-                : base(userManager, context, logger, mapper)
+                : base(identityContext, context, logger, mapper)
         {
         }
 

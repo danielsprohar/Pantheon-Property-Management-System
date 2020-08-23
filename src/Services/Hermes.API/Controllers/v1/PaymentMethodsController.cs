@@ -1,17 +1,15 @@
 ﻿using AutoMapper;
 using Hermes.API.Application.Pagination;
 using Hermes.API.Helpers;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Pantheon.Core.Application.Dto.Reads;
 using Pantheon.Core.Application.Dto.Writes;
 using Pantheon.Core.Application.Parameters;
-using Pantheon.Core.Application.Wrappers;
 using Pantheon.Core.Application.Wrappers.Generics;
 using Pantheon.Core.Domain.Models;
-using Pantheon.Identity.Models;
+using Pantheon.Identity.Data;
 using Pantheon.Infrastructure.Data;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,11 +22,11 @@ namespace Hermes.API.Controllers.v1
     public class PaymentMethodsController : VersionedApiController
     {
         public PaymentMethodsController(
-            UserManager<ApplicationUser> userManager,
+            ApplicationIdentityDbContext identityContext,
             PantheonDbContext context,
             ILogger<PaymentMethodsController> logger,
             IMapper mapper)
-                : base(userManager, context, logger, mapper)
+                : base(identityContext, context, logger, mapper)
         {
         }
 

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Pantheon.Core.Application.Wrappers;
+using Pantheon.Identity.Data;
 using Pantheon.Identity.Models;
 using Pantheon.Infrastructure.Data;
 using System;
@@ -17,18 +18,18 @@ namespace Hermes.API.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class VersionedApiController : ControllerBase
     {
-        protected readonly UserManager<ApplicationUser> _userManager;
+        protected readonly ApplicationIdentityDbContext _identityContext;
         protected readonly PantheonDbContext _context;
         protected readonly ILogger _logger;
         protected readonly IMapper _mapper;
 
         public VersionedApiController(
-            UserManager<ApplicationUser> userManager,
+            ApplicationIdentityDbContext identityContext,
             PantheonDbContext context,
             ILogger logger,
             IMapper mapper)
         {
-            _userManager = userManager;
+            _identityContext = identityContext;
             _context = context;
             _logger = logger;
             _mapper = mapper;
@@ -43,8 +44,7 @@ namespace Hermes.API.Controllers
 
         protected async Task<bool> EmployeeExistsAsync(Guid uid)
         {
-            var user = await _userManager.FindByIdAsync(uid.ToString());
-            return user != null;
+            return await _identityContext.Users.AnyAsync(e => e.Id == uid);
         }
 
         protected async Task<bool> InvoiceStatusExists(int id)

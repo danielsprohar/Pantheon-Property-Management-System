@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Hermes.API.Application.Pagination;
+using Hermes.API.Extensions;
 using Hermes.API.Helpers;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -103,22 +104,22 @@ namespace Hermes.API.Controllers.v1
         /// <summary>
         /// Update an <c>Invoice</c> by Id
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="uid">The employee id</param>
+        /// <param name="id">The invoice id</param>
         /// <param name="dtoDoc"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> PatchInvoice(
             int id,
-            [FromQuery] Guid uid,
             [FromBody] JsonPatchDocument<UpdateInvoiceDto> dtoDoc)
         {
             #region Validation
 
-            if (!await EmployeeExistsAsync(uid))
+            Guid employeeId = HttpContext.GetUserId();
+
+            if (!await EmployeeExistsAsync(employeeId))
             {
-                return EntityDoesNotExistResponse<ApplicationUser, Guid>(uid);
+                return EntityDoesNotExistResponse<ApplicationUser, Guid>(employeeId);
             }
             var invoice = await _context.Invoices.FindAsync(id);
 
@@ -138,7 +139,7 @@ namespace Hermes.API.Controllers.v1
                 return BadRequest(ModelState);
             }
 
-            invoice.ModifiedBy = uid;
+            invoice.ModifiedBy = employeeId;
             var saved = false;
 
             while (!saved)

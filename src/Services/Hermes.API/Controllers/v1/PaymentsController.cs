@@ -75,7 +75,7 @@ namespace Hermes.API.Controllers.v1
         /// <summary>
         /// Get a Payment entity by Id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">The payment id</param>
         /// <returns></returns>
         [HttpGet("{id}", Name = nameof(GetPayment))]
         public async Task<ActionResult<ApiResponse<PaymentDto>>> GetPayment(int id)
@@ -95,7 +95,7 @@ namespace Hermes.API.Controllers.v1
         /// <summary>
         /// Pay an Invoice
         /// </summary>
-        /// <param name="invoiceId">The id number of the Invoice to associated with this payment</param>
+        /// <param name="invoiceId">The invoice id</param>
         /// <param name="apiVersion"></param>
         /// <param name="addDto">The payment details</param>
         /// <returns></returns>
@@ -144,7 +144,7 @@ namespace Hermes.API.Controllers.v1
                 invoice.InvoiceStatus.Description != InvoiceStatus.Status.Partial &&
                 invoice.InvoiceStatus.Description != InvoiceStatus.Status.PastDue)
             {
-                var message = $"Invoice with Id={addDto.InvoiceId.Value} does not require a payment.";
+                var message = $"Invoice.Id {invoiceId} does not require a payment.";
                 return UnprocessableEntity(new ApiResponse(message));
             }
 

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Hermes.API.Application.Pagination;
+using Hermes.API.Extensions;
 using Hermes.API.Helpers;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -117,19 +118,22 @@ namespace Hermes.API.Controllers.v1
         /// <summary>
         /// Update a <c>RentalAgreement</c> by Id
         /// </summary>
+        /// <param name="id">The rental agreement id</param>
+        /// <param name="dtoDoc"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> PatchRentalAgreement(
             [FromRoute] int id,
-            [FromQuery] Guid uid,
             [FromBody] JsonPatchDocument<UpdateRentalAgreementDto> dtoDoc)
         {
             #region Validation
 
-            if (!await EmployeeExistsAsync(uid))
+            Guid employeeId = HttpContext.GetUserId();
+
+            if (!await EmployeeExistsAsync(employeeId))
             {
-                return EntityDoesNotExistResponse<ApplicationUser, Guid>(uid);
+                return EntityDoesNotExistResponse<ApplicationUser, Guid>(employeeId);
             }
 
             var rentalAgreement = await _context.RentalAgreements.FindAsync(id);

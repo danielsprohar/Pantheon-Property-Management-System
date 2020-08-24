@@ -21,7 +21,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Hermes.API.Controllers.v1
@@ -268,7 +267,7 @@ namespace Hermes.API.Controllers.v1
                 try
                 {
                     await _context.SaveChangesAsync();
-                    _logger.LogInformation($"ParkingSpace.Id number {id} was updated.");
+                    _logger.LogInformation($"ParkingSpace.Id {id} was updated.");
                     saved = true;
                 }
                 catch (DbUpdateConcurrencyException ex)

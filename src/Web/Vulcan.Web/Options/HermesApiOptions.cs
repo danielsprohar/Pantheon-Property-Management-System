@@ -7,7 +7,7 @@
         public const string HermesApi = "HermesApi";
         public string BaseAddress { get; set; }
         public HermesApiVersion Version { get; set; }
-        public HermesApiResourcePath ResourcePath { get; set; }
+        public HermesApiResources Resources { get; set; }
     }
 
     public class HermesApiVersion
@@ -15,7 +15,7 @@
         public string V1 { get; set; }
     }
 
-    public class HermesApiResourcePath
+    public class HermesApiResources
     {
         public string Invoices { get; set; }
         public string InvoiceStatuses { get; set; }

@@ -5,6 +5,10 @@ namespace Pantheon.Core.Application.Wrappers.Generics
 {
     public class PaginatedApiResponse<T> : ApiResponse<T>
     {
+        public PaginatedApiResponse()
+        {
+        }
+
         public PaginatedApiResponse(string message) : base(message)
         {
         }

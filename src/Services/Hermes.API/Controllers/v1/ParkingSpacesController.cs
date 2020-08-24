@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Hermes.API.Application.Pagination;
+using Hermes.API.Extensions;
 using Hermes.API.Helpers;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Hermes.API.Controllers.v1
@@ -53,7 +55,7 @@ namespace Hermes.API.Controllers.v1
 
             if (!parkingSpace.IsAvailable.Value)
             {
-                var message = $"Parking Space with Id={id} is currently occupied.";
+                var message = $"ParkingSpace.Id={id} is currently occupied.";
                 _logger.LogInformation(message);
                 return UnprocessableEntity(new ApiResponse(message));
             }
@@ -61,7 +63,7 @@ namespace Hermes.API.Controllers.v1
             _context.ParkingSpaces.Remove(parkingSpace);
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation($"Parking Space with Id={id} was deleted.");
+            _logger.LogInformation($"ParkingSpace.Id={id} was deleted.");
 
             return NoContent();
         }
@@ -177,19 +179,21 @@ namespace Hermes.API.Controllers.v1
         /// Update a <c>ParkingSpace</c> by Id
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="uid"></param>
         /// <param name="dtoDoc"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> PatchParkingSpace(
             [FromRoute] int id,
-            [FromQuery] Guid uid,
             [FromBody] JsonPatchDocument<UpdateParkingSpaceDto> dtoDoc)
         {
-            if (!await EmployeeExistsAsync(uid))
+            #region Validation
+
+            Guid employeeId = HttpContext.GetUserId();
+
+            if (!await EmployeeExistsAsync(employeeId))
             {
-                return EntityDoesNotExistResponse<ApplicationUser, Guid>(uid);
+                return EntityDoesNotExistResponse<ApplicationUser, Guid>(employeeId);
             }
 
             var space = await _context.ParkingSpaces.FindAsync(id);
@@ -198,6 +202,8 @@ namespace Hermes.API.Controllers.v1
             {
                 return EntityDoesNotExistResponse<ParkingSpace, int>(id);
             }
+
+            #endregion Validation
 
             var patchDoc = _mapper.Map<JsonPatchDocument<ParkingSpace>>(dtoDoc);
 
@@ -208,7 +214,7 @@ namespace Hermes.API.Controllers.v1
                 return BadRequest(ModelState);
             }
 
-            space.ModifiedBy = uid;
+            space.ModifiedBy = employeeId;
             var saved = false;
 
             while (!saved)

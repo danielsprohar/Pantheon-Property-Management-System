@@ -8,7 +8,7 @@ namespace Vulcan.Web.Extensions
 {
     public static class HttpClientExtensions
     {
-        public static async Task<HttpResponseMessage> PingWebApi(
+        public static async Task<HttpResponseMessage> SendAsync(
             this HttpClient httpClient,
             HttpMethod httpMethod,
             string uri,

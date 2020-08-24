@@ -135,8 +135,8 @@ namespace Hermes.API
                         options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                         {
                             // Using "scope only" authentication
-                            ValidateAudience = false
-
+                            ValidateAudience = false,
+                            SaveSigninToken = true
                             //ValidTypes = new[]
                             //{
                             //    // IdentityServer emits a typ header by default, recommended extra check

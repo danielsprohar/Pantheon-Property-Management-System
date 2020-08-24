@@ -39,7 +39,8 @@ namespace Vulcan.Web.Services
 
             _requestUri = string.Concat(_options.BaseAddress,
                                               _options.Version.V1,
-                                              _options.ResourcePath.ParkingSpaces);
+                                              "/",
+                                              _options.Resources.ParkingSpaces);
         }
 
 
@@ -47,7 +48,7 @@ namespace Vulcan.Web.Services
         {
             await _httpContextAccessor.HttpContext.SetBearerToken(_httpClient);
 
-            var response = await _httpClient.PingWebApi(HttpMethod.Post, _requestUri, dto);
+            var response = await _httpClient.SendAsync(HttpMethod.Post, _requestUri, dto);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -74,7 +75,7 @@ namespace Vulcan.Web.Services
 
             var uri = string.Concat(_requestUri, "/", id.ToString());
 
-            var response = await _httpClient.PingWebApi(HttpMethod.Get, uri);
+            var response = await _httpClient.SendAsync(HttpMethod.Get, uri);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -99,7 +100,7 @@ namespace Vulcan.Web.Services
                             _requestUri.AppendRouteValues(new RouteValueDictionary(parameters.GetRouteValues())) :
                             _requestUri;
 
-            var response = await _httpClient.PingWebApi(HttpMethod.Get, uri);
+            var response = await _httpClient.SendAsync(HttpMethod.Get, uri);
 
             if (!response.IsSuccessStatusCode)
             {

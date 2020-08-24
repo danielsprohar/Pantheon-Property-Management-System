@@ -42,7 +42,8 @@ namespace Vulcan.Web.Services
 
             _requestUri = string.Concat(_options.BaseAddress,
                                               _options.Version.V1,
-                                              _options.ResourcePath.ParkingSpaces);
+                                              "/",
+                                              _options.Resources.ParkingSpaces);
         }
 
         public async Task<ApiResponse<ParkingSpaceDto>> Add(AddParkingSpaceDto dto)
@@ -53,18 +54,18 @@ namespace Vulcan.Web.Services
 
             dto.EmployeeId = new Guid(httpContext.GetUserId());
 
-            var responseMessage = await _httpClient.PingWebApi(HttpMethod.Post, _requestUri, dto);
+            var response = await _httpClient.SendAsync(HttpMethod.Post, _requestUri, dto);
 
-            if (!responseMessage.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
                 return new ApiResponse<ParkingSpaceDto>
                 {
-                    Message = responseMessage.ReasonPhrase,
-                    StatusCode = responseMessage.StatusCode
+                    Message = response.ReasonPhrase,
+                    StatusCode = response.StatusCode
                 };
             }
 
-            var responseBody = await responseMessage.Content.ReadAsStringAsync();
+            var responseBody = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<ApiResponse<ParkingSpaceDto>>(responseBody);
         }
@@ -80,7 +81,7 @@ namespace Vulcan.Web.Services
 
             var requestUri = string.Concat(_requestUri, "/", id.ToString());
 
-            var responseMessage = await _httpClient.PingWebApi(HttpMethod.Get, requestUri);
+            var responseMessage = await _httpClient.SendAsync(HttpMethod.Get, requestUri);
 
             if (!responseMessage.IsSuccessStatusCode)
             {
@@ -107,17 +108,17 @@ namespace Vulcan.Web.Services
                             _requestUri.AppendRouteValues(new RouteValueDictionary(parameters.GetRouteValues())) :
                             _requestUri;
 
-            var responseMessage = await _httpClient.PingWebApi(HttpMethod.Get, requestUri);
+            var response = await _httpClient.SendAsync(HttpMethod.Get, requestUri);
 
-            if (!responseMessage.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
-                return new PaginatedApiResponse<IEnumerable<ParkingSpaceDto>>(responseMessage.ReasonPhrase)
+                return new PaginatedApiResponse<IEnumerable<ParkingSpaceDto>>(response.ReasonPhrase)
                 {
-                    StatusCode = responseMessage.StatusCode
+                    StatusCode = response.StatusCode
                 };
             }
 
-            var content = await responseMessage.Content.ReadAsStringAsync();
+            var content = await response.Content.ReadAsStringAsync();
 
             return JsonConvert
                 .DeserializeObject<PaginatedApiResponse<IEnumerable<ParkingSpaceDto>>>(content);
@@ -139,7 +140,7 @@ namespace Vulcan.Web.Services
 
             InitializeJsonPatchDocument(patchDoc, dto);
 
-            var responseMessage = await _httpClient.PingWebApi(HttpMethod.Patch, requestUri, dto);
+            var responseMessage = await _httpClient.SendAsync(HttpMethod.Patch, requestUri, dto);
 
             if (!responseMessage.IsSuccessStatusCode)
             {
@@ -165,7 +166,7 @@ namespace Vulcan.Web.Services
 
             requestUri.AppendRouteValues(routeValues);
 
-            var responseMessage = await _httpClient.PingWebApi(HttpMethod.Put, requestUri, dto);
+            var responseMessage = await _httpClient.SendAsync(HttpMethod.Put, requestUri, dto);
 
             if (!responseMessage.IsSuccessStatusCode)
             {

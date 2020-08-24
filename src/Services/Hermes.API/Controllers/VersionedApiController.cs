@@ -92,7 +92,8 @@ namespace Hermes.API.Controllers
         /// <returns></returns>
         protected ActionResult EntityDoesNotExistResponse<TEntity, TKey>(TKey id)
         {
-            var message = $"{nameof(TEntity)}.Id {id} does not exist.";
+
+            var message = $"{typeof(TEntity).Name}.Id {id} does not exist.";
             _logger.LogInformation(message);
             return NotFound(new ApiResponse(message));
         }

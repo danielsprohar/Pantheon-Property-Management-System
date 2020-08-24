@@ -132,7 +132,6 @@ namespace Hermes.API.Controllers.v1
         /// Create a new <c>ParkingSpace</c>
         /// </summary>
         /// <param name="apiVersion"></param>
-        /// <param name="uid">The employee id</param>
         /// <param name="addDto"></param>
         /// <returns></returns>
         [HttpPost]

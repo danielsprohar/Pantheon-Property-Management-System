@@ -52,25 +52,21 @@ namespace Vulcan.Web.Services
                                                   _hermesApiOptions.ResourcePath.ParkingSpaceTypes);
         }
 
-        public async Task<ApiResponse<ParkingSpaceDto>> AddParkingSpaceAsync(AddParkingSpaceDto addParkingSpaceDto)
+        public async Task<ApiResponse<ParkingSpaceDto>> AddParkingSpaceAsync(AddParkingSpaceDto dto)
         {
             await SetBearerToken(_httpContextAccessor.HttpContext, _httpClient);
 
-            addParkingSpaceDto.EmployeeId = new Guid(GetEmployeeId(_httpContextAccessor.HttpContext));
+            dto.EmployeeId = new Guid(GetEmployeeId(_httpContextAccessor.HttpContext));
 
-            var requestMessage = new HttpRequestMessage(HttpMethod.Post, _parkingSpacesUri)
-            {
-                Content = new StringContent(
-                    JsonConvert.SerializeObject(addParkingSpaceDto),
-                    System.Text.Encoding.Unicode,
-                    MediaTypeNames.Application.Json)
-            };
-
-            var responseMessage = await _httpClient.SendAsync(requestMessage);
+            var responseMessage = await InvokeWebRequest(HttpMethod.Post, _parkingSpacesUri, dto);
 
             if (!responseMessage.IsSuccessStatusCode)
             {
-                throw new Exception(responseMessage.ReasonPhrase);
+                return new ApiResponse<ParkingSpaceDto>
+                {
+                    Message = responseMessage.ReasonPhrase,
+                    StatusCode = responseMessage.StatusCode
+                };
             }
 
             var responseBody = await responseMessage.Content.ReadAsStringAsync();
@@ -89,11 +85,15 @@ namespace Vulcan.Web.Services
 
             var requestUri = string.Concat(_parkingSpacesUri, "/", id.ToString());
 
-            var responseMessage = await _httpClient.GetAsync(requestUri);
+            var responseMessage = await InvokeWebRequest(HttpMethod.Get, requestUri);
 
             if (!responseMessage.IsSuccessStatusCode)
             {
-                throw new Exception(responseMessage.ReasonPhrase);
+                return new ApiResponse<ParkingSpaceDto>
+                {
+                    Message = responseMessage.ReasonPhrase,
+                    StatusCode = responseMessage.StatusCode
+                };
             }
 
             var content = await responseMessage.Content.ReadAsStringAsync();
@@ -112,11 +112,14 @@ namespace Vulcan.Web.Services
                             _parkingSpacesUri.AppendRouteValues(new RouteValueDictionary(parameters.GetRouteValues())) :
                             _parkingSpacesUri;
 
-            var responseMessage = await _httpClient.GetAsync(requestUri);
+            var responseMessage = await InvokeWebRequest(HttpMethod.Get, requestUri);
 
             if (!responseMessage.IsSuccessStatusCode)
             {
-                throw new Exception(responseMessage.ReasonPhrase);
+                return new PaginatedApiResponse<IEnumerable<ParkingSpaceDto>>(responseMessage.ReasonPhrase)
+                {
+                    StatusCode = responseMessage.StatusCode
+                };
             }
 
             var content = await responseMessage.Content.ReadAsStringAsync();
@@ -131,7 +134,7 @@ namespace Vulcan.Web.Services
 
             var requestUri = string.Concat(_parkingSpaceTypesUri, "/", id.ToString());
 
-            var responseMessage = await _httpClient.GetAsync(requestUri);
+            var responseMessage = await InvokeWebRequest(HttpMethod.Get, requestUri);
 
             if (!responseMessage.IsSuccessStatusCode)
             {
@@ -152,7 +155,7 @@ namespace Vulcan.Web.Services
                             _parkingSpaceTypesUri.AppendRouteValues(new RouteValueDictionary(parameters.GetRouteValues())) :
                             _parkingSpaceTypesUri;
 
-            var responseMessage = await _httpClient.GetAsync(requestUri);
+            var responseMessage = await InvokeWebRequest(HttpMethod.Get, requestUri);
 
             if (!responseMessage.IsSuccessStatusCode)
             {
@@ -181,15 +184,7 @@ namespace Vulcan.Web.Services
 
             InitializeJsonPatchDocument(patchDoc, dto);
 
-            var requestMessage = new HttpRequestMessage(HttpMethod.Patch, requestUri)
-            {
-                Content = new StringContent(
-                    JsonConvert.SerializeObject(patchDoc),
-                    System.Text.Encoding.Unicode,
-                    MediaTypeNames.Application.Json)
-            };
-
-            var responseMessage = await _httpClient.SendAsync(requestMessage);
+            var responseMessage = await InvokeWebRequest(HttpMethod.Patch, requestUri, dto);
 
             if (!responseMessage.IsSuccessStatusCode)
             {
@@ -211,15 +206,7 @@ namespace Vulcan.Web.Services
 
             requestUri.AppendRouteValues(routeValues);
 
-            var requestMessage = new HttpRequestMessage(HttpMethod.Put, requestUri)
-            {
-                Content = new StringContent(
-                    JsonConvert.SerializeObject(dto),
-                    System.Text.Encoding.Unicode,
-                    MediaTypeNames.Application.Json)
-            };
-
-            var responseMessage = await _httpClient.SendAsync(requestMessage);
+            var responseMessage = await InvokeWebRequest(HttpMethod.Put, requestUri, dto);
 
             if (!responseMessage.IsSuccessStatusCode)
             {
@@ -232,6 +219,21 @@ namespace Vulcan.Web.Services
         // =====================================================================================
         // Helper methods
         // =====================================================================================
+        private async Task<HttpResponseMessage> InvokeWebRequest(HttpMethod method, string uri, object content = null)
+        {
+            var request = new HttpRequestMessage(method, uri);
+
+            if (content != null)
+            {
+                request.Content = new StringContent(
+                    JsonConvert.SerializeObject(content),
+                    System.Text.Encoding.Unicode,
+                    MediaTypeNames.Application.Json);
+            }
+
+            return await _httpClient.SendAsync(request);
+        }
+
         private string GetEmployeeId(HttpContext httpContext)
         {
             //return httpContext.User.Identity.GetSubjectId();

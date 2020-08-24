@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Pantheon.Core.Application.Dto.Reads;
 using Pantheon.Core.Application.Parameters;
+using Pantheon.Core.Application.Wrappers.Generics;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Vulcan.Web.Services;
@@ -26,19 +27,19 @@ namespace Vulcan.Web.Pages.ParkingSpaces
             // TODO: Implement the UI
             var parameters = new ParkingSpaceQueryParameters();
 
-            var paginatedApiResponse = await _service.GetParkingSpacesAsync(parameters);
+            var response = await _service.GetParkingSpacesAsync(parameters);
 
-            if (!paginatedApiResponse.Succeeded)
+            if (!response.Succeeded)
             {
-                _logger.LogError(paginatedApiResponse.Message);
+                _logger.LogError(response.Message);
 
-                foreach (var error in paginatedApiResponse.Errors)
+                foreach (var error in response.Errors)
                 {
                     _logger.LogError(error);
                 }
             }
 
-            ParkingSpaces = paginatedApiResponse.Data;
+            ParkingSpaces = response.Data;
         }
     }
 }

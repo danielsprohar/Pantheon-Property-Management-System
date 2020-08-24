@@ -6,6 +6,7 @@ using Pantheon.Core.Application.Dto.Writes;
 using Pantheon.Core.Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Vulcan.Web.Extensions;
 using Vulcan.Web.Services;
 
 namespace Vulcan.Web.Pages.ParkingSpaces
@@ -60,7 +61,8 @@ namespace Vulcan.Web.Pages.ParkingSpaces
                 {
                     _logger.LogError(error);
                 }
-                return Page();
+
+                return this.HandleUnsuccessfulApiRequest(apiResponse);
             }
 
             var parkingSpaceDto = apiResponse.Data;

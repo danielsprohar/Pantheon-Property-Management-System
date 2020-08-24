@@ -10,7 +10,7 @@ namespace Vulcan.Web.Services
 {
     public interface IParkingSpaceService
     {
-        Task<ApiResponse<ParkingSpaceDto>> AddParkingSpaceAsync(AddParkingSpaceDto parkingSpaceDto);
+        Task<ApiResponse<ParkingSpaceDto>> AddParkingSpaceAsync(AddParkingSpaceDto dto);
 
         Task<ApiResponse> DeleteParkingSpaceAsync(int id);
 

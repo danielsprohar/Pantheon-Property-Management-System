@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 
 namespace Pantheon.Core.Application.Wrappers
 {
@@ -7,6 +8,7 @@ namespace Pantheon.Core.Application.Wrappers
         public bool Succeeded { get; set; }
         public string Message { get; set; }
         public List<string> Errors { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
 
         public ApiResponse()
         {

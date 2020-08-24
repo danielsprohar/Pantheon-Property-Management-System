@@ -150,7 +150,7 @@ namespace Vulcan.Web.Services
                 };
             }
 
-            return new ApiResponse("Parking Space was patched", true);
+            return new ApiResponse($"ParkingSpace.Id {id} was patched", true);
         }
 
         public async Task<ApiResponse> Update(int id, UpdateParkingSpaceDto dto)

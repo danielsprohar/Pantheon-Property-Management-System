@@ -43,9 +43,24 @@ namespace Vulcan.Web.Services
         }
 
 
-        public Task<ApiResponse<ParkingSpaceTypeDto>> Add(AddParkingSpaceTypeDto dto)
+        public async Task<ApiResponse<ParkingSpaceTypeDto>> Add(AddParkingSpaceTypeDto dto)
         {
-            throw new System.NotImplementedException();
+            await _httpContextAccessor.HttpContext.SetBearerToken(_httpClient);
+
+            var response = await _httpClient.PingWebApi(HttpMethod.Post, _requestUri, dto);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return new ApiResponse<ParkingSpaceTypeDto>
+                {
+                    Message = response.ReasonPhrase,
+                    StatusCode = response.StatusCode
+                };
+            }
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<ApiResponse<ParkingSpaceTypeDto>>(content);
         }
 
         public Task<ApiResponse> Delete(int id)

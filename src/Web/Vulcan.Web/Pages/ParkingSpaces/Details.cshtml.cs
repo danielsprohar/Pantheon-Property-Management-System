@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Pantheon.Core.Application.Dto.Reads;
+using Pantheon.Core.Application.Services;
 using System.Threading.Tasks;
-using Vulcan.Web.Services;
+using Vulcan.Web.Extensions;
 
 namespace Vulcan.Web.Pages.ParkingSpaces
 {
@@ -23,22 +25,22 @@ namespace Vulcan.Web.Pages.ParkingSpaces
 
         public async Task OnGetAsync(int id)
         {
-            var response = await _service.GetParkingSpaceAsync(id);
+            var response = await _service.Get(id);
 
-            if (response.Succeeded)
+            if (!response.Succeeded)
             {
-                ParkingSpace = response.Data;
-            }
-            else
-            {
-                // TODO: show error page
-                _logger.LogError(response.Message);
+                // TODO: handle error
+                _logger.LogError($"Status: {response.StatusCode}; Message: {response.Message}");
 
                 foreach (var error in response.Errors)
                 {
                     _logger.LogError(error);
                 }
+
+                this.HandleUnsuccessfulApiRequest(response);
             }
+
+            ParkingSpace = response.Data;
         }
     }
 }

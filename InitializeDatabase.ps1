@@ -3,7 +3,7 @@ $path = ".\src\Infrastructure\Pantheon.Infrastructure\Migrations\"
 
 if (-not (Test-Path -Path $path)) {
     Write-Output "Creating the EF Migrations for Pantheon.Infrastructure ..."
-    dotnet ef migrations add InitialCreate -p .\src\Infrastructure\Pantheon.Infrastructure\ -s .\src\Services\Hermes.API\
+    dotnet ef migrations add InitialCreate -p .\src\Infrastructure\Pantheon.Infrastructure\ -s .\src\Services\Hermes.API\ -c PantheonDbContext
     Write-Output "Done"
 }
 else {
@@ -15,7 +15,7 @@ $path = ".\src\Infrastructure\Pantheon.Identity\Migrations\"
 
 if (-not (Test-Path -Path $path)) {
     Write-Output "Creating the EF Migrations for Pantheon.Identity ..."
-    dotnet ef migrations add InitialCreate -p .\src\Infrastructure\Pantheon.Identity\ -s .\src\IdentityServer\Pantheon.IdentityServer\
+    dotnet ef migrations add InitialCreate -p .\src\Infrastructure\Pantheon.Identity\ -s .\src\IdentityServer\Pantheon.IdentityServer\ -c PantheonIdentityDbContext
     Write-Output "Done"
 }
 else {
@@ -23,9 +23,9 @@ else {
 }
 
 Write-Output "Applying EF Migrations to the Pantheon.Infrastructure database"
-dotnet ef database update -p .\src\Infrastructure\Pantheon.Infrastructure\ -s .\src\Services\Hermes.API\
+dotnet ef database update -p .\src\Infrastructure\Pantheon.Infrastructure\ -s .\src\Services\Hermes.API\ -c PantheonDbContext
 Write-Output "[Ok] Updated the Pantheon.Infrastructure database."
 
 Write-Output "Applying EF Migrations to the Pantheon.Identity database"
-dotnet ef database update -p .\src\Infrastructure\Pantheon.Identity\ -s .\src\IdentityServer\Pantheon.IdentityServer
+dotnet ef database update -p .\src\Infrastructure\Pantheon.Identity\ -s .\src\IdentityServer\Pantheon.IdentityServer -c PantheonIdentityDbContext
 Write-Output "[Ok] Updated the Pantheon.Identity database"

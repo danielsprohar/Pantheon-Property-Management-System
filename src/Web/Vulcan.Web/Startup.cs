@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Pantheon.Core.Application.Extensions;
+using Pantheon.Core.Application.Services;
 using Pantheon.Identity.Constants;
 using System.IdentityModel.Tokens.Jwt;
 using Vulcan.Web.Constants;
@@ -23,6 +24,8 @@ namespace Vulcan.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddPantheonCoreLayer();
+            
             JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
             services.AddAuthentication(options =>
@@ -57,10 +60,8 @@ namespace Vulcan.Web
             services.Configure<HermesApiOptions>(Configuration.GetSection(HermesApiOptions.HermesApi));
 
             services.AddHttpContextAccessor();
-
             services.AddHttpClient<IParkingSpaceService, ParkingSpaceService>();
-
-            services.AddPantheonCoreLayer();
+            services.AddHttpClient<IParkingSpaceTypeService, ParkingSpaceTypeService>();
 
             services.AddRazorPages();
         }

@@ -48,9 +48,6 @@ namespace Vulcan.Web.Extensions
                 case System.Net.HttpStatusCode.GatewayTimeout:
                     break;
 
-                case System.Net.HttpStatusCode.HttpVersionNotSupported:
-                    break;
-
                 default:
                     return pageModel.Page();
             }

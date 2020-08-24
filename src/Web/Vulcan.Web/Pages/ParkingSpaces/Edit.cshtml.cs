@@ -5,19 +5,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Pantheon.Core.Application.Dto.Reads;
 using Pantheon.Core.Application.Dto.Writes;
+using Pantheon.Core.Application.Services;
 using Pantheon.Core.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Vulcan.Web.Constants;
-using Vulcan.Web.Services;
+using Vulcan.Web.Extensions;
 
 namespace Vulcan.Web.Pages.ParkingSpaces
 {
     public class EditModel : PageModel
     {
-        private readonly IParkingSpaceService _service;
+        private readonly IParkingSpaceTypeService _parkingSpaceTypeService;
+        private readonly IParkingSpaceService _parkingSpaceService;
         private readonly IMapper _mapper;
         private readonly ILogger<EditModel> _logger;
 
@@ -29,21 +31,23 @@ namespace Vulcan.Web.Pages.ParkingSpaces
         public SelectList AvailabilitySelectList { get; set; }
 
         public EditModel(
-            IParkingSpaceService service, 
+            IParkingSpaceTypeService parkingSpaceTypeService,
+            IParkingSpaceService parkingSpaceService, 
             IMapper mapper,
             ILogger<EditModel> logger)
         {
-            _service = service;
+            _parkingSpaceTypeService = parkingSpaceTypeService;
+            _parkingSpaceService = parkingSpaceService;
             _mapper = mapper;
             _logger = logger;
         }
 
         public async Task OnGetAsync(int id)
         {
-            var apiResponse = await _service.GetParkingSpaceAsync(id);
+            var apiResponse = await _parkingSpaceService.Get(id);
             ParkingSpace = apiResponse.Data;
 
-            var paginatedApiResponse = await _service.GetParkingSpaceTypesAsync();
+            var paginatedApiResponse = await _parkingSpaceTypeService.GetPaginatedList();
             var parkingSpaceTypes = paginatedApiResponse.Data;
 
             ParkingSpaceTypesSelectList = new SelectList(
@@ -68,19 +72,21 @@ namespace Vulcan.Web.Pages.ParkingSpaces
             }
 
             var updateDto = _mapper.Map<UpdateParkingSpaceDto>(ParkingSpace);
-            updateDto.EmployeeId = new Guid(User.FindFirstValue(AppConstants.SubjectIdClaimName));
+            updateDto.EmployeeId = new Guid(HttpContext.GetUserId());
 
-            var apiResponse = await _service.UpdateParkingSpaceAsync(ParkingSpace.Id, updateDto);
+            var apiResponse = await _parkingSpaceService.Update(ParkingSpace.Id, updateDto);
 
             if (!apiResponse.Succeeded)
             {
-                // TODO: show error reason
+                // TODO: handle unsuccessful request
                 _logger.LogError(apiResponse.Message);
+
                 foreach (var error in apiResponse.Errors)
                 {
                     _logger.LogError(error);
                 }
-                return Page();
+                
+                return this.HandleUnsuccessfulApiRequest(apiResponse);
             }
 
             return RedirectToPage("./Details", new { Id = ParkingSpace.Id });

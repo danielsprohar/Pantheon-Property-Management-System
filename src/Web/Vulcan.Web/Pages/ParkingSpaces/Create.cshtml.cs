@@ -3,17 +3,18 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Pantheon.Core.Application.Dto.Writes;
+using Pantheon.Core.Application.Services;
 using Pantheon.Core.Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Vulcan.Web.Extensions;
-using Vulcan.Web.Services;
 
 namespace Vulcan.Web.Pages.ParkingSpaces
 {
     public class CreateModel : PageModel
     {
-        private readonly IParkingSpaceService _service;
+        private readonly IParkingSpaceTypeService _parkingSpaceTypeService;
+        private readonly IParkingSpaceService _parkingSpaceService;
         private readonly ILogger<CreateModel> _logger;
 
         [BindProperty]
@@ -24,16 +25,18 @@ namespace Vulcan.Web.Pages.ParkingSpaces
         public SelectList AvailabilitySelectList { get; set; }
 
         public CreateModel(
-            IParkingSpaceService service,
+            IParkingSpaceTypeService parkingSpaceTypeService,
+            IParkingSpaceService parkingSpaceService,
             ILogger<CreateModel> logger)
         {
-            _service = service;
+            _parkingSpaceTypeService = parkingSpaceTypeService;
+            _parkingSpaceService = parkingSpaceService;
             _logger = logger;
         }
 
         public async Task OnGetAsync()
         {
-            var paginatedApiResponse = await _service.GetParkingSpaceTypesAsync();
+            var paginatedApiResponse = await _parkingSpaceTypeService.GetPaginatedList();
             var parkingSpaceTypes = paginatedApiResponse.Data;
 
             ParkingSpaceTypesSelectList = new SelectList(
@@ -52,7 +55,7 @@ namespace Vulcan.Web.Pages.ParkingSpaces
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var apiResponse = await _service.AddParkingSpaceAsync(ParkingSpace);
+            var apiResponse = await _parkingSpaceService.Add(ParkingSpace);
 
             if (!apiResponse.Succeeded)
             {

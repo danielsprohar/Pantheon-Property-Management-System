@@ -5,5 +5,7 @@
         public bool? IsAvailable { get; set; }
 
         public int? Amps { get; set; }
+
+        public int? ParkingSpaceTypeId { get; set; }
     }
 }

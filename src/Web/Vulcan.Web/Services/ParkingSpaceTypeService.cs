@@ -40,7 +40,7 @@ namespace Vulcan.Web.Services
             _requestUri = string.Concat(_options.BaseAddress,
                                               _options.Version.V1,
                                               "/",
-                                              _options.Resources.ParkingSpaces);
+                                              _options.Resources.ParkingSpaceTypes);
         }
 
 

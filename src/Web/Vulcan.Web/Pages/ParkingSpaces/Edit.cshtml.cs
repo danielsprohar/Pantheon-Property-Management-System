@@ -9,9 +9,7 @@ using Pantheon.Core.Application.Services;
 using Pantheon.Core.Domain.Models;
 using System;
 using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Vulcan.Web.Constants;
 using Vulcan.Web.Extensions;
 
 namespace Vulcan.Web.Pages.ParkingSpaces
@@ -32,7 +30,7 @@ namespace Vulcan.Web.Pages.ParkingSpaces
 
         public EditModel(
             IParkingSpaceTypeService parkingSpaceTypeService,
-            IParkingSpaceService parkingSpaceService, 
+            IParkingSpaceService parkingSpaceService,
             IMapper mapper,
             ILogger<EditModel> logger)
         {
@@ -85,7 +83,7 @@ namespace Vulcan.Web.Pages.ParkingSpaces
                 {
                     _logger.LogError(error);
                 }
-                
+
                 return this.HandleUnsuccessfulApiRequest(apiResponse);
             }
 

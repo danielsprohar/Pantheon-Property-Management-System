@@ -1,4 +1,5 @@
 ﻿@page
+
 @model Vulcan.Web.Pages.ParkingSpaces.IndexModel
 @{
     ViewData["Title"] = "Parking Spaces";
@@ -9,6 +10,52 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+
+<form class="form-inline mb-2"
+      method="get">
+    <div class="form-group mr-2">
+        <label class="sr-only">Space Type</label>
+        <select class="form-control"
+                asp-for="@Model.QueryParameters.ParkingSpaceTypeId"
+                asp-items="Model.ParkingSpaceTypesSelectList">
+            <option selected>Space Type</option>
+        </select>
+    </div>
+
+    <div class="form-group mr-2">
+        <label class="sr-only">Amps</label>
+        <select class="form-control"
+                asp-for="@Model.QueryParameters.Amps"
+                asp-items="Model.AmpsSelectList">
+            <option selected>Amps</option>
+        </select>
+    </div>
+
+    <div class="form-group mr-2">
+        <label class="sr-only">Availability</label>
+        <select class="form-control"
+                asp-for="@Model.QueryParameters.IsAvailable"
+                asp-items="Model.AvailabilitySelectList">
+            <option selected>Availability</option>
+        </select>
+    </div>
+
+    <button type="submit"
+            class="btn btn-primary">
+        Filter
+    </button>
+
+    @if (Model.IsFiltered())
+    {
+        <a asp-page="Index"
+           asp-route-pageIndex="@Model.QueryParameters.PageIndex"
+           asp-route-pageSize="@Model.QueryParameters.PageSize"
+           class="btn btn-outline-dark ml-2">
+            Clear
+        </a>
+    }
+</form>
+
 <table class="table">
     <thead>
         <tr>

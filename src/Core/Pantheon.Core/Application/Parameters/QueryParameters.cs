@@ -6,7 +6,7 @@ namespace Pantheon.Core.Application.Parameters
     {
         public const int MinPageIndex = 1;
         private readonly int MaxPageSize = 50;
-        private readonly int DefaultPageSize = 30;
+        private readonly int DefaultPageSize = 10;
 
         private int _pageIndex;
         private int _pageSize;

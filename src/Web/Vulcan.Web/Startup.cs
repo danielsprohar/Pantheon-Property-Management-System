@@ -88,7 +88,8 @@ namespace Vulcan.Web
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages().RequireAuthorization();
+                endpoints.MapRazorPages();
+                         //.RequireAuthorization();
             });
         }
     }

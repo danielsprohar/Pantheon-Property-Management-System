@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityServer", "IdentityS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pantheon.Identity", "src\Infrastructure\Pantheon.Identity\Pantheon.Identity.csproj", "{E15AE0B5-AA9C-46E6-A62F-DB0F569DA355}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pantheon.IdentityServer", "src\IdentityServer\Pantheon.IdentityServer\Pantheon.IdentityServer.csproj", "{DA658DF6-4404-4C3C-9541-B7FB5DB3E02E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pantheon.IdentityServer", "src\IdentityServer\Pantheon.IdentityServer\Pantheon.IdentityServer.csproj", "{DA658DF6-4404-4C3C-9541-B7FB5DB3E02E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

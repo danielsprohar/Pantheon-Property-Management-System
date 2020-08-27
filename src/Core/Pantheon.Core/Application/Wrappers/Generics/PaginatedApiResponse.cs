@@ -25,13 +25,13 @@ namespace Pantheon.Core.Application.Wrappers.Generics
             TotalPages = (int)Math.Ceiling(count / (decimal)pageSize);
         }
 
-        public int PageIndex { get; private set; }
+        public int PageIndex { get; set; }
 
-        public int PageSize { get; private set; }
+        public int PageSize { get; set; }
 
-        public long Count { get; private set; }
+        public long Count { get; set; }
 
-        public int TotalPages { get; private set; }
+        public int TotalPages { get; set; }
 
         public string FirstPage { get; set; }
 

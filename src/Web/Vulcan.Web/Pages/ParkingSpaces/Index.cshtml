@@ -1,4 +1,5 @@
 ﻿@page
+@using Vulcan.Web.Extensions
 
 @model Vulcan.Web.Pages.ParkingSpaces.IndexModel
 @{
@@ -105,3 +106,47 @@
         }
     </tbody>
 </table>
+
+
+<nav aria-label="Results' navigation">
+    <ul class="pagination">
+        @if (Model.ApiResponse.HasPrevious())
+        {
+            var pageIndex = Model.QueryParameters.PageIndex - 1;
+            var uri = Model.GenerateResourceUri(Model.QueryParameters, pageIndex);
+            <li class="page-item">
+                <a href="@uri" class="page-link">Previous</a>
+            </li>
+        }
+
+        @for (var i = 1; i <= Model.ApiResponse.TotalPages; i++)
+        {
+            @if (i != Model.ApiResponse.PageIndex)
+            {
+                var uri = Model.GenerateResourceUri(Model.QueryParameters, @i);
+                <li class="page-item">
+                    <a class="page-link" href="@uri">@i</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item active">
+                    <span class="page-link">
+                        @i
+                        <span class="sr-only">(current)</span>
+                    </span>
+                </li>
+            }
+        }
+        @if (Model.ApiResponse.HasNext())
+        {
+
+            var pageIndex = Model.QueryParameters.PageIndex + 1;
+            var uri = Model.GenerateResourceUri(Model.QueryParameters, pageIndex);
+
+            <li class="page-item">
+                <a class="page-link" href="@uri">Next</a>
+            </li>
+        }
+    </ul>
+</nav>

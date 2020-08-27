@@ -17,6 +17,13 @@ namespace Pantheon.Core.Application.Parameters
             _pageSize = DefaultPageSize;
         }
 
+        public QueryParameters(QueryParameters other)
+        {
+            OrderBy = other.OrderBy;
+            PageIndex = other.PageIndex;
+            PageSize = other.PageSize;
+        }
+
         public QueryParameters(int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;

@@ -23,7 +23,8 @@ namespace Hermes.API.Helpers
             if (_response.HasPrevious())
             {
                 parameters.PageIndex--;
-
+                // TODO: Validate Host header before deployment
+                // Or, created a string constant of the application's base address
                 _response.PreviousPage = _urlHelper.Link(
                     routeName,
                     parameters.GetRouteValues());

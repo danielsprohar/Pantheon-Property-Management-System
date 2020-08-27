@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Pantheon.Core.Application.Dto.Reads;
 using Pantheon.Core.Application.Parameters;
 using Pantheon.Core.Application.Services;
+using Pantheon.Core.Application.Wrappers.Generics;
 using Pantheon.Core.Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace Vulcan.Web.Pages.ParkingSpaces
             _parkingSpaceService = service;
             _parkingSpaceTypeService = parkingSpaceTypeService;
             _logger = logger;
+        //TODO: Extract paginator to a partial view or a component; add ellipsis
         }
 
         [BindProperty(SupportsGet = true)]
@@ -33,16 +35,28 @@ namespace Vulcan.Web.Pages.ParkingSpaces
         public SelectList AmpsSelectList { get; set; }
         public SelectList AvailabilitySelectList { get; set; }
         public SelectList ParkingSpaceTypesSelectList { get; set; }
+
+        public PaginatedApiResponse<IEnumerable<ParkingSpaceDto>> ApiResponse { get; set; }
         public IEnumerable<ParkingSpaceDto> ParkingSpaces { get; set; }
 
         public async Task OnGetAsync()
         {
             await InitializeSelectLists();
 
-            ParkingSpaces = await FetchParkingSpaces(QueryParameters);
+            ApiResponse = await _parkingSpaceService.GetPaginatedList(QueryParameters);
 
-            var url = Url.Page("./Index", QueryParameters);
-            ViewData["URL"] = url;
+            if (!ApiResponse.Succeeded)
+            {
+                // TODO: handle unsuccessful response & display error message to user
+                _logger.LogError(ApiResponse.Message);
+
+                foreach (var error in ApiResponse.Errors)
+                {
+                    _logger.LogError(error);
+                }
+            }
+
+            ParkingSpaces = ApiResponse.Data;
         }
 
         // ==========================================================================
@@ -51,8 +65,9 @@ namespace Vulcan.Web.Pages.ParkingSpaces
 
         public bool IsFiltered()
         {
-            var q = QueryParameters;
-            return q.Amps.HasValue || q.IsAvailable.HasValue || q.ParkingSpaceTypeId.HasValue;
+            return QueryParameters.Amps.HasValue 
+                || QueryParameters.IsAvailable.HasValue 
+                || QueryParameters.ParkingSpaceTypeId.HasValue;
         }
 
         private async Task InitializeSelectLists()
@@ -93,25 +108,6 @@ namespace Vulcan.Web.Pages.ParkingSpaces
                 items: parkingSpaceTypes,
                 dataValueField: nameof(ParkingSpaceType.Id),
                 dataTextField: nameof(ParkingSpaceType.SpaceType));
-        }
-
-        private async Task<IEnumerable<ParkingSpaceDto>> FetchParkingSpaces(
-            ParkingSpaceQueryParameters parameters)
-        {
-            var response = await _parkingSpaceService.GetPaginatedList(parameters);
-
-            if (!response.Succeeded)
-            {
-                // TODO: handle unsuccessful response
-                _logger.LogError(response.Message);
-
-                foreach (var error in response.Errors)
-                {
-                    _logger.LogError(error);
-                }
-            }
-
-            return response.Data;
         }
     }
 }

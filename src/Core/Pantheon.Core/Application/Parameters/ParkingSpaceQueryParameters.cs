@@ -7,5 +7,18 @@
         public int? Amps { get; set; }
 
         public int? ParkingSpaceTypeId { get; set; }
+
+        public ParkingSpaceQueryParameters()
+        {
+
+        }
+
+        public ParkingSpaceQueryParameters(ParkingSpaceQueryParameters other)
+            : base(other)
+        {
+            Amps = other.Amps;
+            IsAvailable = other.IsAvailable;
+            ParkingSpaceTypeId = other.ParkingSpaceTypeId;
+        }
     }
 }

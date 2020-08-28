@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Pantheon.Core.Application.Extensions;
 using Pantheon.Core.Application.Services;
@@ -59,6 +61,7 @@ namespace Vulcan.Web
 
             services.Configure<HermesApiOptions>(Configuration.GetSection(HermesApiOptions.HermesApi));
 
+            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddHttpContextAccessor();
             services.AddHttpClient<IParkingSpaceService, ParkingSpaceService>();
             services.AddHttpClient<IParkingSpaceTypeService, ParkingSpaceTypeService>();

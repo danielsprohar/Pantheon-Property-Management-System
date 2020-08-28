@@ -1,0 +1,195 @@
+﻿@model Vulcan.Web.ViewComponents.PaginatorViewComponent
+
+@{
+    const int maxCells = 10;
+}
+
+
+<nav aria-label="Results' navigation">
+    <ul class="pagination">
+        @if (Model.PaginatorViewModel.HasPrevious)
+        {
+            var pageIndex = Model.PaginatorViewModel.PageIndex - 1;
+            var uri = Model.CreateUri(pageIndex);
+            
+
+            <li class="page-item">
+                <a href="@uri" class="page-link">Previous</a>
+            </li>
+        }
+
+        @*
+            First case:
+            | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+        *@
+        @if (Model.PaginatorViewModel.TotalPages < maxCells)
+        {
+            string uri = null;
+            var totalPages = Model.PaginatorViewModel.TotalPages;
+
+            for (var i = 1; i <= totalPages; i++)
+            {
+                uri = Model.CreateUri(i);
+                if (i == Model.PaginatorViewModel.PageIndex)
+                {
+                    <li class="page-item active">
+                        <span class="page-link">
+                            @i
+                            <span class="sr-only">(current)</span>
+                        </span>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@uri">@i</a>
+                    </li>
+                }
+            }
+        }
+
+        @*
+            Second case:
+            | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | ... | n |
+        *@
+        else if (Model.PaginatorViewModel.PageIndex < (maxCells - 1)
+                && Model.PaginatorViewModel.TotalPages > maxCells)
+        {
+            string uri = null;
+
+            for (var i = 1; i <= 8; i++)
+            {
+                uri = Model.CreateUri(i);
+
+                if (i == Model.PaginatorViewModel.PageIndex)
+                {
+                    <li class="page-item active">
+                        <span class="page-link">
+                            @i
+                            <span class="sr-only">(current)</span>
+                        </span>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@uri">@i</a>
+                    </li>
+                }
+            }
+
+            <li class="page-item disabled">
+                <span class="page-link">
+                    ...
+                </span>
+            </li>
+
+            uri = Model.CreateUri(Model.PaginatorViewModel.TotalPages);
+            <li class="page-item">
+                <a class="page-link" href="@uri">@Model.PaginatorViewModel.TotalPages</a>
+            </li>
+        }
+
+        @*
+            Third case:
+                                   *** <- active cell
+            | 1 | ... | 4 | 5 | 6 | 7 | 8 | 9 | ... | n |
+        *@
+        else if (Model.PaginatorViewModel.TotalPages > maxCells
+                && (Model.PaginatorViewModel.PageIndex - 1) > 3
+                && (Model.PaginatorViewModel.TotalPages - Model.PaginatorViewModel.PageIndex) > 3)
+        {
+            string uri = uri = Model.CreateUri(1);
+            <li class="page-item">
+                <a class="page-link" href="@uri">1</a>
+            </li>
+
+            <li class="page-item disabled">
+                <span class="page-link">
+                    ...
+                </span>
+            </li>
+
+            int start = Model.PaginatorViewModel.PageIndex - 3;
+            for (int i = 2; i <= 7; i++)
+            {
+                uri = Model.CreateUri(start);
+
+                if (i == 5)
+                {
+                    <li class="page-item active">
+                        <a class="page-link" href="@uri">@start</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@uri">@start</a>
+                    </li>
+                }
+                start++;
+            }
+
+            <li class="page-item disabled">
+                <span class="page-link">
+                    ...
+                </span>
+            </li>
+
+            uri = Model.CreateUri(Model.PaginatorViewModel.TotalPages);
+            <li class="page-item">
+                <a class="page-link" href="@uri">@Model.PaginatorViewModel.TotalPages</a>
+            </li>
+        }
+
+
+        @*
+            Forth case:
+            | 1 | ... | n - 7 | n - 6 | n - 5 | n - 4 | n - 3 | n - 2 | n - 1 | n |
+        *@
+        else if (Model.PaginatorViewModel.TotalPages > maxCells
+            && (Model.PaginatorViewModel.PageIndex - 1) >= 3)
+        {
+            string uri = Model.CreateUri(1);
+            <li class="page-item">
+                <a class="page-link" href="@uri">1</a>
+            </li>
+
+            <li class="page-item disabled">
+                <span class="page-link">
+                    ...
+                </span>
+            </li>
+
+            int start = Model.PaginatorViewModel.TotalPages - 7;
+            for (int i = 2, j = 0; i <= 9; i++, j++)
+            {
+                uri = Model.CreateUri(start);
+                if (start == Model.PaginatorViewModel.PageIndex)
+                {
+                    <li class="page-item active">
+                        <a class="page-link" href="@uri">@start</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@uri">@start</a>
+                    </li>
+                }
+                start++;
+            }
+        }
+
+        @if (Model.PaginatorViewModel.HasNext)
+        {
+
+            var pageIndex = Model.PaginatorViewModel.PageIndex + 1;
+            var uri = Model.CreateUri(pageIndex);
+
+            <li class="page-item">
+                <a class="page-link" href="@uri">Next</a>
+            </li>
+        }
+    </ul>
+</nav>

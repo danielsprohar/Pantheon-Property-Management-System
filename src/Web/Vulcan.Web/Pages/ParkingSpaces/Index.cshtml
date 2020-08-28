@@ -1,5 +1,5 @@
 ﻿@page
-@using Vulcan.Web.Extensions
+@using Vulcan.Web.ViewModels
 
 @model Vulcan.Web.Pages.ParkingSpaces.IndexModel
 @{
@@ -107,193 +107,16 @@
     </tbody>
 </table>
 
+@{
+    var paginatorViewModel = new PaginatorViewModel
+    {
+        HasNext = Model.ApiResponse.HasNext(),
+        HasPrevious = Model.ApiResponse.HasPrevious(),
+        PageIndex = Model.ApiResponse.PageIndex,
+        QueryParameters = Model.QueryParameters,
+        TotalPages = Model.ApiResponse.TotalPages
+    };
+}
 
-<nav aria-label="Results' navigation">
-    <ul class="pagination">
-        @{
-            var maxCells = 10;
-        }
-        @if (Model.ApiResponse.HasPrevious())
-        {
-            var pageIndex = Model.QueryParameters.PageIndex - 1;
-            var uri = Model.GenerateResourceUri(Model.QueryParameters, pageIndex);
-            <li class="page-item">
-                <a href="@uri" class="page-link">Previous</a>
-            </li>
-        }
-
-        @*
-        First case:
-        | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
-        *@
-        @if (Model.ApiResponse.TotalPages < maxCells)
-        {
-            string uri = null;
-            var totalPages = Model.ApiResponse.TotalPages;
-
-            for (var i = 1; i <= totalPages; i++)
-            {
-                uri = Model.GenerateResourceUri(Model.QueryParameters, i);
-                if (i == Model.ApiResponse.PageIndex)
-                {
-                    <li class="page-item active">
-                        <span class="page-link">
-                            @i
-                            <span class="sr-only">(current)</span>
-                        </span>
-                    </li>
-                }
-                else
-                {
-                    <li class="page-item">
-                        <a class="page-link" href="@uri">@i</a>
-                    </li>
-                }
-            }
-        }
-
-        @*
-        Second case:
-        | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | ... | n |
-        *@
-        else if (Model.ApiResponse.PageIndex < (maxCells - 1)
-                && Model.ApiResponse.TotalPages > maxCells)
-        {
-            string uri = null;
-
-            for (var i = 1; i <= 8; i++)
-            {
-                uri = Model.GenerateResourceUri(Model.QueryParameters, @i);
-
-                if (i == Model.ApiResponse.PageIndex)
-                {
-                    <li class="page-item active">
-                        <span class="page-link">
-                            @i
-                            <span class="sr-only">(current)</span>
-                        </span>
-                    </li>
-                }
-                else
-                {
-                    <li class="page-item">
-                        <a class="page-link" href="@uri">@i</a>
-                    </li>
-                }
-            }
-
-            <li class="page-item disabled">
-                <span class="page-link">
-                    ...
-                </span>
-            </li>
-
-            uri = Model.GenerateResourceUri(Model.QueryParameters, Model.ApiResponse.TotalPages);
-            <li class="page-item">
-                <a class="page-link" href="@uri">@Model.ApiResponse.TotalPages</a>
-            </li>
-        }
-
-        @*
-        Third case:
-                               *** <- active cell        
-        | 1 | ... | 4 | 5 | 6 | 7 | 8 | 9 | ... | n |
-        *@
-        else if (Model.ApiResponse.TotalPages > maxCells
-                && (Model.ApiResponse.PageIndex - 1) > 3
-                && (Model.ApiResponse.TotalPages - Model.ApiResponse.PageIndex) > 3)
-        {
-            string uri = uri = Model.GenerateResourceUri(Model.QueryParameters, 1);
-            <li class="page-item">
-                <a class="page-link" href="@uri">1</a>
-            </li>
-
-            <li class="page-item disabled">
-                <span class="page-link">
-                    ...
-                </span>
-            </li>
-
-            int start = Model.ApiResponse.PageIndex - 3;
-            for (int i = 2; i <= 7; i++)
-            {
-                uri = Model.GenerateResourceUri(Model.QueryParameters, start);
-
-                if (i == 5)
-                {
-                    <li class="page-item active">
-                        <a class="page-link" href="@uri">@start</a>
-                    </li>
-                }
-                else
-                {
-                    <li class="page-item">
-                        <a class="page-link" href="@uri">@start</a>
-                    </li>
-                }
-                start++;
-            }
-
-            <li class="page-item disabled">
-                <span class="page-link">
-                    ...
-                </span>
-            </li>
-
-            uri = Model.GenerateResourceUri(Model.QueryParameters, Model.ApiResponse.TotalPages);
-            <li class="page-item">
-                <a class="page-link" href="@uri">@Model.ApiResponse.TotalPages</a>
-            </li>
-        }
-
-
-        @*
-        Forth case:
-        | 1 | ... | n - 7 | n - 6 | n - 5 | n - 4 | n - 3 | n - 2 | n - 1 | n |
-        *@
-        else if (Model.ApiResponse.TotalPages > maxCells
-            && (Model.ApiResponse.PageIndex - 1) >= 3)
-        {
-            string uri = Model.GenerateResourceUri(Model.QueryParameters, 1);
-            <li class="page-item">
-                <a class="page-link" href="@uri">1</a>
-            </li>
-
-            <li class="page-item disabled">
-                <span class="page-link">
-                    ...
-                </span>
-            </li>
-
-            int start = Model.ApiResponse.TotalPages - 7;
-            for (int i = 2, j = 0; i <= 9; i++, j++)
-            {
-                uri = Model.GenerateResourceUri(Model.QueryParameters, start);
-                if (start == Model.ApiResponse.PageIndex)
-                {
-                    <li class="page-item active">
-                        <a class="page-link" href="@uri">@start</a>
-                    </li>
-                }
-                else
-                {
-                    <li class="page-item">
-                        <a class="page-link" href="@uri">@start</a>
-                    </li>
-                }
-                start++;
-            }
-        }
-
-        @if (Model.ApiResponse.HasNext())
-        {
-
-            var pageIndex = Model.QueryParameters.PageIndex + 1;
-            var uri = Model.GenerateResourceUri(Model.QueryParameters, pageIndex);
-
-            <li class="page-item">
-                <a class="page-link" href="@uri">Next</a>
-            </li>
-        }
-    </ul>
-</nav>
+<vc:paginator model="paginatorViewModel">
+</vc:paginator>
